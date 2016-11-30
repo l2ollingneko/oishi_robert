@@ -1,0 +1,483 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A20FEB4A1DED1344009584FD /* LightParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A20FEB491DED1344009584FD /* LightParticle.sks */; };
+		A20FEB511DED1E3E009584FD /* beam.wav in Resources */ = {isa = PBXBuildFile; fileRef = A20FEB501DED1E3E009584FD /* beam.wav */; };
+		A29D62AD1DE45F1E00DA9C73 /* ASScreenRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = A29D62AC1DE45F1E00DA9C73 /* ASScreenRecorder.m */; };
+		A29D62B61DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D62B51DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift */; };
+		A29D62B81DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D62B71DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift */; };
+		A29D62BA1DE737EE00DA9C73 /* Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D62B91DE737EE00DA9C73 /* Adapter.swift */; };
+		A29D62BC1DE73B8C00DA9C73 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A29D62BB1DE73B8B00DA9C73 /* UIKit.framework */; };
+		A2DDF73A1DDDCE4700809091 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DDF7391DDDCE4700809091 /* AppDelegate.swift */; };
+		A2DDF73C1DDDCE4700809091 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A2DDF73B1DDDCE4700809091 /* GameScene.sks */; };
+		A2DDF73E1DDDCE4700809091 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = A2DDF73D1DDDCE4700809091 /* Actions.sks */; };
+		A2DDF7401DDDCE4700809091 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DDF73F1DDDCE4700809091 /* GameScene.swift */; };
+		A2DDF7421DDDCE4700809091 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DDF7411DDDCE4700809091 /* GameViewController.swift */; };
+		A2DDF7451DDDCE4700809091 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A2DDF7431DDDCE4700809091 /* Main.storyboard */; };
+		A2DDF7471DDDCE4700809091 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2DDF7461DDDCE4700809091 /* Assets.xcassets */; };
+		A2DDF74A1DDDCE4700809091 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A2DDF7481DDDCE4700809091 /* LaunchScreen.storyboard */; };
+		A2DDF7551DDE30E100809091 /* DrawingUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = A2DDF7541DDE30E100809091 /* DrawingUtility.m */; };
+		F35C8EDAE94903B8268F1E2B /* Pods_oishi_sakura.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9C9013B3EAB928F430A43C3 /* Pods_oishi_sakura.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		3A3E221C62913F7B9924A621 /* Pods-oishi_sakura.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-oishi_sakura.release.xcconfig"; path = "Pods/Target Support Files/Pods-oishi_sakura/Pods-oishi_sakura.release.xcconfig"; sourceTree = "<group>"; };
+		A20FEB491DED1344009584FD /* LightParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LightParticle.sks; sourceTree = "<group>"; };
+		A20FEB501DED1E3E009584FD /* beam.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = beam.wav; path = ../beam.wav; sourceTree = "<group>"; };
+		A29D62AB1DE45F1E00DA9C73 /* ASScreenRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASScreenRecorder.h; sourceTree = "<group>"; };
+		A29D62AC1DE45F1E00DA9C73 /* ASScreenRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASScreenRecorder.m; sourceTree = "<group>"; };
+		A29D62B51DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SakuraEmitterNodeFactory.swift; sourceTree = "<group>"; };
+		A29D62B71DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SakuraEmitterNodeAttributes.swift; sourceTree = "<group>"; };
+		A29D62B91DE737EE00DA9C73 /* Adapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Adapter.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		A29D62BB1DE73B8B00DA9C73 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		A2DDF7361DDDCE4700809091 /* oishi_sakura.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = oishi_sakura.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2DDF7391DDDCE4700809091 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A2DDF73B1DDDCE4700809091 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		A2DDF73D1DDDCE4700809091 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
+		A2DDF73F1DDDCE4700809091 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		A2DDF7411DDDCE4700809091 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		A2DDF7441DDDCE4700809091 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A2DDF7461DDDCE4700809091 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A2DDF7491DDDCE4700809091 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A2DDF74B1DDDCE4700809091 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A2DDF7521DDE30E100809091 /* oishi_sakura-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "oishi_sakura-Bridging-Header.h"; sourceTree = "<group>"; };
+		A2DDF7531DDE30E100809091 /* DrawingUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingUtility.h; sourceTree = "<group>"; };
+		A2DDF7541DDE30E100809091 /* DrawingUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingUtility.m; sourceTree = "<group>"; };
+		C9C9013B3EAB928F430A43C3 /* Pods_oishi_sakura.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_oishi_sakura.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9D41086EA3CB6FB6BB63FAF /* Pods-oishi_sakura.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-oishi_sakura.debug.xcconfig"; path = "Pods/Target Support Files/Pods-oishi_sakura/Pods-oishi_sakura.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A2DDF7331DDDCE4700809091 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A29D62BC1DE73B8C00DA9C73 /* UIKit.framework in Frameworks */,
+				F35C8EDAE94903B8268F1E2B /* Pods_oishi_sakura.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		259E2C5743B3D6557B2ACFA8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A29D62BB1DE73B8B00DA9C73 /* UIKit.framework */,
+				C9C9013B3EAB928F430A43C3 /* Pods_oishi_sakura.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		95216C3304CBAD6CECFE6A33 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D9D41086EA3CB6FB6BB63FAF /* Pods-oishi_sakura.debug.xcconfig */,
+				3A3E221C62913F7B9924A621 /* Pods-oishi_sakura.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		A20FEB4B1DED1971009584FD /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				A20FEB501DED1E3E009584FD /* beam.wav */,
+			);
+			name = resources;
+			sourceTree = "<group>";
+		};
+		A29D62AA1DE45F0800DA9C73 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				A29D62AB1DE45F1E00DA9C73 /* ASScreenRecorder.h */,
+				A29D62AC1DE45F1E00DA9C73 /* ASScreenRecorder.m */,
+				A2DDF7521DDE30E100809091 /* oishi_sakura-Bridging-Header.h */,
+			);
+			name = libs;
+			sourceTree = "<group>";
+		};
+		A29D62AE1DE4746E00DA9C73 /* controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A2DDF7411DDDCE4700809091 /* GameViewController.swift */,
+			);
+			name = controllers;
+			sourceTree = "<group>";
+		};
+		A29D62AF1DE4747400DA9C73 /* gamekit */ = {
+			isa = PBXGroup;
+			children = (
+				A20FEB491DED1344009584FD /* LightParticle.sks */,
+				A2DDF73B1DDDCE4700809091 /* GameScene.sks */,
+				A2DDF73D1DDDCE4700809091 /* Actions.sks */,
+				A2DDF73F1DDDCE4700809091 /* GameScene.swift */,
+				A29D62B51DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift */,
+				A29D62B71DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift */,
+			);
+			name = gamekit;
+			sourceTree = "<group>";
+		};
+		A2DDF72D1DDDCE4700809091 = {
+			isa = PBXGroup;
+			children = (
+				A2DDF7381DDDCE4700809091 /* oishi_sakura */,
+				A2DDF7371DDDCE4700809091 /* Products */,
+				95216C3304CBAD6CECFE6A33 /* Pods */,
+				259E2C5743B3D6557B2ACFA8 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		A2DDF7371DDDCE4700809091 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A2DDF7361DDDCE4700809091 /* oishi_sakura.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A2DDF7381DDDCE4700809091 /* oishi_sakura */ = {
+			isa = PBXGroup;
+			children = (
+				A20FEB4B1DED1971009584FD /* resources */,
+				A29D62AE1DE4746E00DA9C73 /* controllers */,
+				A29D62AF1DE4747400DA9C73 /* gamekit */,
+				A29D62AA1DE45F0800DA9C73 /* libs */,
+				A2DDF7511DDE30D900809091 /* utilities */,
+				A2DDF7391DDDCE4700809091 /* AppDelegate.swift */,
+				A29D62B91DE737EE00DA9C73 /* Adapter.swift */,
+				A2DDF7431DDDCE4700809091 /* Main.storyboard */,
+				A2DDF7461DDDCE4700809091 /* Assets.xcassets */,
+				A2DDF7481DDDCE4700809091 /* LaunchScreen.storyboard */,
+				A2DDF74B1DDDCE4700809091 /* Info.plist */,
+			);
+			path = oishi_sakura;
+			sourceTree = "<group>";
+		};
+		A2DDF7511DDE30D900809091 /* utilities */ = {
+			isa = PBXGroup;
+			children = (
+				A2DDF7531DDE30E100809091 /* DrawingUtility.h */,
+				A2DDF7541DDE30E100809091 /* DrawingUtility.m */,
+			);
+			name = utilities;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A2DDF7351DDDCE4700809091 /* oishi_sakura */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A2DDF74E1DDDCE4700809091 /* Build configuration list for PBXNativeTarget "oishi_sakura" */;
+			buildPhases = (
+				9B62A5843B0551B9267215DA /* [CP] Check Pods Manifest.lock */,
+				A2DDF7321DDDCE4700809091 /* Sources */,
+				A2DDF7331DDDCE4700809091 /* Frameworks */,
+				A2DDF7341DDDCE4700809091 /* Resources */,
+				58D979001030144ADF7BC5B8 /* [CP] Embed Pods Frameworks */,
+				AFED3F8C973A881C91E92EE4 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = oishi_sakura;
+			productName = oishi_sakura;
+			productReference = A2DDF7361DDDCE4700809091 /* oishi_sakura.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A2DDF72E1DDDCE4700809091 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0810;
+				LastUpgradeCheck = 0810;
+				ORGANIZATIONNAME = "Plaping Co., Ltd.";
+				TargetAttributes = {
+					A2DDF7351DDDCE4700809091 = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = FQ9R46R5K8;
+						LastSwiftMigration = 0810;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = A2DDF7311DDDCE4700809091 /* Build configuration list for PBXProject "oishi_sakura" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A2DDF72D1DDDCE4700809091;
+			productRefGroup = A2DDF7371DDDCE4700809091 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A2DDF7351DDDCE4700809091 /* oishi_sakura */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A2DDF7341DDDCE4700809091 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A2DDF7451DDDCE4700809091 /* Main.storyboard in Resources */,
+				A2DDF73C1DDDCE4700809091 /* GameScene.sks in Resources */,
+				A2DDF7471DDDCE4700809091 /* Assets.xcassets in Resources */,
+				A20FEB511DED1E3E009584FD /* beam.wav in Resources */,
+				A2DDF74A1DDDCE4700809091 /* LaunchScreen.storyboard in Resources */,
+				A20FEB4A1DED1344009584FD /* LightParticle.sks in Resources */,
+				A2DDF73E1DDDCE4700809091 /* Actions.sks in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		58D979001030144ADF7BC5B8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-oishi_sakura/Pods-oishi_sakura-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9B62A5843B0551B9267215DA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		AFED3F8C973A881C91E92EE4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-oishi_sakura/Pods-oishi_sakura-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A2DDF7321DDDCE4700809091 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A2DDF7401DDDCE4700809091 /* GameScene.swift in Sources */,
+				A29D62BA1DE737EE00DA9C73 /* Adapter.swift in Sources */,
+				A29D62AD1DE45F1E00DA9C73 /* ASScreenRecorder.m in Sources */,
+				A29D62B61DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift in Sources */,
+				A2DDF7421DDDCE4700809091 /* GameViewController.swift in Sources */,
+				A2DDF73A1DDDCE4700809091 /* AppDelegate.swift in Sources */,
+				A2DDF7551DDE30E100809091 /* DrawingUtility.m in Sources */,
+				A29D62B81DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		A2DDF7431DDDCE4700809091 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A2DDF7441DDDCE4700809091 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		A2DDF7481DDDCE4700809091 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A2DDF7491DDDCE4700809091 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A2DDF74C1DDDCE4700809091 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A2DDF74D1DDDCE4700809091 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A2DDF74F1DDDCE4700809091 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D9D41086EA3CB6FB6BB63FAF /* Pods-oishi_sakura.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = FQ9R46R5K8;
+				INFOPLIST_FILE = oishi_sakura/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.plaping.oishi-sakura";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "oishi_sakura/oishi_sakura-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		A2DDF7501DDDCE4700809091 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3A3E221C62913F7B9924A621 /* Pods-oishi_sakura.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = FQ9R46R5K8;
+				INFOPLIST_FILE = oishi_sakura/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.plaping.oishi-sakura";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "oishi_sakura/oishi_sakura-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A2DDF7311DDDCE4700809091 /* Build configuration list for PBXProject "oishi_sakura" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A2DDF74C1DDDCE4700809091 /* Debug */,
+				A2DDF74D1DDDCE4700809091 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A2DDF74E1DDDCE4700809091 /* Build configuration list for PBXNativeTarget "oishi_sakura" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A2DDF74F1DDDCE4700809091 /* Debug */,
+				A2DDF7501DDDCE4700809091 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A2DDF72E1DDDCE4700809091 /* Project object */;
+}

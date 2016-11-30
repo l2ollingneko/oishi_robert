@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Game View Controller-->
+        <scene sceneID="tXr-a1-R10">
+            <objects>
+                <viewController id="BV1-FR-VrT" customClass="GameViewController" customModule="oishi_sakura" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8aa-yV-Osq"/>
+                        <viewControllerLayoutGuide type="bottom" id="qHh-Mt-9TT"/>
+                    </layoutGuides>
+                    <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BvH-pf-tNB">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OjW-LO-2O8">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="BvH-pf-tNB" firstAttribute="top" secondItem="3se-qz-xqx" secondAttribute="top" id="JIH-hW-t78"/>
+                            <constraint firstItem="OjW-LO-2O8" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leading" id="Q8I-yz-oHy"/>
+                            <constraint firstAttribute="trailing" secondItem="BvH-pf-tNB" secondAttribute="trailing" id="RCK-Wp-Wcz"/>
+                            <constraint firstItem="BvH-pf-tNB" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leading" id="dqj-go-yYk"/>
+                            <constraint firstItem="OjW-LO-2O8" firstAttribute="top" secondItem="3se-qz-xqx" secondAttribute="top" id="fBp-GO-s8B"/>
+                            <constraint firstItem="qHh-Mt-9TT" firstAttribute="top" secondItem="BvH-pf-tNB" secondAttribute="bottom" id="lDk-fQ-SxM"/>
+                            <constraint firstItem="qHh-Mt-9TT" firstAttribute="top" secondItem="OjW-LO-2O8" secondAttribute="bottom" id="uRI-m4-9LF"/>
+                            <constraint firstAttribute="trailing" secondItem="OjW-LO-2O8" secondAttribute="trailing" id="xiO-me-R8e"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="overlayView" destination="OjW-LO-2O8" id="N3n-4p-9NS"/>
+                        <outlet property="placeHolder" destination="BvH-pf-tNB" id="cNh-Xg-0wQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="137.18140929535232"/>
+        </scene>
+    </scenes>
+</document>
