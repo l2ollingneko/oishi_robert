@@ -17,6 +17,9 @@ class SakuraEmitterNodeFactory {
     private init() {}
     
     func createMouthEmitterNodes() -> [SKEmitterNode] {
+        
+        SakuraEmitterNodeAttributes.genAttributes()
+        
         var nodes: [SKEmitterNode] = [SKEmitterNode]()
         for i in 0...5 {
             let node = self.createEmitterNode(index: i)
@@ -29,6 +32,9 @@ class SakuraEmitterNodeFactory {
     }
     
     func createLeftEyeEmitterNodes() -> [SKEmitterNode] {
+        
+        SakuraEmitterNodeAttributes.genAttributes()
+        
         var nodes: [SKEmitterNode] = [SKEmitterNode]()
         for i in 0...5 {
             let node = self.createEmitterNode(index: i)
@@ -41,6 +47,9 @@ class SakuraEmitterNodeFactory {
     }
     
     func createRightEyeEmitterNodes() -> [SKEmitterNode] {
+        
+        SakuraEmitterNodeAttributes.genAttributes()
+        
         var nodes: [SKEmitterNode] = [SKEmitterNode]()
         for i in 0...5 {
             let node = self.createEmitterNode(index: i)
@@ -53,6 +62,9 @@ class SakuraEmitterNodeFactory {
     }
     
     func createLeftEarEmitterNodes() -> [SKEmitterNode] {
+        
+        SakuraEmitterNodeAttributes.genAttributes()
+        
         var nodes: [SKEmitterNode] = [SKEmitterNode]()
         for i in 0...5 {
             let node = self.createEmitterNode(index: i)
@@ -65,6 +77,9 @@ class SakuraEmitterNodeFactory {
     }
     
     func createRightEarEmitterNodes() -> [SKEmitterNode] {
+        
+        SakuraEmitterNodeAttributes.genAttributes()
+        
         var nodes: [SKEmitterNode] = [SKEmitterNode]()
         for i in 0...5 {
             let node = self.createEmitterNode(index: i)
@@ -84,28 +99,28 @@ class SakuraEmitterNodeFactory {
         // texture
         node.particleTexture = SKTexture(imageNamed: "sakura_\(index + 1)")
         
-        node.particleBirthRate = (SakuraEmitterNodeAttributes.attributes[SakuraEmitterNodeAttributes.keys[0]]?[index])!
+        node.particleBirthRate          = (SakuraEmitterNodeAttributes.birthRate[index])
         
-        node.particleLifetime = (SakuraEmitterNodeAttributes.attributes[SakuraEmitterNodeAttributes.keys[1]]?[index])!
-        node.particleLifetimeRange = (SakuraEmitterNodeAttributes.attributes[SakuraEmitterNodeAttributes.keys[2]]?[index])!
+        node.particleLifetime           = (SakuraEmitterNodeAttributes.lifetime[index])
+        node.particleLifetimeRange      = (SakuraEmitterNodeAttributes.lifetimeRange[index])
         
-        node.particlePositionRange.dx = (SakuraEmitterNodeAttributes.attributes[SakuraEmitterNodeAttributes.keys[3]]?[index])!
-        node.particlePositionRange.dy = (SakuraEmitterNodeAttributes.attributes[SakuraEmitterNodeAttributes.keys[4]]?[index])!
+        node.particlePositionRange.dx   = (SakuraEmitterNodeAttributes.positionRangeDx[index])
+        node.particlePositionRange.dy   = (SakuraEmitterNodeAttributes.positionRangeDy[index])
         
-        node.particleRotation = (SakuraEmitterNodeAttributes.attributes[SakuraEmitterNodeAttributes.keys[5]]?[index])!
-        node.particleRotationRange = (SakuraEmitterNodeAttributes.attributes[SakuraEmitterNodeAttributes.keys[6]]?[index])!
-        node.particleRotationSpeed = (SakuraEmitterNodeAttributes.attributes[SakuraEmitterNodeAttributes.keys[7]]?[index])!
+        node.particleRotation           = (SakuraEmitterNodeAttributes.rotation[index])
+        node.particleRotationRange      = (SakuraEmitterNodeAttributes.rotationRange[index])
+        node.particleRotationSpeed      = (SakuraEmitterNodeAttributes.rotationSpeed[index])
         
-        node.particleSpeed = (SakuraEmitterNodeAttributes.attributes[SakuraEmitterNodeAttributes.keys[8]]?[index])!
-        node.particleSpeedRange = (SakuraEmitterNodeAttributes.attributes[SakuraEmitterNodeAttributes.keys[9]]?[index])!
+        node.particleSpeed              = (SakuraEmitterNodeAttributes.speed[index])
+        node.particleSpeedRange         = (SakuraEmitterNodeAttributes.speedRange[index])
         
-        node.particleScale = (SakuraEmitterNodeAttributes.attributes[SakuraEmitterNodeAttributes.keys[10]]?[index])!
-        node.particleScaleRange = (SakuraEmitterNodeAttributes.attributes[SakuraEmitterNodeAttributes.keys[11]]?[index])!
-        node.particleScaleSpeed = (SakuraEmitterNodeAttributes.attributes[SakuraEmitterNodeAttributes.keys[12]]?[index])!
+        node.particleScale              = (SakuraEmitterNodeAttributes.scale[index])
+        node.particleScaleRange         = (SakuraEmitterNodeAttributes.scaleRange[index])
+        node.particleScaleSpeed         = (SakuraEmitterNodeAttributes.scaleSpeed[index])
         
-        node.particleAlpha = (SakuraEmitterNodeAttributes.attributes[SakuraEmitterNodeAttributes.keys[13]]?[index])!
-        node.particleAlphaRange = (SakuraEmitterNodeAttributes.attributes[SakuraEmitterNodeAttributes.keys[14]]?[index])!
-        node.particleAlphaSpeed = (SakuraEmitterNodeAttributes.attributes[SakuraEmitterNodeAttributes.keys[15]]?[index])!
+        node.particleAlpha              = (SakuraEmitterNodeAttributes.alpha[index])
+        node.particleAlphaRange         = (SakuraEmitterNodeAttributes.alphaRange[index])
+        node.particleAlphaSpeed         = (SakuraEmitterNodeAttributes.alphaSpeed[index])
         
         return node
     }
