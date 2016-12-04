@@ -192,7 +192,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         var yScale: CGFloat = 1
         var videoBox = CGRect.zero
        
-        if (viewRatio > cameraRatio) {
+        if (viewRatio < cameraRatio) {
             videoBox.size.width = (parentFrameSize?.height)! * clap.size.width / clap.size.height
             videoBox.size.height = (parentFrameSize?.height)!
             videoBox.origin.x = ((parentFrameSize?.width)! - videoBox.size.width) / 2
