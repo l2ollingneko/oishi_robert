@@ -527,7 +527,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.versionLabel.frame.origin = CGPoint(x: 10.0, y: 0.0)
         self.versionLabel.font = UIFont.systemFont(ofSize: 30.0)
         self.versionLabel.textColor = UIColor.white
-        self.versionLabel.text = "v 2.0"
+        self.versionLabel.text = "v 2.0.1"
         self.versionLabel.sizeToFit()
         
         self.skView?.addSubview(self.versionLabel)
