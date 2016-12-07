@@ -4,3 +4,5 @@
 
 #import "DrawingUtility.h"
 #import "ASScreenRecorder.h"
+#import "FaceTracker.h"
+#import "GooglyEyeView.h"

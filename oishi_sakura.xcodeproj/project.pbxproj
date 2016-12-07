@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		44B5D3AC1DF71A9C00EC75CF /* OishiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B5D3AA1DF71A9C00EC75CF /* OishiViewController.swift */; };
+		44CA62C41DF77AA400550365 /* todo in Resources */ = {isa = PBXBuildFile; fileRef = 44CA62C31DF77AA400550365 /* todo */; };
+		44E656AD1DF74C51008FCA4F /* FaceTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E656AC1DF74C51008FCA4F /* FaceTracker.m */; };
+		44E656B01DF75562008FCA4F /* GooglyEyeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E656AF1DF75562008FCA4F /* GooglyEyeView.m */; };
+		44E656B31DF76554008FCA4F /* EyePhysics.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E656B21DF76554008FCA4F /* EyePhysics.m */; };
 		A20FEB4A1DED1344009584FD /* LightParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A20FEB491DED1344009584FD /* LightParticle.sks */; };
 		A20FEB511DED1E3E009584FD /* beam.wav in Resources */ = {isa = PBXBuildFile; fileRef = A20FEB501DED1E3E009584FD /* beam.wav */; };
 		A29D62AD1DE45F1E00DA9C73 /* ASScreenRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = A29D62AC1DE45F1E00DA9C73 /* ASScreenRecorder.m */; };
@@ -28,6 +33,14 @@
 
 /* Begin PBXFileReference section */
 		3A3E221C62913F7B9924A621 /* Pods-oishi_sakura.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-oishi_sakura.release.xcconfig"; path = "Pods/Target Support Files/Pods-oishi_sakura/Pods-oishi_sakura.release.xcconfig"; sourceTree = "<group>"; };
+		44B5D3AA1DF71A9C00EC75CF /* OishiViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OishiViewController.swift; sourceTree = "<group>"; };
+		44CA62C31DF77AA400550365 /* todo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = todo; sourceTree = "<group>"; };
+		44E656AB1DF74C51008FCA4F /* FaceTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceTracker.h; sourceTree = "<group>"; };
+		44E656AC1DF74C51008FCA4F /* FaceTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaceTracker.m; sourceTree = "<group>"; };
+		44E656AE1DF75562008FCA4F /* GooglyEyeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GooglyEyeView.h; sourceTree = "<group>"; };
+		44E656AF1DF75562008FCA4F /* GooglyEyeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GooglyEyeView.m; sourceTree = "<group>"; };
+		44E656B11DF76554008FCA4F /* EyePhysics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EyePhysics.h; sourceTree = "<group>"; };
+		44E656B21DF76554008FCA4F /* EyePhysics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EyePhysics.m; sourceTree = "<group>"; };
 		A20FEB491DED1344009584FD /* LightParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LightParticle.sks; sourceTree = "<group>"; };
 		A20FEB501DED1E3E009584FD /* beam.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = beam.wav; path = ../beam.wav; sourceTree = "<group>"; };
 		A29D62AB1DE45F1E00DA9C73 /* ASScreenRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASScreenRecorder.h; sourceTree = "<group>"; };
@@ -75,6 +88,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		44E656AA1DF74C47008FCA4F /* facetracker */ = {
+			isa = PBXGroup;
+			children = (
+				44E656AB1DF74C51008FCA4F /* FaceTracker.h */,
+				44E656AC1DF74C51008FCA4F /* FaceTracker.m */,
+				44E656AE1DF75562008FCA4F /* GooglyEyeView.h */,
+				44E656AF1DF75562008FCA4F /* GooglyEyeView.m */,
+				44E656B11DF76554008FCA4F /* EyePhysics.h */,
+				44E656B21DF76554008FCA4F /* EyePhysics.m */,
+			);
+			name = facetracker;
+			sourceTree = "<group>";
+		};
 		95216C3304CBAD6CECFE6A33 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +121,7 @@
 		A29D62AA1DE45F0800DA9C73 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				44E656AA1DF74C47008FCA4F /* facetracker */,
 				A29D62AB1DE45F1E00DA9C73 /* ASScreenRecorder.h */,
 				A29D62AC1DE45F1E00DA9C73 /* ASScreenRecorder.m */,
 				A2DDF7521DDE30E100809091 /* oishi_sakura-Bridging-Header.h */,
@@ -106,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				A2DDF7411DDDCE4700809091 /* GameViewController.swift */,
+				44B5D3AA1DF71A9C00EC75CF /* OishiViewController.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -155,6 +183,7 @@
 				A2DDF7461DDDCE4700809091 /* Assets.xcassets */,
 				A2DDF7481DDDCE4700809091 /* LaunchScreen.storyboard */,
 				A2DDF74B1DDDCE4700809091 /* Info.plist */,
+				44CA62C31DF77AA400550365 /* todo */,
 			);
 			path = oishi_sakura;
 			sourceTree = "<group>";
@@ -234,6 +263,7 @@
 			files = (
 				A2DDF7451DDDCE4700809091 /* Main.storyboard in Resources */,
 				A2DDF73C1DDDCE4700809091 /* GameScene.sks in Resources */,
+				44CA62C41DF77AA400550365 /* todo in Resources */,
 				A2DDF7471DDDCE4700809091 /* Assets.xcassets in Resources */,
 				A20FEB511DED1E3E009584FD /* beam.wav in Resources */,
 				A2DDF74A1DDDCE4700809091 /* LaunchScreen.storyboard in Resources */,
@@ -298,11 +328,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2DDF7401DDDCE4700809091 /* GameScene.swift in Sources */,
+				44B5D3AC1DF71A9C00EC75CF /* OishiViewController.swift in Sources */,
 				A29D62BA1DE737EE00DA9C73 /* Adapter.swift in Sources */,
 				A29D62AD1DE45F1E00DA9C73 /* ASScreenRecorder.m in Sources */,
 				A29D62B61DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift in Sources */,
 				A2DDF7421DDDCE4700809091 /* GameViewController.swift in Sources */,
 				A2DDF73A1DDDCE4700809091 /* AppDelegate.swift in Sources */,
+				44E656B01DF75562008FCA4F /* GooglyEyeView.m in Sources */,
+				44E656AD1DF74C51008FCA4F /* FaceTracker.m in Sources */,
+				44E656B31DF76554008FCA4F /* EyePhysics.m in Sources */,
 				A2DDF7551DDE30E100809091 /* DrawingUtility.m in Sources */,
 				A29D62B81DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift in Sources */,
 			);

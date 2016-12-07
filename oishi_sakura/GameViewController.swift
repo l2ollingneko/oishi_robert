@@ -21,7 +21,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     
     // MARK: - UI elements
     @IBOutlet weak var placeHolder: UIView!
-    @IBOutlet weak var overlayView: UIView!
+    @IBOutlet weak var overlay: UIView!
     
     var swapCameraButton: UIButton = UIButton()
     var eyesToggleButton: UIButton = UIButton()
@@ -192,7 +192,16 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         var yScale: CGFloat = 1
         var videoBox = CGRect.zero
        
-        if (viewRatio < cameraRatio) {
+        videoBox.size.width = (parentFrameSize?.width)!
+        videoBox.size.height = clap.size.width * ((parentFrameSize?.width)! / clap.size.height)
+        videoBox.origin.x = (videoBox.size.width - (parentFrameSize?.width)!) / 2
+        videoBox.origin.y = ((parentFrameSize?.height)! - videoBox.size.height) / 2
+
+        xScale = videoBox.size.width / clap.size.height;
+        yScale = videoBox.size.height / clap.size.width;
+        
+        /*
+        if (viewRatio > cameraRatio) {
             videoBox.size.width = (parentFrameSize?.height)! * clap.size.width / clap.size.height
             videoBox.size.height = (parentFrameSize?.height)!
             videoBox.origin.x = ((parentFrameSize?.width)! - videoBox.size.width) / 2
@@ -209,6 +218,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             xScale = videoBox.size.width / clap.size.height;
             yScale = videoBox.size.height / clap.size.width;
         }
+         */
         
         DispatchQueue.main.sync {
             // Remove previously added feature views.
@@ -275,8 +285,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                             self.leftCheekImageView.layer.zPosition = 1000
                             self.rightCheekImageView.layer.zPosition = 1000
                             
-                            self.overlayView.addSubview(self.leftCheekImageView)
-                            self.overlayView.addSubview(self.rightCheekImageView)
+                            self.overlay.addSubview(self.leftCheekImageView)
+                            self.overlay.addSubview(self.rightCheekImageView)
                             /*
                             self.skView?.addSubview(self.leftCheekImageView)
                             self.skView?.addSubview(self.rightCheekImageView)
