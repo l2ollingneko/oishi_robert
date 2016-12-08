@@ -205,7 +205,13 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         let image = GMVUtility.sampleBufferTo32RGBA(sampleBuffer)
         // let image = UIImage(cgImage: GMVUtility.sampleBufferTo32RGBA(sampleBuffer).cgImage!, scale: 1.0, orientation: UIImageOrientation.left)
         
-        let orientation = GMVUtility.imageOrientation(from: UIDevice.current.orientation, with: AVCaptureDevicePosition.front, defaultDeviceOrientation: .unknown)
+        // let orientation = GMVUtility.imageOrientation(from: UIDevice.current.orientation, with: AVCaptureDevicePosition.front, defaultDeviceOrientation: .unknown)
+        let avCaptureDevicePosition: AVCaptureDevicePosition = self.frontCamera ? AVCaptureDevicePosition.front : AVCaptureDevicePosition.back
+        
+        print("current orientation: \(UIDevice.current.orientation.isPortrait)")
+        
+        let orientation = GMVUtility.imageOrientation(from: UIDevice.current.orientation, with: avCaptureDevicePosition, defaultDeviceOrientation: .portrait)
+        
         let options: Dictionary<AnyHashable, Any> = [
             GMVDetectorImageOrientation: orientation.rawValue
         ]
@@ -275,7 +281,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 // Mouth
                 if (self.origin == .Mouth) {
                     if (face.hasMouthPosition == true) {
-                        let point = self.frontCamera ? self.scaledPointForScene(point: face.mouthPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin) : self.scaledPoint(point: face.mouthPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
+                        // let point = self.frontCamera ? self.scaledPointForScene(point: face.mouthPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin) : self.scaledPoint(point: face.mouthPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
+                        let point = self.scaledPointForScene(point: face.mouthPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
                         self.scene?.pointDetected(atPoint: point, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
                     }
                 }
@@ -283,8 +290,10 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 // Ears
                 if (self.origin == .Ears) {
                     if (face.hasLeftEarPosition && face.hasRightEarPosition) {
-                        let lpoint = self.frontCamera ? self.scaledPointForScene(point: face.leftEarPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin) : self.scaledPoint(point: face.leftEarPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
-                        let rpoint = self.frontCamera ? self.scaledPointForScene(point: face.rightEarPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin) : self.scaledPoint(point: face.rightEarPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
+                        let lpoint = self.scaledPointForScene(point: face.leftEarPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
+                        // let lpoint = self.frontCamera ? self.scaledPointForScene(point: face.leftEarPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin) : self.scaledPoint(point: face.leftEarPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
+                        let rpoint = self.scaledPointForScene(point: face.rightEarPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
+                        // let rpoint = self.frontCamera ? self.scaledPointForScene(point: face.rightEarPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin) : self.scaledPoint(point: face.rightEarPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
                         self.scene?.earsPointDetected(lpos: lpoint, rpos: rpoint, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
                     }
                 }
@@ -292,8 +301,10 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 // Eyes
                 if (self.origin == .Eyes) {
                     if (face.hasLeftEyePosition && face.hasRightEyePosition) {
-                        let lpoint = self.frontCamera ? self.scaledPointForScene(point: face.leftEyePosition, xScale: xScale, yScale: yScale, offset: videoBox.origin) : self.scaledPoint(point: face.leftEyePosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
-                        let rpoint = self.frontCamera ? self.scaledPointForScene(point: face.rightEyePosition, xScale: xScale, yScale: yScale, offset: videoBox.origin) : self.scaledPoint(point: face.rightEyePosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
+                        // let lpoint = self.frontCamera ? self.scaledPointForScene(point: face.leftEyePosition, xScale: xScale, yScale: yScale, offset: videoBox.origin) : self.scaledPoint(point: face.leftEyePosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
+                        let lpoint = self.scaledPointForScene(point: face.leftEyePosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
+                        let rpoint = self.scaledPointForScene(point: face.rightEyePosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
+                        // let rpoint = self.frontCamera ? self.scaledPointForScene(point: face.rightEyePosition, xScale: xScale, yScale: yScale, offset: videoBox.origin) : self.scaledPoint(point: face.rightEyePosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
                         self.scene?.eyesPointDetected(lpos: lpoint, rpos: rpoint, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
                     }
                 }
@@ -355,6 +366,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         
         self.videoDataOutput?.alwaysDiscardsLateVideoFrames = true
         self.videoDataOutput?.setSampleBufferDelegate(self, queue: self.videoDataOutputQueue)
+        
         self.session?.addOutput(self.videoDataOutput)
     }
     
@@ -395,8 +407,27 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     func cameraForPosition(desiredPosition: AVCaptureDevicePosition) -> AVCaptureDeviceInput? {
         for (_, device) in AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo).enumerated() {
             if ((device as! AVCaptureDevice).position == desiredPosition) {
+                /*
                 var finalFormat = AVCaptureDeviceFormat()
                 var maxFps: Double = 0
+                let ranges = (device as! AVCaptureDevice).activeFormat.videoSupportedFrameRateRanges as! [AVFrameRateRange]
+                for range in ranges {
+                    if (range.maxFrameRate >= maxFps) {
+                        maxFps = range.maxFrameRate
+                    }
+                }
+                if maxFps != 0 {
+                    print("maxFps: \(maxFps)")
+                    let timeValue = Int64(1200.0 / maxFps)
+                    let timeScale: Int32 = 1200
+                    try! (device as! AVCaptureDevice).lockForConfiguration()
+                    (device as! AVCaptureDevice).activeFormat = (device as! AVCaptureDevice).activeFormat
+                    (device as! AVCaptureDevice).activeVideoMinFrameDuration = CMTimeMake(timeValue, timeScale)
+                    (device as! AVCaptureDevice).activeVideoMaxFrameDuration = CMTimeMake(timeValue, timeScale)
+                    (device as! AVCaptureDevice).unlockForConfiguration()
+                }
+                 */
+                /*
                 for format in (device as! AVCaptureDevice).formats {
                     let ranges = (format as! AVCaptureDeviceFormat).videoSupportedFrameRateRanges as! [AVFrameRateRange]
                     let frameRates = ranges[0]
@@ -416,6 +447,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                     (device as! AVCaptureDevice).activeVideoMaxFrameDuration = CMTimeMake(timeValue, timeScale)
                     (device as! AVCaptureDevice).unlockForConfiguration()
                 }
+                 */
                 let input = try! AVCaptureDeviceInput(device: (device as! AVCaptureDevice))
                 if ((self.session?.canAddInput(input))!) {
                     return input
@@ -619,7 +651,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.earsToggleButton.addTarget(self, action: #selector(GameViewController.toggleButton(button:)), for: .touchUpInside)
         self.recordButton.addTarget(self, action: #selector(GameViewController.toggleButton(button:)), for: .touchUpInside)
         
-        // self.skView?.addSubview(self.swapCameraButton)
+        self.skView?.addSubview(self.swapCameraButton)
         self.skView?.addSubview(self.eyesToggleButton)
         self.skView?.addSubview(self.mouthToggleButton)
         self.skView?.addSubview(self.earsToggleButton)
