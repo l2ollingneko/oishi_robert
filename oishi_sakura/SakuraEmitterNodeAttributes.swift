@@ -92,7 +92,7 @@ class SakuraEmitterNodeAttributes {
             (1.0...7.0).random(),
             (1.0...6.0).random()
         ]
-        print("birthRate \t\(String(describing: birthRate))")
+//        print("birthRate \t\(String(describing: birthRate))")
     }
     
     static var lifetime: [CGFloat] = [ 3.0, 3.0, 1.5, 1.0, 3.0, 3.0 ]
@@ -107,7 +107,7 @@ class SakuraEmitterNodeAttributes {
             (3.0...3.0).random(),
             (3.0...3.0).random()
         ]
-        print("lifetime \t\(String(describing: lifetime))")
+//        print("lifetime \t\(String(describing: lifetime))")
     }
     
     static var lifetimeRange: [CGFloat] = [ 0.0, 0.0, 0.0, 0.5, 0.0, 0.0 ]
@@ -122,7 +122,7 @@ class SakuraEmitterNodeAttributes {
             (0.0...0.0).random(),
             (0.0...0.0).random()
         ]
-        print("lifetimeRange \t\(String(describing: lifetimeRange))")
+//        print("lifetimeRange \t\(String(describing: lifetimeRange))")
     }
     
     static var positionRangeDx: [CGFloat] = [ 20.0, 20.0, 20.0, 20.0, 20.0, 20.0 ]
@@ -137,7 +137,7 @@ class SakuraEmitterNodeAttributes {
             (20.0...20.0).random(),
             (20.0...20.0).random()
         ]
-        print("positionRangeDx \t\(String(describing: positionRangeDx))")
+//        print("positionRangeDx \t\(String(describing: positionRangeDx))")
     }
     
     static var positionRangeDy: [CGFloat] = [ 5.0, 5.0, 5.0, 5.0, 5.0, 5.0 ]
@@ -152,7 +152,7 @@ class SakuraEmitterNodeAttributes {
             (5.0...5.0).random(),
             (5.0...5.0).random()
         ]
-        print("positionRangeDy \t\(String(describing: positionRangeDy))")
+//        print("positionRangeDy \t\(String(describing: positionRangeDy))")
     }
     
     static var rotation: [CGFloat] = [ 180.0, 180.0, 180.0, 180.0, 180.0, 180.0 ]
@@ -167,7 +167,7 @@ class SakuraEmitterNodeAttributes {
             (180.0...180.0).random(),
             (180.0...180.0).random()
         ]
-        print("rotation \t\(String(describing: rotation))")
+//        print("rotation \t\(String(describing: rotation))")
     }
     
     static var rotationRange: [CGFloat] = [ 45.0, 90.0, 45.0, 45.0, 45.0, 45.0 ]
@@ -182,7 +182,7 @@ class SakuraEmitterNodeAttributes {
             (0.0...90.0).random(),
             (0.0...90.0).random()
         ]
-        print("rotationRange \t\(String(describing: rotationRange))")
+//        print("rotationRange \t\(String(describing: rotationRange))")
     }
     
     static var rotationSpeed: [CGFloat] = [ 5.0, 5.0, 5.0, 5.0, 5.0, 5.0 ]
@@ -197,7 +197,7 @@ class SakuraEmitterNodeAttributes {
             (1.0...10.0).random(),
             (1.0...10.0).random()
         ]
-        print("rotationSpeed \t\(String(describing: rotationSpeed))")
+//        print("rotationSpeed \t\(String(describing: rotationSpeed))")
     }
     
     static var speed: [CGFloat] = [ 500.0, 500.0, 400.0, 500.0, 500.0, 500.0 ]
@@ -212,7 +212,7 @@ class SakuraEmitterNodeAttributes {
             (400.0...600.0).random(),
             (400.0...600.0).random()
         ]
-        print("speed \t\(String(describing: speed))")
+//        print("speed \t\(String(describing: speed))")
     }
     
     static var speedRange: [CGFloat] = [ 500.0, 500.0, -500.0, 300.0, 500.0, 500.0 ]
@@ -227,7 +227,7 @@ class SakuraEmitterNodeAttributes {
             (0.0...500.0).random(),
             (0.0...500.0).random()
         ]
-        print("speedRange \t\(String(describing: speedRange))")
+//        print("speedRange \t\(String(describing: speedRange))")
     }
     
     static var scale: [CGFloat] = [ 0.025, 0.025, 0.03, 0.01, 0.015, 0.01 ]
@@ -242,7 +242,7 @@ class SakuraEmitterNodeAttributes {
             (0.015...0.015).random(),
             (0.01...0.01).random()
         ]
-        print("scale \t\(String(describing: scale))")
+//        print("scale \t\(String(describing: scale))")
     }
     
     static var scaleRange: [CGFloat] = [ 0.025, 0.025, 0.025, 0.1, 0.025, 0.01 ]
@@ -257,7 +257,7 @@ class SakuraEmitterNodeAttributes {
             (0.020...0.030).random(),
             (0.005...0.015).random()
         ]
-        print("scaleRange \t\(String(describing: scaleRange))")
+//        print("scaleRange \t\(String(describing: scaleRange))")
     }
     
     static var scaleSpeed: [CGFloat] = [ 0.05, 0.05, 0.015, -0.005, 0.03, 0.025 ]
@@ -272,7 +272,7 @@ class SakuraEmitterNodeAttributes {
             (0.01...0.1).random(),
             (0.020...0.030).random()
         ]
-        print("scaleSpeed \t\(String(describing: scaleSpeed))")
+//        print("scaleSpeed \t\(String(describing: scaleSpeed))")
     }
     
     static var alpha: [CGFloat] = [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 ]
@@ -287,7 +287,7 @@ class SakuraEmitterNodeAttributes {
             (1.0...1.0).random(),
             (1.0...1.0).random()
         ]
-        print("alpha \t\(String(describing: alpha))")
+//        print("alpha \t\(String(describing: alpha))")
     }
     
     static var alphaRange: [CGFloat] = [ 0.5, 0.5, 0.5, 0.0, 0.5, 0.5 ]
@@ -295,14 +295,14 @@ class SakuraEmitterNodeAttributes {
     static func genAlphaRange() {
         // 0.5, 0.5, 0.5, 0.0, 0.5, 0.5
         alphaRange = [
-            (0.5...0.5).random(),
-            (0.5...0.5).random(),
-            (0.5...0.5).random(),
-            (0.5...0.5).random(),
-            (0.5...0.5).random(),
-            (0.5...0.5).random()
+            (0.2...0.5).random(),
+            (0.2...0.5).random(),
+            (0.2...0.5).random(),
+            (0.2...0.5).random(),
+            (0.2...0.5).random(),
+            (0.2...0.5).random()
         ]
-        print("alphaRange \t\(String(describing: alphaRange))")
+//        print("alphaRange \t\(String(describing: alphaRange))")
     }
     
     static var alphaSpeed: [CGFloat] = [ 1.0, -0.1, -0.25, -0.25, 1.0, 1.0 ]
@@ -317,7 +317,7 @@ class SakuraEmitterNodeAttributes {
             (0.0...1.0).random(),
             (0.0...1.0).random()
         ]
-        print("alphaSpeed \t\(String(describing: alphaSpeed))")
+        // print("alphaSpeed \t\(String(describing: alphaSpeed))")
     }
     
     static func genAttributes() {

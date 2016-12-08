@@ -14,6 +14,9 @@
 		44E656B31DF76554008FCA4F /* EyePhysics.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E656B21DF76554008FCA4F /* EyePhysics.m */; };
 		A20FEB4A1DED1344009584FD /* LightParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A20FEB491DED1344009584FD /* LightParticle.sks */; };
 		A20FEB511DED1E3E009584FD /* beam.wav in Resources */ = {isa = PBXBuildFile; fileRef = A20FEB501DED1E3E009584FD /* beam.wav */; };
+		A221A7C71DF8A7C7007A2869 /* BlueLightParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A221A7C61DF8A7C7007A2869 /* BlueLightParticle.sks */; };
+		A221A7CE1DF8B5E4007A2869 /* beam_loop.wav in Resources */ = {isa = PBXBuildFile; fileRef = A221A7CC1DF8B5E4007A2869 /* beam_loop.wav */; };
+		A221A7CF1DF8B5E4007A2869 /* beam_start.wav in Resources */ = {isa = PBXBuildFile; fileRef = A221A7CD1DF8B5E4007A2869 /* beam_start.wav */; };
 		A29D62AD1DE45F1E00DA9C73 /* ASScreenRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = A29D62AC1DE45F1E00DA9C73 /* ASScreenRecorder.m */; };
 		A29D62B61DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D62B51DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift */; };
 		A29D62B81DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D62B71DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift */; };
@@ -43,6 +46,9 @@
 		44E656B21DF76554008FCA4F /* EyePhysics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EyePhysics.m; sourceTree = "<group>"; };
 		A20FEB491DED1344009584FD /* LightParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LightParticle.sks; sourceTree = "<group>"; };
 		A20FEB501DED1E3E009584FD /* beam.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = beam.wav; path = ../beam.wav; sourceTree = "<group>"; };
+		A221A7C61DF8A7C7007A2869 /* BlueLightParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BlueLightParticle.sks; sourceTree = "<group>"; };
+		A221A7CC1DF8B5E4007A2869 /* beam_loop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beam_loop.wav; sourceTree = "<group>"; };
+		A221A7CD1DF8B5E4007A2869 /* beam_start.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beam_start.wav; sourceTree = "<group>"; };
 		A29D62AB1DE45F1E00DA9C73 /* ASScreenRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASScreenRecorder.h; sourceTree = "<group>"; };
 		A29D62AC1DE45F1E00DA9C73 /* ASScreenRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASScreenRecorder.m; sourceTree = "<group>"; };
 		A29D62B51DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SakuraEmitterNodeFactory.swift; sourceTree = "<group>"; };
@@ -113,6 +119,8 @@
 		A20FEB4B1DED1971009584FD /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				A221A7CC1DF8B5E4007A2869 /* beam_loop.wav */,
+				A221A7CD1DF8B5E4007A2869 /* beam_start.wav */,
 				A20FEB501DED1E3E009584FD /* beam.wav */,
 			);
 			name = resources;
@@ -142,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				A20FEB491DED1344009584FD /* LightParticle.sks */,
+				A221A7C61DF8A7C7007A2869 /* BlueLightParticle.sks */,
 				A2DDF73B1DDDCE4700809091 /* GameScene.sks */,
 				A2DDF73D1DDDCE4700809091 /* Actions.sks */,
 				A2DDF73F1DDDCE4700809091 /* GameScene.swift */,
@@ -261,12 +270,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A221A7C71DF8A7C7007A2869 /* BlueLightParticle.sks in Resources */,
 				A2DDF7451DDDCE4700809091 /* Main.storyboard in Resources */,
 				A2DDF73C1DDDCE4700809091 /* GameScene.sks in Resources */,
 				44CA62C41DF77AA400550365 /* todo in Resources */,
 				A2DDF7471DDDCE4700809091 /* Assets.xcassets in Resources */,
 				A20FEB511DED1E3E009584FD /* beam.wav in Resources */,
 				A2DDF74A1DDDCE4700809091 /* LaunchScreen.storyboard in Resources */,
+				A221A7CF1DF8B5E4007A2869 /* beam_start.wav in Resources */,
+				A221A7CE1DF8B5E4007A2869 /* beam_loop.wav in Resources */,
 				A20FEB4A1DED1344009584FD /* LightParticle.sks in Resources */,
 				A2DDF73E1DDDCE4700809091 /* Actions.sks in Resources */,
 			);

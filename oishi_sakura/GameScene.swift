@@ -10,6 +10,10 @@ import SpriteKit
 import SceneKit
 import GameplayKit
 
+enum SakuraState {
+    case White, Pink
+}
+
 class GameScene: SKScene {
     
     private var label : SKLabelNode?
@@ -32,6 +36,8 @@ class GameScene: SKScene {
     
     private var playSound: Bool = false
     
+    private var soundAction: SKAction?
+    
     override init(size: CGSize) {
         super.init(size: size)
         
@@ -49,6 +55,14 @@ class GameScene: SKScene {
                                               SKAction.fadeOut(withDuration: 0.5),
                                               SKAction.removeFromParent()]))
         }
+        
+        // init sound action
+        let soundAction1 = SKAction.playSoundFileNamed("beam_start.wav", waitForCompletion: true)
+        let soundAction2 = SKAction.repeatForever(SKAction.playSoundFileNamed("beam_loop.wav", waitForCompletion: true))
+        self.soundAction = SKAction.sequence([
+            soundAction1,
+            soundAction2,
+        ])
         
     }
     
@@ -377,6 +391,51 @@ class GameScene: SKScene {
         self.lightEmitterNode = SKEmitterNode(fileNamed: "LightParticle")
     }
     
+    func createLightEmitterNode(state: Int) {
+        if (state == 0) {
+            self.lightEmitterNode = SKEmitterNode(fileNamed: "LightParticle")
+        } else {
+            self.lightEmitterNode = SKEmitterNode(fileNamed: "BlueLightParticle")
+        }
+    }
+    
+    func changeLightEmitterNode(pink: Bool) {
+        self.lightEmitterNode = pink ? SKEmitterNode(fileNamed: "LightParticle") : SKEmitterNode(fileNamed: "BlueLightParticle")
+        if let node = self.childNode(withName: "lightnode") {
+            // mouth
+            node.removeFromParent()
+            if let n = self.lightEmitterNode?.copy() as! SKEmitterNode? {
+                n.name = "lightnode"
+                n.position = node.position
+                n.emissionAngle = (node as! SKEmitterNode).emissionAngle
+                self.addChild(n)
+            }
+        } else {
+            // eyes || ears
+            if let node = self.childNode(withName: "left_lightnode") {
+                node.removeFromParent()
+                // MARK: - change emitter direction
+                if let n = self.lightEmitterNode?.copy() as! SKEmitterNode? {
+                    n.name = "left_lightnode"
+                    n.position = node.position
+                    n.emissionAngle = (node as! SKEmitterNode).emissionAngle
+                    self.addChild(n)
+                }
+            }
+            if let node = self.childNode(withName: "right_lightnode") {
+                node.removeFromParent()
+                // MARK: - change emitter direction
+                if let n = self.lightEmitterNode?.copy() as! SKEmitterNode? {
+                    n.name = "right_lightnode"
+                    n.position = node.position
+                    n.emissionAngle = (node as! SKEmitterNode).emissionAngle
+                    self.addChild(n)
+                }
+                
+            }
+        }
+    }
+    
     /*
     func touchDown(atPoint pos : CGPoint) {
         print("touchDown at \(pos)")
@@ -427,4 +486,10 @@ class GameScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
     }
+    
+    func stopActions() {
+        self.removeAllActions()
+        self.playSound = false
+    }
+    
 }
