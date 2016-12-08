@@ -619,7 +619,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.earsToggleButton.addTarget(self, action: #selector(GameViewController.toggleButton(button:)), for: .touchUpInside)
         self.recordButton.addTarget(self, action: #selector(GameViewController.toggleButton(button:)), for: .touchUpInside)
         
-        self.skView?.addSubview(self.swapCameraButton)
+        // self.skView?.addSubview(self.swapCameraButton)
         self.skView?.addSubview(self.eyesToggleButton)
         self.skView?.addSubview(self.mouthToggleButton)
         self.skView?.addSubview(self.earsToggleButton)
