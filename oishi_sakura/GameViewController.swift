@@ -421,6 +421,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     
     func previewController(_ previewController: RPPreviewViewController, didFinishWithActivityTypes activityTypes: Set<String>) {
         
+        previewController.dismiss(animated: true, completion: nil)
+        
         if activityTypes.count > 0 {
             // save
         } else {
