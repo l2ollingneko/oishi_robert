@@ -37,7 +37,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     var recordButton: UIButton = UIButton()
     
     var frame: UIImageView = UIImageView()
-    var iceFrames: [UIImageView] = [UIImageView](repeating: UIImageView(), count: 3)
+    var iceFrames: [UIImageView] = [UIImageView]()
+    var endSceneImageView: UIImageView = UIImageView()
     
     // MARK: - Video objects
     
@@ -69,6 +70,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     private var leftCheekImageView: UIImageView = UIImageView()
     private var rightCheekImageView: UIImageView = UIImageView()
     
+    private var trackingIds: Dictionary<UInt, Bool> = Dictionary<UInt, Bool>()
+    
     private var addedCheeks: Bool = false
     
     // MARK: - camera
@@ -95,8 +98,10 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.addSubview(self.placeHolder)
-        self.view.addSubview(self.overlay)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        // self.view.addSubview(self.placeHolder)
+        // self.view.addSubview(self.overlay)
         
         // video
         self.session = AVCaptureSession()
@@ -154,9 +159,10 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.overlay.addSubview(self.frame)
         
         for index in 0...2 {
-            self.iceFrames[index].frame = self.overlay.frame
-            self.iceFrames[index].image = UIImage(named: "ice")
-            self.iceFrames[index].alpha = 0.0
+            let imageView = UIImageView(frame: self.overlay.frame)
+            imageView.image = UIImage(named: "ice_\(index+1)")
+            imageView.alpha = 0.0
+            self.iceFrames.append(imageView)
         }
         
     }
@@ -251,6 +257,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.setup = true
         // }
         
+        var saveTrackingIds: Dictionary<UInt, Bool> = Dictionary<UInt, Bool>()
+        
         DispatchQueue.main.sync {
             
             if (faces.count == 0) {
@@ -273,31 +281,37 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                     2. ears
                     3. eyes
                  */
-                if (self.origin == .Mouth) {
-                    if (face.hasMouthPosition == true) {
-                        let point = self.scaledPointForScene(point: face.mouthPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
-                        self.scene?.pointDetected(faceSize: face.bounds.size, atPoint: point, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
-                    }
-                } else if (self.origin == .Ears) {
-                    if (face.hasLeftEarPosition && face.hasRightEarPosition) {
-                        let lpoint = self.scaledPointForScene(point: face.leftEarPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
-                        let rpoint = self.scaledPointForScene(point: face.rightEarPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
-                        
-                        self.scene?.earsPointDetected(faceSize: face.bounds.size, lpos: lpoint, rpos: rpoint, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
-                    }
-                } else if (self.origin == .Eyes) {
-                    if (face.hasLeftEyePosition && face.hasRightEyePosition) {
-                        let lpoint = self.scaledPointForScene(point: face.leftEyePosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
-                        let rpoint = self.scaledPointForScene(point: face.rightEyePosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
-                        
-                        self.scene?.eyesPointDetected(faceSize: face.bounds.size, lpos: lpoint, rpos: rpoint, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
-                        
-                        
-                    }
-                }
                 
-                // Cheeks
+                // TODO: - save face tracking id
+                saveTrackingIds[face.trackingID] = true
+                
                 if (self.origin != .None) {
+                    // TODO: - create emitter nodes
+                    
+                    if (self.origin == .Mouth) {
+                        if (face.hasMouthPosition == true) {
+                            let point = self.scaledPointForScene(point: face.mouthPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
+                            self.scene?.pointDetected(faceSize: face.bounds.size, atPoint: point, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
+                        }
+                    } else if (self.origin == .Ears) {
+                        if (face.hasLeftEarPosition && face.hasRightEarPosition) {
+                            let lpoint = self.scaledPointForScene(point: face.leftEarPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
+                            let rpoint = self.scaledPointForScene(point: face.rightEarPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
+                            
+                            self.scene?.earsPointDetected(faceSize: face.bounds.size, lpos: lpoint, rpos: rpoint, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
+                        }
+                    } else if (self.origin == .Eyes) {
+                        if (face.hasLeftEyePosition && face.hasRightEyePosition) {
+                            let lpoint = self.scaledPointForScene(point: face.leftEyePosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
+                            let rpoint = self.scaledPointForScene(point: face.rightEyePosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
+                            
+                            self.scene?.eyesPointDetected(faceSize: face.bounds.size, lpos: lpoint, rpos: rpoint, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
+                            
+                            
+                        }
+                    }
+                
+                    // Cheeks
                     if (face.hasLeftCheekPosition && face.hasRightCheekPosition) {
                         // TODO: - move cheek image view to skspritenode in game scene
                         var editedLeftCheekPosition = face.leftCheekPosition
@@ -334,6 +348,13 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 }
             }
         }
+        
+        // TODO: - check disappeared tracking id then remove all nodes of that tracking id
+        for key in self.trackingIds.keys {
+            if (saveTrackingIds[key] == nil) {
+                // removed face
+            }
+        }
     }
     
     // MARK: - cheek detected
@@ -356,12 +377,14 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     func startRecording() {
         let recorder = RPScreenRecorder.shared()
         
-//        let screenRecorder = ASScreenRecorder.sharedInstance()
-//        if (!(screenRecorder?.isRecording)!) {
-//            screenRecorder?.startRecording()
-//            self.startTimer()
-//            self.recording = true
-//        }
+        /*
+        let screenRecorder = ASScreenRecorder.sharedInstance()
+        if (!(screenRecorder?.isRecording)!) {
+            screenRecorder?.startRecording()
+            self.startTimer()
+            self.recording = true
+        }
+ */
         
         self.swapCameraButton.isHidden = true
         self.eyesToggleButton.isHidden = true
@@ -382,12 +405,14 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     func stopRecording() {
         let recorder = RPScreenRecorder.shared()
         
+        /*
         let screenRecorder = ASScreenRecorder.sharedInstance()
         if ((screenRecorder?.isRecording)!) {
             screenRecorder?.stopRecording(completion: {
                 self.recording = false
             })
         }
+         */
         
         self.swapCameraButton.isHidden = false
         self.eyesToggleButton.isHidden = false
@@ -421,12 +446,12 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     
     func previewController(_ previewController: RPPreviewViewController, didFinishWithActivityTypes activityTypes: Set<String>) {
         
-        previewController.dismiss(animated: true, completion: nil)
-        
         if activityTypes.count > 0 {
             // save
+            // present preview
         } else {
             // no save action
+            // present alert view
         }
     }
     
@@ -440,7 +465,9 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.stopRecording()
         self.timer?.invalidate()
         self.timerCounter = 0.5
-        self.iceFrames[2].removeFromSuperview()
+        for index in 0...2 {
+            self.iceFrames[index].removeFromSuperview()
+        }
     }
     
     func changeState() {
@@ -455,11 +482,11 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             // pink sakura, blue light ray, cheek 2, ice frame level 1
             print("change to state 1")
             if (self.timerCounter == 2.0) {
-                self.overlay.addSubview(self.iceFrames[2])
+                self.overlay.addSubview(self.iceFrames[0])
                 self.scene?.changeLightEmitterNode(pink: false)
                 UIView.animate(withDuration: 0.25, animations: {
-                    self.iceFrames[2].alpha = 0.0
-                    self.iceFrames[2].alpha = 1.0
+                    self.iceFrames[0].alpha = 0.0
+                    self.iceFrames[0].alpha = 1.0
                 })
                 self.leftCheekImageView.image = UIImage(named: "cheek_2")
                 self.rightCheekImageView.image = UIImage(named: "cheek_2")
@@ -468,10 +495,24 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
            // 1.5s
             // pink sakura, blue light ray, cheek 2, ice frame level 2
             print("change to state 2")
+            if (self.timerCounter == 3.5) {
+                self.overlay.addSubview(self.iceFrames[1])
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.iceFrames[1].alpha = 0.0
+                    self.iceFrames[1].alpha = 1.0
+                })
+            }
         } else if (self.timerCounter == 5.0 && self.timerCounter < 6.5) {
            // 1.5s
             // pink sakura, blue light ray, cheek 2, ice frame level 3
             print("change to state 3")
+            if (self.timerCounter == 5.0) {
+                self.overlay.addSubview(self.iceFrames[2])
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.iceFrames[2].alpha = 0.0
+                    self.iceFrames[2].alpha = 1.0
+                })
+            }
         } else if (self.timerCounter == 6.5 && self.timerCounter < 7.0) {
             // 0.5s
             // show end screen

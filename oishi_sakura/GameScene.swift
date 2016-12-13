@@ -26,6 +26,7 @@ class GameScene: SKScene {
     private var spinnyNode : SKShapeNode?
     
     private var emitterNode : SKEmitterNode?
+    private var emitterNodes : Dictionary<UInt, [SKEmitterNode]> = Dictionary<UInt, [SKEmitterNode]>()
     
     private var lightEmitterNode : SKEmitterNode?
     
