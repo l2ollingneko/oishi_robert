@@ -100,7 +100,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         
         // video
         self.session = AVCaptureSession()
-        self.session?.sessionPreset = AVCaptureSessionPreset1280x720
+        self.session?.sessionPreset = AVCaptureSessionPresetiFrame960x540
         self.updateCameraSelection()
         
         self.videoDataOutputQueue = DispatchQueue(label: "VideoDataOutputQueue")
@@ -531,7 +531,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.versionLabel.frame.origin = CGPoint(x: 10.0, y: 0.0)
         self.versionLabel.font = UIFont.systemFont(ofSize: 30.0)
         self.versionLabel.textColor = UIColor.white
-        self.versionLabel.text = "v 2.2"
+        self.versionLabel.text = "v 2.2.1"
         self.versionLabel.sizeToFit()
         
         self.skView?.addSubview(self.versionLabel)
@@ -658,6 +658,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             if ((device as! AVCaptureDevice).position == desiredPosition) {
                 var finalFormat = AVCaptureDeviceFormat()
                 var maxFps: Double = 0
+                var minFps: Double = 99
                 /*
                 let ranges = (device as! AVCaptureDevice).activeFormat.videoSupportedFrameRateRanges as! [AVFrameRateRange]
                 for range in ranges {
@@ -680,14 +681,20 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                     let ranges = (format as! AVCaptureDeviceFormat).videoSupportedFrameRateRanges as! [AVFrameRateRange]
                     let frameRates = ranges[0]
                     print("frameRates: \(frameRates.maxFrameRate)")
+                    /*
                     if (frameRates.maxFrameRate >= maxFps  && frameRates.maxFrameRate <= 240) {
                         maxFps = frameRates.maxFrameRate
                         finalFormat = format as! AVCaptureDeviceFormat
                     }
+                     */
+                    if (frameRates.minFrameRate <= minFps) {
+                        minFps = frameRates.minFrameRate
+                        finalFormat = format as! AVCaptureDeviceFormat
+                    }
                 }
-                if maxFps != 0 {
+                if minFps != 99 {
                     print("maxFps: \(maxFps)")
-                    let timeValue = Int64(1200.0 / maxFps)
+                    let timeValue = Int64(1200.0 / minFps)
                     let timeScale: Int32 = 1200
                     try! (device as! AVCaptureDevice).lockForConfiguration()
                     (device as! AVCaptureDevice).activeFormat = finalFormat
