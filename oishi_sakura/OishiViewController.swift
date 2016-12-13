@@ -28,7 +28,7 @@ class OishiViewController: UIViewController, FaceTrackerDatasource, GMVMultiData
 
         // Do any additional setup after loading the view.
         self.session = AVCaptureSession()
-        self.session?.sessionPreset = AVCaptureSessionPresetMedium
+        self.session?.sessionPreset = AVCaptureSessionPresetiFrame960x540
         self.updateCameraSelection()
         
         self.setupGMVDataOutput()

@@ -14,9 +14,15 @@
 		44E656B31DF76554008FCA4F /* EyePhysics.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E656B21DF76554008FCA4F /* EyePhysics.m */; };
 		A20FEB4A1DED1344009584FD /* LightParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A20FEB491DED1344009584FD /* LightParticle.sks */; };
 		A20FEB511DED1E3E009584FD /* beam.wav in Resources */ = {isa = PBXBuildFile; fileRef = A20FEB501DED1E3E009584FD /* beam.wav */; };
+		A212E4FF1DFDDD57005ECCB6 /* sfx_1.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A212E4FD1DFDDD57005ECCB6 /* sfx_1.m4a */; };
+		A212E5001DFDDD57005ECCB6 /* sfx_2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A212E4FE1DFDDD57005ECCB6 /* sfx_2.m4a */; };
 		A221A7C71DF8A7C7007A2869 /* BlueLightParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A221A7C61DF8A7C7007A2869 /* BlueLightParticle.sks */; };
 		A221A7CE1DF8B5E4007A2869 /* beam_loop.wav in Resources */ = {isa = PBXBuildFile; fileRef = A221A7CC1DF8B5E4007A2869 /* beam_loop.wav */; };
 		A221A7CF1DF8B5E4007A2869 /* beam_start.wav in Resources */ = {isa = PBXBuildFile; fileRef = A221A7CD1DF8B5E4007A2869 /* beam_start.wav */; };
+		A226D9321DF9F33B00F0D921 /* PreviewVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A226D9301DF9F33B00F0D921 /* PreviewVideoViewController.swift */; };
+		A226D9331DF9F33B00F0D921 /* PreviewVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A226D9311DF9F33B00F0D921 /* PreviewVideoViewController.xib */; };
+		A25630DA1DFFC5A6006EED35 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A25630D91DFFC5A6006EED35 /* GameViewController.xib */; };
+		A25630DD1DFFC75A006EED35 /* ControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25630DC1DFFC75A006EED35 /* ControllerManager.swift */; };
 		A29D62AD1DE45F1E00DA9C73 /* ASScreenRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = A29D62AC1DE45F1E00DA9C73 /* ASScreenRecorder.m */; };
 		A29D62B61DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D62B51DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift */; };
 		A29D62B81DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D62B71DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift */; };
@@ -46,9 +52,15 @@
 		44E656B21DF76554008FCA4F /* EyePhysics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EyePhysics.m; sourceTree = "<group>"; };
 		A20FEB491DED1344009584FD /* LightParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LightParticle.sks; sourceTree = "<group>"; };
 		A20FEB501DED1E3E009584FD /* beam.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = beam.wav; path = ../beam.wav; sourceTree = "<group>"; };
+		A212E4FD1DFDDD57005ECCB6 /* sfx_1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = sfx_1.m4a; sourceTree = "<group>"; };
+		A212E4FE1DFDDD57005ECCB6 /* sfx_2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = sfx_2.m4a; sourceTree = "<group>"; };
 		A221A7C61DF8A7C7007A2869 /* BlueLightParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BlueLightParticle.sks; sourceTree = "<group>"; };
 		A221A7CC1DF8B5E4007A2869 /* beam_loop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beam_loop.wav; sourceTree = "<group>"; };
 		A221A7CD1DF8B5E4007A2869 /* beam_start.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beam_start.wav; sourceTree = "<group>"; };
+		A226D9301DF9F33B00F0D921 /* PreviewVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewVideoViewController.swift; sourceTree = "<group>"; };
+		A226D9311DF9F33B00F0D921 /* PreviewVideoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreviewVideoViewController.xib; sourceTree = "<group>"; };
+		A25630D91DFFC5A6006EED35 /* GameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GameViewController.xib; sourceTree = "<group>"; };
+		A25630DC1DFFC75A006EED35 /* ControllerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerManager.swift; sourceTree = "<group>"; };
 		A29D62AB1DE45F1E00DA9C73 /* ASScreenRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASScreenRecorder.h; sourceTree = "<group>"; };
 		A29D62AC1DE45F1E00DA9C73 /* ASScreenRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASScreenRecorder.m; sourceTree = "<group>"; };
 		A29D62B51DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SakuraEmitterNodeFactory.swift; sourceTree = "<group>"; };
@@ -119,11 +131,28 @@
 		A20FEB4B1DED1971009584FD /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				A212E4FD1DFDDD57005ECCB6 /* sfx_1.m4a */,
+				A212E4FE1DFDDD57005ECCB6 /* sfx_2.m4a */,
 				A221A7CC1DF8B5E4007A2869 /* beam_loop.wav */,
 				A221A7CD1DF8B5E4007A2869 /* beam_start.wav */,
 				A20FEB501DED1E3E009584FD /* beam.wav */,
 			);
 			name = resources;
+			sourceTree = "<group>";
+		};
+		A212E5011DFDED51005ECCB6 /* components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = components;
+			sourceTree = "<group>";
+		};
+		A25630DB1DFFC6C7006EED35 /* manager */ = {
+			isa = PBXGroup;
+			children = (
+				A25630DC1DFFC75A006EED35 /* ControllerManager.swift */,
+			);
+			name = manager;
 			sourceTree = "<group>";
 		};
 		A29D62AA1DE45F0800DA9C73 /* libs */ = {
@@ -141,7 +170,10 @@
 			isa = PBXGroup;
 			children = (
 				A2DDF7411DDDCE4700809091 /* GameViewController.swift */,
+				A25630D91DFFC5A6006EED35 /* GameViewController.xib */,
 				44B5D3AA1DF71A9C00EC75CF /* OishiViewController.swift */,
+				A226D9301DF9F33B00F0D921 /* PreviewVideoViewController.swift */,
+				A226D9311DF9F33B00F0D921 /* PreviewVideoViewController.xib */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -181,11 +213,13 @@
 		A2DDF7381DDDCE4700809091 /* oishi_sakura */ = {
 			isa = PBXGroup;
 			children = (
-				A20FEB4B1DED1971009584FD /* resources */,
+				A25630DB1DFFC6C7006EED35 /* manager */,
+				A212E5011DFDED51005ECCB6 /* components */,
 				A29D62AE1DE4746E00DA9C73 /* controllers */,
 				A29D62AF1DE4747400DA9C73 /* gamekit */,
 				A29D62AA1DE45F0800DA9C73 /* libs */,
 				A2DDF7511DDE30D900809091 /* utilities */,
+				A20FEB4B1DED1971009584FD /* resources */,
 				A2DDF7391DDDCE4700809091 /* AppDelegate.swift */,
 				A29D62B91DE737EE00DA9C73 /* Adapter.swift */,
 				A2DDF7431DDDCE4700809091 /* Main.storyboard */,
@@ -273,7 +307,9 @@
 				A221A7C71DF8A7C7007A2869 /* BlueLightParticle.sks in Resources */,
 				A2DDF7451DDDCE4700809091 /* Main.storyboard in Resources */,
 				A2DDF73C1DDDCE4700809091 /* GameScene.sks in Resources */,
+				A226D9331DF9F33B00F0D921 /* PreviewVideoViewController.xib in Resources */,
 				44CA62C41DF77AA400550365 /* todo in Resources */,
+				A212E4FF1DFDDD57005ECCB6 /* sfx_1.m4a in Resources */,
 				A2DDF7471DDDCE4700809091 /* Assets.xcassets in Resources */,
 				A20FEB511DED1E3E009584FD /* beam.wav in Resources */,
 				A2DDF74A1DDDCE4700809091 /* LaunchScreen.storyboard in Resources */,
@@ -281,6 +317,8 @@
 				A221A7CE1DF8B5E4007A2869 /* beam_loop.wav in Resources */,
 				A20FEB4A1DED1344009584FD /* LightParticle.sks in Resources */,
 				A2DDF73E1DDDCE4700809091 /* Actions.sks in Resources */,
+				A212E5001DFDDD57005ECCB6 /* sfx_2.m4a in Resources */,
+				A25630DA1DFFC5A6006EED35 /* GameViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,6 +384,8 @@
 				A29D62B61DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift in Sources */,
 				A2DDF7421DDDCE4700809091 /* GameViewController.swift in Sources */,
 				A2DDF73A1DDDCE4700809091 /* AppDelegate.swift in Sources */,
+				A25630DD1DFFC75A006EED35 /* ControllerManager.swift in Sources */,
+				A226D9321DF9F33B00F0D921 /* PreviewVideoViewController.swift in Sources */,
 				44E656B01DF75562008FCA4F /* GooglyEyeView.m in Sources */,
 				44E656AD1DF74C51008FCA4F /* FaceTracker.m in Sources */,
 				44E656B31DF76554008FCA4F /* EyePhysics.m in Sources */,

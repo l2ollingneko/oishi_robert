@@ -12,6 +12,7 @@ import GameplayKit
 import ReplayKit
 import AVFoundation
 import GoogleMobileVision
+import SwiftKeychainWrapper
 
 enum SakuraOrigin {
     case Mouth, Eyes, Ears, None
@@ -21,11 +22,13 @@ enum RecordingState {
     case Stop, Start, State1, State2, State3, End
 }
 
-class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, RPPreviewViewControllerDelegate {
+class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, RPScreenRecorderDelegate, RPPreviewViewControllerDelegate {
     
     // MARK: - UI elements
     @IBOutlet weak var placeHolder: UIView!
     @IBOutlet weak var overlay: UIView!
+    
+    var overlayWindow: UIWindow?
     
     var swapCameraButton: UIButton = UIButton()
     var eyesToggleButton: UIButton = UIButton()
@@ -65,6 +68,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     
     private var leftCheekImageView: UIImageView = UIImageView()
     private var rightCheekImageView: UIImageView = UIImageView()
+    
     private var addedCheeks: Bool = false
     
     // MARK: - camera
@@ -81,8 +85,18 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     private var timerCounter: Double = -0.5
     private var state: RecordingState = .Stop
     
+    // MARK: - settings flag
+    
+    private var setup: Bool = false
+    var xScale: CGFloat = 1
+    var yScale: CGFloat = 1
+    var videoBox = CGRect.zero
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.addSubview(self.placeHolder)
+        self.view.addSubview(self.overlay)
         
         // video
         self.session = AVCaptureSession()
@@ -127,8 +141,6 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.leftCheekImageView.image = UIImage(named: "cheek_1_left")
         self.rightCheekImageView.image = UIImage(named: "cheek_1_right")
         
-        // timer
-        self.setTimer()
     }
     
     override func viewDidLayoutSubviews() {
@@ -146,11 +158,20 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             self.iceFrames[index].image = UIImage(named: "ice")
             self.iceFrames[index].alpha = 0.0
         }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.session?.startRunning()
+        
+        // overlay window
+        self.overlayWindow = UIWindow(frame: (self.view.window?.frame)!)
+        self.overlayWindow?.windowLevel = UIWindowLevelAlert
+        self.overlayWindow?.isHidden = false
+        self.overlayWindow?.backgroundColor = UIColor.clear
+        self.overlayWindow?.makeKeyAndVisible()
+        
         self.initUIElements()
     }
     
@@ -202,118 +223,91 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
+        
         let image = GMVUtility.sampleBufferTo32RGBA(sampleBuffer)
-        // let image = UIImage(cgImage: GMVUtility.sampleBufferTo32RGBA(sampleBuffer).cgImage!, scale: 1.0, orientation: UIImageOrientation.left)
-        
-        // let orientation = GMVUtility.imageOrientation(from: UIDevice.current.orientation, with: AVCaptureDevicePosition.front, defaultDeviceOrientation: .unknown)
         let avCaptureDevicePosition: AVCaptureDevicePosition = self.frontCamera ? AVCaptureDevicePosition.front : AVCaptureDevicePosition.back
-        
-        print("current orientation: \(UIDevice.current.orientation.isPortrait)")
         
         let orientation = GMVUtility.imageOrientation(from: UIDevice.current.orientation, with: avCaptureDevicePosition, defaultDeviceOrientation: .portrait)
         
         let options: Dictionary<AnyHashable, Any> = [
             GMVDetectorImageOrientation: orientation.rawValue
         ]
+        
         let faces = self.faceDetector?.features(in: image, options: options) as! [GMVFaceFeature]
         
         let fdesc = CMSampleBufferGetFormatDescription(sampleBuffer)
         let clap = CMVideoFormatDescriptionGetCleanAperture(fdesc!, false)
         let parentFrameSize = self.previewLayer?.frame.size
         
-        let cameraRatio = clap.size.height / clap.size.width
-        let viewRatio = (parentFrameSize?.width)! / (parentFrameSize?.height)!
-        var xScale: CGFloat = 1
-        var yScale: CGFloat = 1
-        var videoBox = CGRect.zero
-       
-        videoBox.size.width = (parentFrameSize?.width)!
-        videoBox.size.height = clap.size.width * ((parentFrameSize?.width)! / clap.size.height)
-        videoBox.origin.x = (videoBox.size.width - (parentFrameSize?.width)!) / 2
-        videoBox.origin.y = ((parentFrameSize?.height)! - videoBox.size.height) / 2
+        // if (!self.setup) {
+        self.videoBox.size.width = (parentFrameSize?.width)!
+        self.videoBox.size.height = clap.size.width * ((parentFrameSize?.width)! / clap.size.height)
+        self.videoBox.origin.x = (self.videoBox.size.width - (parentFrameSize?.width)!) / 2
+        self.videoBox.origin.y = ((parentFrameSize?.height)! - self.videoBox.size.height) / 2
 
-        xScale = videoBox.size.width / clap.size.height;
-        yScale = videoBox.size.height / clap.size.width;
+        self.xScale = self.videoBox.size.width / clap.size.height;
+        self.yScale = self.videoBox.size.height / clap.size.width;
         
-        /*
-        if (viewRatio > cameraRatio) {
-            videoBox.size.width = (parentFrameSize?.height)! * clap.size.width / clap.size.height
-            videoBox.size.height = (parentFrameSize?.height)!
-            videoBox.origin.x = ((parentFrameSize?.width)! - videoBox.size.width) / 2
-            videoBox.origin.y = (videoBox.size.height - (parentFrameSize?.height)!) / 2
-
-            xScale = videoBox.size.width / clap.size.width
-            yScale = videoBox.size.height / clap.size.height
-        } else {
-            videoBox.size.width = (parentFrameSize?.width)!
-            videoBox.size.height = clap.size.width * ((parentFrameSize?.width)! / clap.size.height)
-            videoBox.origin.x = (videoBox.size.width - (parentFrameSize?.width)!) / 2
-            videoBox.origin.y = ((parentFrameSize?.height)! - videoBox.size.height) / 2
-
-            xScale = videoBox.size.width / clap.size.height;
-            yScale = videoBox.size.height / clap.size.width;
-        }
-         */
+        self.setup = true
+        // }
         
-        DispatchQueue.main.async {
-            // Remove previously added feature views.
-            /*
-            for featureView in self.overlayView.subviews {
-                featureView.removeFromSuperview()
-            }
-            */
+        DispatchQueue.main.sync {
             
             if (faces.count == 0) {
                 self.scene?.noPointDetected()
                 self.removeCheeks()
+                return
             }
-            
+                
             if (self.origin == .None) {
                 self.scene?.noPointDetected()
                 self.removeCheeks()
+                return
             }
             
             // Display detected features in overlay.
             for face in faces {
-                // let faceRect = self.scaledRect(rect: face.bounds, xScale: xScale, yScale: yScale, offset: videoBox.origin)
-                // DrawingUtility.addRectangle(faceRect, to: self.overlayView, with: UIColor.red)
                 
-                // Mouth
+                /* check origin of desired emitter node
+                    1. mouth
+                    2. ears
+                    3. eyes
+                 */
                 if (self.origin == .Mouth) {
                     if (face.hasMouthPosition == true) {
-                        // let point = self.frontCamera ? self.scaledPointForScene(point: face.mouthPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin) : self.scaledPoint(point: face.mouthPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
-                        let point = self.scaledPointForScene(point: face.mouthPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
-                        self.scene?.pointDetected(atPoint: point, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
+                        let point = self.scaledPointForScene(point: face.mouthPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
+                        self.scene?.pointDetected(faceSize: face.bounds.size, atPoint: point, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
                     }
-                }
-                
-                // Ears
-                if (self.origin == .Ears) {
+                } else if (self.origin == .Ears) {
                     if (face.hasLeftEarPosition && face.hasRightEarPosition) {
-                        let lpoint = self.scaledPointForScene(point: face.leftEarPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
-                        // let lpoint = self.frontCamera ? self.scaledPointForScene(point: face.leftEarPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin) : self.scaledPoint(point: face.leftEarPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
-                        let rpoint = self.scaledPointForScene(point: face.rightEarPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
-                        // let rpoint = self.frontCamera ? self.scaledPointForScene(point: face.rightEarPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin) : self.scaledPoint(point: face.rightEarPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
-                        self.scene?.earsPointDetected(lpos: lpoint, rpos: rpoint, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
+                        let lpoint = self.scaledPointForScene(point: face.leftEarPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
+                        let rpoint = self.scaledPointForScene(point: face.rightEarPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
+                        
+                        self.scene?.earsPointDetected(faceSize: face.bounds.size, lpos: lpoint, rpos: rpoint, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
                     }
-                }
-                
-                // Eyes
-                if (self.origin == .Eyes) {
+                } else if (self.origin == .Eyes) {
                     if (face.hasLeftEyePosition && face.hasRightEyePosition) {
-                        // let lpoint = self.frontCamera ? self.scaledPointForScene(point: face.leftEyePosition, xScale: xScale, yScale: yScale, offset: videoBox.origin) : self.scaledPoint(point: face.leftEyePosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
-                        let lpoint = self.scaledPointForScene(point: face.leftEyePosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
-                        let rpoint = self.scaledPointForScene(point: face.rightEyePosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
-                        // let rpoint = self.frontCamera ? self.scaledPointForScene(point: face.rightEyePosition, xScale: xScale, yScale: yScale, offset: videoBox.origin) : self.scaledPoint(point: face.rightEyePosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
-                        self.scene?.eyesPointDetected(lpos: lpoint, rpos: rpoint, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
+                        let lpoint = self.scaledPointForScene(point: face.leftEyePosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
+                        let rpoint = self.scaledPointForScene(point: face.rightEyePosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
+                        
+                        self.scene?.eyesPointDetected(faceSize: face.bounds.size, lpos: lpoint, rpos: rpoint, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
+                        
+                        
                     }
                 }
                 
                 // Cheeks
                 if (self.origin != .None) {
                     if (face.hasLeftCheekPosition && face.hasRightCheekPosition) {
-                        let lpoint = self.scaledPoint(point: face.leftCheekPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
-                        let rpoint = self.scaledPoint(point: face.rightCheekPosition, xScale: xScale, yScale: yScale, offset: videoBox.origin)
+                        // TODO: - move cheek image view to skspritenode in game scene
+                        var editedLeftCheekPosition = face.leftCheekPosition
+                        editedLeftCheekPosition.y -= (0.065 * face.bounds.size.height)
+                        
+                        var editedRightCheekPosition = face.rightCheekPosition
+                        editedRightCheekPosition.y -= (0.065 * face.bounds.size.height)
+                        
+                        let lpoint = self.scaledPoint(point: editedLeftCheekPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
+                        let rpoint = self.scaledPoint(point: editedRightCheekPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
                         
                         if (!self.addedCheeks) {
                             self.leftCheekImageView.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: face.bounds.size.width * 0.7, h: face.bounds.size.width * 0.7)
@@ -327,134 +321,19 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                             
                             self.overlay.addSubview(self.leftCheekImageView)
                             self.overlay.addSubview(self.rightCheekImageView)
-                            /*
-                            self.skView?.addSubview(self.leftCheekImageView)
-                            self.skView?.addSubview(self.rightCheekImageView)
-                             */
+                            
                             self.addedCheeks = true
                         } else {
                             self.leftCheekImageView.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: face.bounds.size.width * 0.7, h: face.bounds.size.width * 0.7)
                             self.rightCheekImageView.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: face.bounds.size.width * 0.7, h: face.bounds.size.width * 0.7)
                             
-                             self.leftCheekImageView.center = lpoint
+                            self.leftCheekImageView.center = lpoint
                             self.rightCheekImageView.center = rpoint
                         }
                     }
                 }
             }
         }
-    }
-    
-    // MARK: - Camera Settings
-    
-    func cleanupVideoProcessing() {
-        if ((self.videoDataOutput) != nil) {
-           self.session?.removeOutput(self.videoDataOutput)
-        }
-        self.videoDataOutput = nil
-    }
-    
-    func setupVideoProcessing() {
-        self.videoDataOutput = AVCaptureVideoDataOutput()
-        let rgbOutputSettings: Dictionary<AnyHashable, Any> = ["\(kCVPixelBufferPixelFormatTypeKey)": kCVPixelFormatType_32BGRA]
-        self.videoDataOutput?.videoSettings = rgbOutputSettings
-        
-        if (!(self.session?.canAddOutput(self.videoDataOutput))!) {
-            self.cleanupVideoProcessing()
-            return
-        }
-        
-        self.videoDataOutput?.alwaysDiscardsLateVideoFrames = true
-        self.videoDataOutput?.setSampleBufferDelegate(self, queue: self.videoDataOutputQueue)
-        
-        self.session?.addOutput(self.videoDataOutput)
-    }
-    
-    func setupCameraPreview() {
-        self.previewLayer = AVCaptureVideoPreviewLayer(session: self.session)
-        self.previewLayer?.backgroundColor = UIColor.clear.cgColor
-        self.previewLayer?.videoGravity = AVLayerVideoGravityResizeAspect
-        
-        let rootLayer: CALayer = self.placeHolder.layer
-        rootLayer.masksToBounds = true
-        self.previewLayer?.frame = rootLayer.bounds
-        rootLayer.addSublayer(self.previewLayer!)
-    }
-    
-    func updateCameraSelection() {
-        self.session?.beginConfiguration()
-        
-        // Remove old inputs
-        let oldInputs = self.session?.inputs
-        for oldInput in oldInputs! {
-            self.session?.removeInput(oldInput as! AVCaptureInput)
-        }
-        
-        let desiredPosition = self.frontCamera ? AVCaptureDevicePosition.front : AVCaptureDevicePosition.back
-        let input = self.cameraForPosition(desiredPosition: desiredPosition)
-        
-        if (input == nil) {
-            for oldInput in oldInputs! {
-                self.session?.addInput(oldInput as! AVCaptureInput)
-            }    
-        } else {
-            self.session?.addInput(input!)
-        }
-        
-        self.session?.commitConfiguration()
-    }
-    
-    func cameraForPosition(desiredPosition: AVCaptureDevicePosition) -> AVCaptureDeviceInput? {
-        for (_, device) in AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo).enumerated() {
-            if ((device as! AVCaptureDevice).position == desiredPosition) {
-                /*
-                var finalFormat = AVCaptureDeviceFormat()
-                var maxFps: Double = 0
-                let ranges = (device as! AVCaptureDevice).activeFormat.videoSupportedFrameRateRanges as! [AVFrameRateRange]
-                for range in ranges {
-                    if (range.maxFrameRate >= maxFps) {
-                        maxFps = range.maxFrameRate
-                    }
-                }
-                if maxFps != 0 {
-                    print("maxFps: \(maxFps)")
-                    let timeValue = Int64(1200.0 / maxFps)
-                    let timeScale: Int32 = 1200
-                    try! (device as! AVCaptureDevice).lockForConfiguration()
-                    (device as! AVCaptureDevice).activeFormat = (device as! AVCaptureDevice).activeFormat
-                    (device as! AVCaptureDevice).activeVideoMinFrameDuration = CMTimeMake(timeValue, timeScale)
-                    (device as! AVCaptureDevice).activeVideoMaxFrameDuration = CMTimeMake(timeValue, timeScale)
-                    (device as! AVCaptureDevice).unlockForConfiguration()
-                }
-                 */
-                /*
-                for format in (device as! AVCaptureDevice).formats {
-                    let ranges = (format as! AVCaptureDeviceFormat).videoSupportedFrameRateRanges as! [AVFrameRateRange]
-                    let frameRates = ranges[0]
-                    print("frameRates: \(frameRates.maxFrameRate)")
-                    if (frameRates.maxFrameRate >= maxFps  && frameRates.maxFrameRate <= 240) {
-                        maxFps = frameRates.maxFrameRate
-                        finalFormat = format as! AVCaptureDeviceFormat
-                    }
-                }
-                if maxFps != 0 {
-                    print("maxFps: \(maxFps)")
-                    let timeValue = Int64(1200.0 / maxFps)
-                    let timeScale: Int32 = 1200
-                    try! (device as! AVCaptureDevice).lockForConfiguration()
-                    (device as! AVCaptureDevice).activeFormat = finalFormat
-                    (device as! AVCaptureDevice).activeVideoMinFrameDuration = CMTimeMake(timeValue, timeScale)
-                    (device as! AVCaptureDevice).activeVideoMaxFrameDuration = CMTimeMake(timeValue, timeScale)
-                    (device as! AVCaptureDevice).unlockForConfiguration()
-                }
-                 */
-                let input = try! AVCaptureDeviceInput(device: (device as! AVCaptureDevice))
-                if ((self.session?.canAddInput(input))!) {
-                    return input
-                }
-            }
-        }
-        return nil
     }
     
     // MARK: - cheek detected
@@ -477,44 +356,38 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     func startRecording() {
         let recorder = RPScreenRecorder.shared()
         
-        /*
-        let screenRecorder = ASScreenRecorder.sharedInstance()
-        if (!(screenRecorder?.isRecording)!) {
-            screenRecorder?.startRecording()
-        }
-        */
+//        let screenRecorder = ASScreenRecorder.sharedInstance()
+//        if (!(screenRecorder?.isRecording)!) {
+//            screenRecorder?.startRecording()
+//            self.startTimer()
+//            self.recording = true
+//        }
         
         self.swapCameraButton.isHidden = true
         self.eyesToggleButton.isHidden = true
         self.mouthToggleButton.isHidden = true
         self.earsToggleButton.isHidden = true
         
-        self.startTimer()
-        
-        self.recording = true
-        
-        /*
         recorder.startRecording(withMicrophoneEnabled: true, handler: { error in
             if let error = error {
                 print(error.localizedDescription)
             } else {
+                self.startTimer()
                 self.recording = true
                 print("recording video")
             }
         })
-         */
     }
     
     func stopRecording() {
         let recorder = RPScreenRecorder.shared()
         
-        /*
         let screenRecorder = ASScreenRecorder.sharedInstance()
         if ((screenRecorder?.isRecording)!) {
             screenRecorder?.stopRecording(completion: {
+                self.recording = false
             })
         }
-        */
         
         self.swapCameraButton.isHidden = false
         self.eyesToggleButton.isHidden = false
@@ -524,9 +397,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.leftCheekImageView.image = UIImage(named: "cheek_1_left")
         self.rightCheekImageView.image = UIImage(named: "cheek_1_right")
         
-        self.recording = false
         
-        /*
         recorder.stopRecording(handler: { (preview, error) in
             if let error = error {
                 print(error.localizedDescription)
@@ -534,30 +405,30 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             if let preview = preview {
                 // self.placeHolder.removeFromSuperview()
                 // self.overlayView.removeFromSuperview()
+                
+                self.swapCameraButton.removeFromSuperview()
+                self.eyesToggleButton.removeFromSuperview()
+                self.mouthToggleButton.removeFromSuperview()
+                self.earsToggleButton.removeFromSuperview()
+                self.recordButton.removeFromSuperview()
+                
                 preview.previewControllerDelegate = self
-                self.present(preview, animated: true)
+                self.present(preview, animated: true, completion: nil)
                 self.recording = false
             }
         })
-         */
-    }
-    
-    func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
-        self.dismiss(animated: true, completion: nil)
     }
     
     func previewController(_ previewController: RPPreviewViewController, didFinishWithActivityTypes activityTypes: Set<String>) {
-        for type in activityTypes {
-            print("activiyType: \(type)")
+        
+        if activityTypes.count > 0 {
+            // save
+        } else {
+            // no save action
         }
     }
     
     // MARK: - change state while recording
-    
-    func setTimer() {
-        // self.timer = Timer(timeInterval: TimeInterval(0.5), target: self, selector: #selector(GameViewController.changeState), userInfo: nil, repeats: true)
-        
-    }
     
     func startTimer() {
         self.timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(GameViewController.changeState), userInfo: nil, repeats: true)
@@ -651,16 +522,16 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.earsToggleButton.addTarget(self, action: #selector(GameViewController.toggleButton(button:)), for: .touchUpInside)
         self.recordButton.addTarget(self, action: #selector(GameViewController.toggleButton(button:)), for: .touchUpInside)
         
-        self.skView?.addSubview(self.swapCameraButton)
-        self.skView?.addSubview(self.eyesToggleButton)
-        self.skView?.addSubview(self.mouthToggleButton)
-        self.skView?.addSubview(self.earsToggleButton)
-        self.skView?.addSubview(self.recordButton)
+        self.overlayWindow?.addSubview(self.swapCameraButton)
+        self.overlayWindow?.addSubview(self.eyesToggleButton)
+        self.overlayWindow?.addSubview(self.mouthToggleButton)
+        self.overlayWindow?.addSubview(self.earsToggleButton)
+        self.overlayWindow?.addSubview(self.recordButton)
         
         self.versionLabel.frame.origin = CGPoint(x: 10.0, y: 0.0)
         self.versionLabel.font = UIFont.systemFont(ofSize: 30.0)
         self.versionLabel.textColor = UIColor.white
-        self.versionLabel.text = "v 2.1.1"
+        self.versionLabel.text = "v 2.2"
         self.versionLabel.sizeToFit()
         
         self.skView?.addSubview(self.versionLabel)
@@ -717,6 +588,120 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     
     func stopAllActions() {
         self.scene?.stopActions()
+    }
+    
+    // MARK: - Camera Settings
+    
+    func cleanupVideoProcessing() {
+        if ((self.videoDataOutput) != nil) {
+           self.session?.removeOutput(self.videoDataOutput)
+        }
+        self.videoDataOutput = nil
+    }
+    
+    func setupVideoProcessing() {
+        self.videoDataOutput = AVCaptureVideoDataOutput()
+        let rgbOutputSettings: Dictionary<AnyHashable, Any> = [
+            "\(kCVPixelBufferPixelFormatTypeKey)": kCVPixelFormatType_32BGRA
+        ]
+        self.videoDataOutput?.videoSettings = rgbOutputSettings
+        
+        if (!(self.session?.canAddOutput(self.videoDataOutput))!) {
+            self.cleanupVideoProcessing()
+            return
+        }
+        
+        self.videoDataOutput?.alwaysDiscardsLateVideoFrames = true
+        self.videoDataOutput?.setSampleBufferDelegate(self, queue: self.videoDataOutputQueue)
+        
+        self.session?.addOutput(self.videoDataOutput)
+    }
+    
+    func setupCameraPreview() {
+        self.previewLayer = AVCaptureVideoPreviewLayer(session: self.session)
+        self.previewLayer?.backgroundColor = UIColor.clear.cgColor
+        self.previewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
+        
+        let rootLayer: CALayer = self.placeHolder.layer
+        rootLayer.masksToBounds = true
+        self.previewLayer?.frame = rootLayer.bounds
+        rootLayer.addSublayer(self.previewLayer!)
+    }
+    
+    func updateCameraSelection() {
+        self.session?.beginConfiguration()
+        
+        // Remove old inputs
+        let oldInputs = self.session?.inputs
+        for oldInput in oldInputs! {
+            self.session?.removeInput(oldInput as! AVCaptureInput)
+        }
+        
+        let desiredPosition = self.frontCamera ? AVCaptureDevicePosition.front : AVCaptureDevicePosition.back
+        let input = self.cameraForPosition(desiredPosition: desiredPosition)
+        
+        if (input == nil) {
+            for oldInput in oldInputs! {
+                self.session?.addInput(oldInput as! AVCaptureInput)
+            }    
+        } else {
+            self.session?.addInput(input!)
+        }
+        
+        self.session?.commitConfiguration()
+        
+        self.setup = false
+    }
+    
+    func cameraForPosition(desiredPosition: AVCaptureDevicePosition) -> AVCaptureDeviceInput? {
+        for (_, device) in AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo).enumerated() {
+            if ((device as! AVCaptureDevice).position == desiredPosition) {
+                var finalFormat = AVCaptureDeviceFormat()
+                var maxFps: Double = 0
+                /*
+                let ranges = (device as! AVCaptureDevice).activeFormat.videoSupportedFrameRateRanges as! [AVFrameRateRange]
+                for range in ranges {
+                    if (range.maxFrameRate >= maxFps) {
+                        maxFps = range.maxFrameRate
+                    }
+                }
+                if maxFps != 0 {
+                    print("maxFps: \(maxFps)")
+                    let timeValue = Int64(1200.0 / maxFps)
+                    let timeScale: Int32 = 1200
+                    try! (device as! AVCaptureDevice).lockForConfiguration()
+                    (device as! AVCaptureDevice).activeFormat = (device as! AVCaptureDevice).activeFormat
+                    (device as! AVCaptureDevice).activeVideoMinFrameDuration = CMTimeMake(timeValue, timeScale)
+                    (device as! AVCaptureDevice).activeVideoMaxFrameDuration = CMTimeMake(timeValue, timeScale)
+                    (device as! AVCaptureDevice).unlockForConfiguration()
+                }
+                 */
+                for format in (device as! AVCaptureDevice).formats {
+                    let ranges = (format as! AVCaptureDeviceFormat).videoSupportedFrameRateRanges as! [AVFrameRateRange]
+                    let frameRates = ranges[0]
+                    print("frameRates: \(frameRates.maxFrameRate)")
+                    if (frameRates.maxFrameRate >= maxFps  && frameRates.maxFrameRate <= 240) {
+                        maxFps = frameRates.maxFrameRate
+                        finalFormat = format as! AVCaptureDeviceFormat
+                    }
+                }
+                if maxFps != 0 {
+                    print("maxFps: \(maxFps)")
+                    let timeValue = Int64(1200.0 / maxFps)
+                    let timeScale: Int32 = 1200
+                    try! (device as! AVCaptureDevice).lockForConfiguration()
+                    (device as! AVCaptureDevice).activeFormat = finalFormat
+                    (device as! AVCaptureDevice).activeVideoMinFrameDuration = CMTimeMake(timeValue, timeScale)
+                    (device as! AVCaptureDevice).activeVideoMaxFrameDuration = CMTimeMake(timeValue, timeScale)
+                    (device as! AVCaptureDevice).unlockForConfiguration()
+                }
+                let input = try! AVCaptureDeviceInput(device: (device as! AVCaptureDevice))
+                if ((self.session?.canAddInput(input))!) {
+                    return input
+                }
+            }
+        }
+        return nil
     }
     
 }

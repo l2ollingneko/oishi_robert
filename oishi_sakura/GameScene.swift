@@ -16,6 +16,12 @@ enum SakuraState {
 
 class GameScene: SKScene {
     
+    // static var
+    
+    private let mouthLightRadiusRatio: CGFloat = 0.125
+    private let earsLightRadiusRatio: CGFloat = 0.1
+    private let eyesLightRadiusRatio: CGFloat = 0.1
+    
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
@@ -38,6 +44,11 @@ class GameScene: SKScene {
     
     private var soundAction: SKAction?
     
+    private var lightNode: SKSpriteNode?
+    
+    private var leftCheekNode: SKSpriteNode?
+    private var rightCheekNode: SKSpriteNode?
+    
     override init(size: CGSize) {
         super.init(size: size)
         
@@ -45,6 +56,7 @@ class GameScene: SKScene {
         
         // Create shape node to use during mouse interaction
         let w = (self.size.width + self.size.height) * 0.05
+        
         self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
         
         if let spinnyNode = self.spinnyNode {
@@ -64,6 +76,9 @@ class GameScene: SKScene {
             soundAction2,
         ])
         
+        // init light node
+        self.lightNode = SKSpriteNode(imageNamed: "light_radius")
+        // self.lightNode = SKSpriteNode(texture: SKTexture(imageNamed: "light_radius"), size: CGSize.init(width: w, height: w))
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -81,8 +96,29 @@ class GameScene: SKScene {
         }
     }
     
-    func pointDetected(atPoint pos: CGPoint, headEulerAngleY: CGFloat, headEulerAngleZ: CGFloat) {
+    func pointDetected(faceSize: CGSize, atPoint pos: CGPoint, headEulerAngleY: CGFloat, headEulerAngleZ: CGFloat) {
         
+        // light radius
+        if let node = self.childNode(withName: "left_light_radius") {
+            node.removeFromParent()
+        }
+        if let node = self.childNode(withName: "right_light_radius") {
+            node.removeFromParent()
+        }
+        
+        if let node = self.childNode(withName: "light_radius") as! SKSpriteNode? {
+            node.size = CGSize.init(width: (faceSize.width * self.mouthLightRadiusRatio), height: (faceSize.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
+            node.position = pos
+        } else {
+            if let n = self.lightNode?.copy() as! SKSpriteNode? {
+                n.size = CGSize.init(width: (faceSize.width * self.mouthLightRadiusRatio), height: (faceSize.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
+                n.name = "light_radius"
+                n.position = pos
+                self.addChild(n)
+            }
+        }
+        
+        // light emitter
         if let node = self.childNode(withName: "left_lightnode") {
             node.removeFromParent()
         }
@@ -135,7 +171,39 @@ class GameScene: SKScene {
         
     }
     
-    func earsPointDetected(lpos: CGPoint, rpos: CGPoint, headEulerAngleY: CGFloat, headEulerAngleZ: CGFloat) {
+    func earsPointDetected(faceSize: CGSize, lpos: CGPoint, rpos: CGPoint, headEulerAngleY: CGFloat, headEulerAngleZ: CGFloat) {
+        
+        // light radius
+        
+        if let node = self.childNode(withName: "light_radius") {
+            node.removeFromParent()
+        }
+        
+        if let node = self.childNode(withName: "left_light_radius") as! SKSpriteNode? {
+            node.size = CGSize.init(width: (faceSize.width * self.earsLightRadiusRatio), height: (faceSize.width * self.earsLightRadiusRatio) * 248.0 / 287.0)
+            node.position = lpos
+        } else {
+            if let n = self.lightNode?.copy() as! SKSpriteNode? {
+                n.size = CGSize.init(width: (faceSize.width * self.earsLightRadiusRatio), height: (faceSize.width * self.earsLightRadiusRatio) * 248.0 / 287.0)
+                n.name = "left_light_radius"
+                n.position = lpos
+                self.addChild(n)
+            }
+        }
+        
+        if let node = self.childNode(withName: "right_light_radius") as! SKSpriteNode? {
+            node.size = CGSize.init(width: (faceSize.width * self.earsLightRadiusRatio), height: (faceSize.width * self.earsLightRadiusRatio) * 248.0 / 287.0)
+            node.position = rpos
+        } else {
+            if let n = self.lightNode?.copy() as! SKSpriteNode? {
+                n.size = CGSize.init(width: (faceSize.width * self.earsLightRadiusRatio), height: (faceSize.width * self.earsLightRadiusRatio) * 248.0 / 287.0)
+                n.name = "right_light_radius"
+                n.position = rpos
+                self.addChild(n)
+            }
+        }
+        
+        // light emitter node
         
         if let node = self.childNode(withName: "lightnode") {
             node.removeFromParent()
@@ -204,7 +272,37 @@ class GameScene: SKScene {
         }
     }
     
-    func eyesPointDetected(lpos: CGPoint, rpos: CGPoint, headEulerAngleY: CGFloat, headEulerAngleZ: CGFloat) {
+    func eyesPointDetected(faceSize: CGSize, lpos: CGPoint, rpos: CGPoint, headEulerAngleY: CGFloat, headEulerAngleZ: CGFloat) {
+        
+         // light radius
+        
+        if let node = self.childNode(withName: "light_radius") {
+            node.removeFromParent()
+        }
+        
+        if let node = self.childNode(withName: "left_light_radius") as! SKSpriteNode? {
+            node.size = CGSize.init(width: (faceSize.width * self.earsLightRadiusRatio), height: (faceSize.width * self.earsLightRadiusRatio) * 248.0 / 287.0)
+            node.position = lpos
+        } else {
+            if let n = self.lightNode?.copy() as! SKSpriteNode? {
+                n.size = CGSize.init(width: (faceSize.width * self.earsLightRadiusRatio), height: (faceSize.width * self.earsLightRadiusRatio) * 248.0 / 287.0)
+                n.name = "left_light_radius"
+                n.position = lpos
+                self.addChild(n)
+            }
+        }
+        
+        if let node = self.childNode(withName: "right_light_radius") as! SKSpriteNode? {
+            node.size = CGSize.init(width: (faceSize.width * self.earsLightRadiusRatio), height: (faceSize.width * self.earsLightRadiusRatio) * 248.0 / 287.0)
+            node.position = rpos
+        } else {
+            if let n = self.lightNode?.copy() as! SKSpriteNode? {
+                n.size = CGSize.init(width: (faceSize.width * self.earsLightRadiusRatio), height: (faceSize.width * self.earsLightRadiusRatio) * 248.0 / 287.0)
+                n.name = "right_light_radius"
+                n.position = rpos
+                self.addChild(n)
+            }
+        }
         
         if let node = self.childNode(withName: "lightnode") {
             node.removeFromParent()
@@ -279,6 +377,17 @@ class GameScene: SKScene {
     }
     
     func noPointDetected() {
+        // light radius
+        if let node = self.childNode(withName: "light_radius") {
+            node.removeFromParent()
+        }
+        if let node = self.childNode(withName: "left_light_radius") {
+            node.removeFromParent()
+        }
+        if let node = self.childNode(withName: "right_light_radius") {
+            node.removeFromParent()
+        }
+        
         // light node
         if let node = self.childNode(withName: "lightnode") {
             node.removeFromParent()

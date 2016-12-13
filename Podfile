@@ -9,6 +9,7 @@ target 'oishi_sakura' do
   pod 'GoogleMobileVision/FaceDetector'
   pod 'GoogleMobileVision/MVDataOutput'
   pod 'SwiftHEXColors'
+  pod 'SwiftKeychainWrapper'
 
 end
 

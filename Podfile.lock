@@ -15,11 +15,13 @@ PODS:
   - GoogleUtilities (1.3.2):
     - GoogleSymbolUtilities (~> 1.1)
   - SwiftHEXColors (1.1.0)
+  - SwiftKeychainWrapper (3.0.1)
 
 DEPENDENCIES:
   - GoogleMobileVision/FaceDetector
   - GoogleMobileVision/MVDataOutput
   - SwiftHEXColors
+  - SwiftKeychainWrapper
 
 SPEC CHECKSUMS:
   GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
@@ -28,7 +30,8 @@ SPEC CHECKSUMS:
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleUtilities: 8bbc733218aad26306f9d4a253823986110e3358
   SwiftHEXColors: 8f7e364df7929e32cff9f9eeb044bb215167d6be
+  SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
 
-PODFILE CHECKSUM: 945c100d40277524c7e9e88f585beaee0cac8945
+PODFILE CHECKSUM: 4e377c55307ef1cbf6c6a9de9e217c44fa365c8c
 
 COCOAPODS: 1.1.1
