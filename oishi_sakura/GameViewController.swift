@@ -25,8 +25,13 @@ enum RecordingState {
 class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, RPScreenRecorderDelegate, RPPreviewViewControllerDelegate {
     
     // MARK: - UI elements
+    /*
     @IBOutlet weak var placeHolder: UIView!
     @IBOutlet weak var overlay: UIView!
+     */
+    
+    var placeHolder: UIView = UIView()
+    var overlay: UIView = UIView()
     
     var overlayWindow: UIWindow?
     
@@ -86,7 +91,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     // MARK: - timer & state
     
     private var timer: Timer?
-    private var timerCounter: Double = -0.5
+    private var timerCounter: Double = -1.0
     private var state: RecordingState = .Stop
     
     // MARK: - settings flag
@@ -100,13 +105,14 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     
     private var currentState: Int = 0
     
+    private var didCancel: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         
-        // self.view.addSubview(self.placeHolder)
-        // self.view.addSubview(self.overlay)
+        self.view.frame = CGRect.init(x: 0.0, y: 0.0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
         
         // video
         self.session = AVCaptureSession()
@@ -117,6 +123,30 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         
         self.setupVideoProcessing()
         self.setupCameraPreview()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        self.placeHolder.frame = self.view.frame
+        self.overlay.frame = self.view.frame
+        
+        self.view.addSubview(self.placeHolder)
+        self.view.addSubview(self.overlay)
+        
+        self.previewLayer?.frame = self.view.layer.bounds
+        self.previewLayer?.position = CGPoint(x: (self.previewLayer?.frame)!.midX, y: (self.previewLayer?.frame)!.midY)
+        
+        self.frame.frame = self.overlay.frame
+        self.frame.image = UIImage(named: "frame")
+        self.overlay.addSubview(self.frame)
+        
+        for index in 0...2 {
+            let imageView = UIImageView(frame: self.overlay.frame)
+            imageView.image = UIImage(named: "ice_\(index+1)")
+            imageView.alpha = 0.0
+            self.iceFrames.append(imageView)
+        }
         
         // gmvdetector
         let options: Dictionary<AnyHashable, Any> = [
@@ -148,24 +178,11 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.leftCheekImageView.contentMode = .scaleAspectFit
         self.rightCheekImageView.contentMode = .scaleAspectFit
         
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        self.previewLayer?.frame = self.view.layer.bounds
-        self.previewLayer?.position = CGPoint(x: (self.previewLayer?.frame)!.midX, y: (self.previewLayer?.frame)!.midY)
-        
-        self.frame.frame = self.overlay.frame
-        self.frame.image = UIImage(named: "frame")
-        self.overlay.addSubview(self.frame)
-        
-        for index in 0...2 {
-            let imageView = UIImageView(frame: self.overlay.frame)
-            imageView.image = UIImage(named: "ice_\(index+1)")
-            imageView.alpha = 0.0
-            self.iceFrames.append(imageView)
-        }
+        // end scene
+        self.endSceneImageView.frame = self.overlay.frame
+        self.endSceneImageView.image = UIImage(named: "end_scene")
+        self.endSceneImageView.contentMode = .scaleAspectFit
+        self.endSceneImageView.alpha = 0.0
         
     }
     
@@ -391,8 +408,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                                 }
                             // }
                             
-                            self.leftCheekImageView.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: face.bounds.size.width * 0.7, h: face.bounds.size.width * 0.7)
-                            self.rightCheekImageView.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: face.bounds.size.width * 0.7, h: face.bounds.size.width * 0.7)
+                            self.leftCheekImageView.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: face.bounds.size.width * 0.75, h: face.bounds.size.width * 0.75)
+                            self.rightCheekImageView.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: face.bounds.size.width * 0.75, h: face.bounds.size.width * 0.75)
                             
                             self.leftCheekImageView.center = lpoint
                             self.rightCheekImageView.center = rpoint
@@ -444,6 +461,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     
     func removeCheeks() {
         if (self.addedCheeks) {
+            self.iceFrames[0].removeFromSuperview()
             self.leftCheekImageView.removeFromSuperview()
             self.rightCheekImageView.removeFromSuperview()
             self.addedCheeks = false
@@ -464,6 +482,14 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         }
  */
         
+        
+        UIView.animate(withDuration: 0.25, animations: {
+            self.iceFrames[0].alpha = 1.0
+            self.iceFrames[0].alpha = 0.0
+        }, completion: { completed in
+            self.iceFrames[0].removeFromSuperview()
+        })
+        
         self.prepare = true
         
         self.removeCheeks()
@@ -479,6 +505,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             if let error = error {
                 print(error.localizedDescription)
             } else {
+            self.iceFrames[0].removeFromSuperview()
                 self.startTimer()
                 self.recording = true
                 self.prepare = false
@@ -499,15 +526,6 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         }
          */
         
-        self.swapCameraButton.isHidden = false
-        self.eyesToggleButton.isHidden = false
-        self.mouthToggleButton.isHidden = false
-        self.earsToggleButton.isHidden = false
-        
-        self.leftCheekImageView.image = UIImage(named: "cheek_1_left")
-        self.rightCheekImageView.image = UIImage(named: "cheek_1_right")
-        
-        
         recorder.stopRecording(handler: { (preview, error) in
             if let error = error {
                 print(error.localizedDescription)
@@ -516,11 +534,19 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 // self.placeHolder.removeFromSuperview()
                 // self.overlayView.removeFromSuperview()
                 
+                self.overlayWindow?.isHidden = true
+                
                 self.swapCameraButton.removeFromSuperview()
                 self.eyesToggleButton.removeFromSuperview()
                 self.mouthToggleButton.removeFromSuperview()
                 self.earsToggleButton.removeFromSuperview()
                 self.recordButton.removeFromSuperview()
+                
+                self.swapCameraButton.isHidden = false
+                self.eyesToggleButton.isHidden = false
+                self.mouthToggleButton.isHidden = false
+                self.earsToggleButton.isHidden = false
+                self.recordButton.isHidden = false
                 
                 self.currentState = 0
                 StateManager.sharedInstance.resetState()
@@ -535,7 +561,9 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 self.origin = .None
                 
                 preview.previewControllerDelegate = self
-                self.present(preview, animated: true, completion: nil)
+                self.present(preview, animated: true, completion: { completed in
+                    self.endSceneImageView.removeFromSuperview()
+                })
                 self.recording = false
             }
         })
@@ -543,15 +571,63 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     
     func previewController(_ previewController: RPPreviewViewController, didFinishWithActivityTypes activityTypes: Set<String>) {
         
-        previewController.dismiss(animated: true, completion: nil)
-        
         if activityTypes.count > 0 {
             // save
             // present preview
+            self.overlayWindow?.isHidden = true
+            
+            self.swapCameraButton.isHidden = false
+            self.eyesToggleButton.isHidden = false
+            self.mouthToggleButton.isHidden = false
+            self.earsToggleButton.isHidden = false
+            self.recordButton.isHidden = false
+            
+            self.addDownloadingView()
+            
+            self.origin = .None
+            self.overlayWindow?.isHidden = true
+            
+            previewController.dismiss(animated: true, completion: { completed in
+                
+                self.origin = .None
+                self.overlayWindow?.isHidden = true
+                
+                Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(GameViewController.presentPreviewVideoController), userInfo: nil, repeats: false)
+                
+                /*
+                self.present(PreviewVideoViewController(nibName: "PreviewVideoViewController", bundle: nil), animated: true, completion: { completed in
+                    self.origin = .None
+                })
+                 */
+            })
         } else {
             // no save action
             // present alert view
+            if (self.didCancel) {
+                previewController.dismiss(animated: true, completion: nil)
+                self.didCancel = false
+            } else {
+                let popup = PopupView(frame: self.view.frame)
+                popup.initCancelSaveVideo()
+                previewController.view.addSubview(popup)
+                self.didCancel = true
+            }
         }
+    }
+    
+    func addDownloadingView() {
+        let view = UIView(frame: self.view.frame)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.85)
+        let activity = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        activity.center = view.center
+        activity.startAnimating()
+        view.addSubview(activity)
+        
+        self.overlay.addSubview(view)
+    }
+    
+    func presentPreviewVideoController() {
+        ControllerManager.sharedInstance.presentPreviewVideoController()
     }
     
     // MARK: - change state while recording
@@ -621,7 +697,18 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             // 0.5s
             // show end screen
             print("show end screen")
-        } else if (self.timerCounter == 7.0) {
+            if (self.timerCounter == 6.5) {
+                self.removeCheeks()
+                self.overlay.addSubview(self.endSceneImageView)
+                self.origin = .None
+                self.recordButton.removeFromSuperview()
+                self.scene?.removeAllChildren()
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.endSceneImageView.alpha = 0.0
+                    self.endSceneImageView.alpha = 1.0
+                })
+            }
+        } else if (self.timerCounter == 8.0) {
             // stop recording
             print("stop recording")
             self.scene?.changeLightEmitterNode(pink: true)
@@ -678,7 +765,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.versionLabel.frame.origin = CGPoint(x: 10.0, y: 0.0)
         self.versionLabel.font = UIFont.systemFont(ofSize: 30.0)
         self.versionLabel.textColor = UIColor.white
-        self.versionLabel.text = "v 2.2.2"
+        self.versionLabel.text = "v 2.3.0"
         self.versionLabel.sizeToFit()
         
         self.skView?.addSubview(self.versionLabel)

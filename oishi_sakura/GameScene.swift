@@ -48,6 +48,8 @@ class GameScene: SKScene {
     private var leftCheekNode: SKSpriteNode?
     private var rightCheekNode: SKSpriteNode?
     
+    private var lockEmitterNodes: Bool = false
+    
     override init(size: CGSize) {
         super.init(size: size)
         
@@ -68,12 +70,12 @@ class GameScene: SKScene {
         }
         
         // init sound action
-        let soundAction1 = SKAction.playSoundFileNamed("beam_start.wav", waitForCompletion: true)
-        let soundAction2 = SKAction.repeatForever(SKAction.playSoundFileNamed("beam_loop.wav", waitForCompletion: true))
-        self.soundAction = SKAction.sequence([
+        let soundAction1 = SKAction.playSoundFileNamed("sfx_1.m4a", waitForCompletion: true)
+        let soundAction2 = SKAction.playSoundFileNamed("sfx_2.m4a", waitForCompletion: true)
+        self.soundAction = SKAction.repeatForever(SKAction.sequence([
             soundAction1,
             soundAction2,
-        ])
+        ]))
         
         // init light node
         self.lightNode = SKSpriteNode(imageNamed: "light_radius")
@@ -106,14 +108,8 @@ class GameScene: SKScene {
         if let node = self.childNode(withName: "tid\(face.trackingID)_light_node") {
             node.position = pos
             (node as! SKEmitterNode).emissionAngle = self.calculatedEmissionAngle(y: headEulerAngleY, z: headEulerAngleZ)
-            /*
             if (!self.playSound) {
-                self.playSound = true
-                self.run(SKAction.playSoundFileNamed("beam.wav", waitForCompletion: true), completion: { completed in
-                    self.playSound = false
-                })
             }
-            */
         } else {
             if let n = self.lightEmitterNode?.copy() as! SKEmitterNode? {
                 n.name = "tid\(face.trackingID)_light_node"
@@ -123,24 +119,32 @@ class GameScene: SKScene {
             }
         }
         
-        if let nodes = self.mouthEmitterNodes[face.trackingID] {
-            if (!SakuraEmitterNodeFactory.sharedInstance.lockEmitterNodeFactory) {
-                for node in nodes {
-                    if let name = node.name {
-                        if let node = self.childNode(withName: "\(name)") {
-                            node.position = pos
-                            (node as! SKEmitterNode).emissionAngle = self.calculatedEmissionAngle(y: headEulerAngleY, z: headEulerAngleZ)
-                        } else {
-                            node.position = pos
-                            self.addChild(node)
+        if let node = self.childNode(withName: "tid\(face.trackingID)_sound") as! SKAudioNode? {
+        } else {
+            let sound = SKAudioNode(fileNamed: "sfx.aiff")
+            sound.name = "tid\(face.trackingID)_sound"
+            self.addChild(sound)
+        }
+        
+        if (!self.lockEmitterNodes) {
+            if let nodes = self.mouthEmitterNodes[face.trackingID] {
+                if (!SakuraEmitterNodeFactory.sharedInstance.lockEmitterNodeFactory) {
+                    for node in nodes {
+                        if let name = node.name {
+                            if let node = self.childNode(withName: "\(name)") {
+                                node.position = pos
+                                (node as! SKEmitterNode).emissionAngle = self.calculatedEmissionAngle(y: headEulerAngleY, z: headEulerAngleZ)
+                            } else {
+                                node.position = pos
+                                self.addChild(node)
+                            }
                         }
                     }
                 }
+            } else {
+                // TODO: - do nothing, wait for controller to tell gamescene to create nodes
             }
-        } else {
-            // TODO: - do nothing, wait for controller to tell gamescene to create nodes
         }
-        
     }
     
     func earsPointDetected(face: GMVFaceFeature, lpos: CGPoint, rpos: CGPoint, headEulerAngleY: CGFloat, headEulerAngleZ: CGFloat) {
@@ -210,6 +214,13 @@ class GameScene: SKScene {
                 n.emissionAngle = self.calculatedEarsEmissionAngle(leftEar: false, y: headEulerAngleY, z: headEulerAngleZ)
                 self.addChild(n)
             }
+        }
+        
+        if let node = self.childNode(withName: "tid\(face.trackingID)_sound") as! SKAudioNode? {
+        } else {
+            let sound = SKAudioNode(fileNamed: "sfx.aiff")
+            sound.name = "tid\(face.trackingID)_sound"
+            self.addChild(sound)
         }
         
         if let nodes = self.leftEarEmitterNodes[face.trackingID] {
@@ -319,6 +330,13 @@ class GameScene: SKScene {
             }
         }
         
+        if let node = self.childNode(withName: "tid\(face.trackingID)_sound") as! SKAudioNode? {
+        } else {
+            let sound = SKAudioNode(fileNamed: "sfx.aiff")
+            sound.name = "tid\(face.trackingID)_sound"
+            self.addChild(sound)
+        }
+        
          if let nodes = self.leftEyeEmitterNodes[face.trackingID] {
             if (!SakuraEmitterNodeFactory.sharedInstance.lockEmitterNodeFactory) {
                 for node in nodes {
@@ -395,11 +413,25 @@ class GameScene: SKScene {
     
     func removeAllNode(prefix: UInt) {
         print("emitter node count: \(self.mouthEmitterNodes[prefix]?.count)")
+        
+        self.removeAllActions()
+        
+        if (self.children.count == 0 || self.mouthEmitterNodes[prefix]?.count == 0) {
+            return
+        }
+        
+        self.lockEmitterNodes = true
+        
         for childNode in self.children {
             if let name = childNode.name, name.contains("tid\(prefix)") {
+                print("name: \(name)")
                 childNode.removeFromParent()
             }
         }
+        
+        self.lockEmitterNodes = false
+        
+        print("remove childNode")
     }
     
     func resetEmitterNodes() {
@@ -617,7 +649,7 @@ class GameScene: SKScene {
                 child.removeFromParent()
                 if let n = self.lightEmitterNode?.copy() as! SKEmitterNode? {
                     let splitedString = name.components(separatedBy: "_")
-                    n.name = "tid\(splitedString[0])_light_node"
+                    n.name = name
                     n.position = child.position
                     n.emissionAngle = (child as! SKEmitterNode).emissionAngle
                     self.addChild(n)

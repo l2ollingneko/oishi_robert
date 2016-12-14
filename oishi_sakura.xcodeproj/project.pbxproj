@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		44B5D3AC1DF71A9C00EC75CF /* OishiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B5D3AA1DF71A9C00EC75CF /* OishiViewController.swift */; };
 		44CA62C41DF77AA400550365 /* todo in Resources */ = {isa = PBXBuildFile; fileRef = 44CA62C31DF77AA400550365 /* todo */; };
 		44E656AD1DF74C51008FCA4F /* FaceTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E656AC1DF74C51008FCA4F /* FaceTracker.m */; };
 		44E656B01DF75562008FCA4F /* GooglyEyeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E656AF1DF75562008FCA4F /* GooglyEyeView.m */; };
@@ -21,8 +20,16 @@
 		A221A7CF1DF8B5E4007A2869 /* beam_start.wav in Resources */ = {isa = PBXBuildFile; fileRef = A221A7CD1DF8B5E4007A2869 /* beam_start.wav */; };
 		A226D9321DF9F33B00F0D921 /* PreviewVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A226D9301DF9F33B00F0D921 /* PreviewVideoViewController.swift */; };
 		A226D9331DF9F33B00F0D921 /* PreviewVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A226D9311DF9F33B00F0D921 /* PreviewVideoViewController.xib */; };
+		A22E04321E0177F200FF0452 /* sfx.aiff in Resources */ = {isa = PBXBuildFile; fileRef = A22E04311E0177F200FF0452 /* sfx.aiff */; };
+		A22E04341E0180CE00FF0452 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A22E04331E0180CE00FF0452 /* GameViewController.xib */; };
+		A22E04361E01814A00FF0452 /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22E04351E01814A00FF0452 /* PopupView.swift */; };
+		A22E043B1E01BBFC00FF0452 /* VideoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22E04391E01BBFC00FF0452 /* VideoPreviewViewController.swift */; };
+		A22E043C1E01BBFC00FF0452 /* VideoPreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A22E043A1E01BBFC00FF0452 /* VideoPreviewViewController.xib */; };
+		A22E043F1E01CA6000FF0452 /* DownloadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22E043D1E01CA6000FF0452 /* DownloadViewController.swift */; };
+		A22E04401E01CA6000FF0452 /* DownloadViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A22E043E1E01CA6000FF0452 /* DownloadViewController.xib */; };
+		A22E04461E01CBC100FF0452 /* M13ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = A22E04431E01CBC100FF0452 /* M13ProgressView.m */; };
+		A22E04471E01CBC100FF0452 /* M13ProgressViewBorderedBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A22E04451E01CBC100FF0452 /* M13ProgressViewBorderedBar.m */; };
 		A2321F701E00A017003E658C /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2321F6F1E00A017003E658C /* StateManager.swift */; };
-		A25630DA1DFFC5A6006EED35 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A25630D91DFFC5A6006EED35 /* GameViewController.xib */; };
 		A25630DD1DFFC75A006EED35 /* ControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25630DC1DFFC75A006EED35 /* ControllerManager.swift */; };
 		A29D62AD1DE45F1E00DA9C73 /* ASScreenRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = A29D62AC1DE45F1E00DA9C73 /* ASScreenRecorder.m */; };
 		A29D62B61DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D62B51DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift */; };
@@ -43,7 +50,6 @@
 
 /* Begin PBXFileReference section */
 		3A3E221C62913F7B9924A621 /* Pods-oishi_sakura.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-oishi_sakura.release.xcconfig"; path = "Pods/Target Support Files/Pods-oishi_sakura/Pods-oishi_sakura.release.xcconfig"; sourceTree = "<group>"; };
-		44B5D3AA1DF71A9C00EC75CF /* OishiViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OishiViewController.swift; sourceTree = "<group>"; };
 		44CA62C31DF77AA400550365 /* todo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = todo; sourceTree = "<group>"; };
 		44E656AB1DF74C51008FCA4F /* FaceTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceTracker.h; sourceTree = "<group>"; };
 		44E656AC1DF74C51008FCA4F /* FaceTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaceTracker.m; sourceTree = "<group>"; };
@@ -60,8 +66,18 @@
 		A221A7CD1DF8B5E4007A2869 /* beam_start.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beam_start.wav; sourceTree = "<group>"; };
 		A226D9301DF9F33B00F0D921 /* PreviewVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewVideoViewController.swift; sourceTree = "<group>"; };
 		A226D9311DF9F33B00F0D921 /* PreviewVideoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreviewVideoViewController.xib; sourceTree = "<group>"; };
+		A22E04311E0177F200FF0452 /* sfx.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = sfx.aiff; sourceTree = "<group>"; };
+		A22E04331E0180CE00FF0452 /* GameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GameViewController.xib; sourceTree = "<group>"; };
+		A22E04351E01814A00FF0452 /* PopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
+		A22E04391E01BBFC00FF0452 /* VideoPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPreviewViewController.swift; sourceTree = "<group>"; };
+		A22E043A1E01BBFC00FF0452 /* VideoPreviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoPreviewViewController.xib; sourceTree = "<group>"; };
+		A22E043D1E01CA6000FF0452 /* DownloadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadViewController.swift; sourceTree = "<group>"; };
+		A22E043E1E01CA6000FF0452 /* DownloadViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DownloadViewController.xib; sourceTree = "<group>"; };
+		A22E04421E01CBC100FF0452 /* M13ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M13ProgressView.h; sourceTree = "<group>"; };
+		A22E04431E01CBC100FF0452 /* M13ProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M13ProgressView.m; sourceTree = "<group>"; };
+		A22E04441E01CBC100FF0452 /* M13ProgressViewBorderedBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M13ProgressViewBorderedBar.h; sourceTree = "<group>"; };
+		A22E04451E01CBC100FF0452 /* M13ProgressViewBorderedBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M13ProgressViewBorderedBar.m; sourceTree = "<group>"; };
 		A2321F6F1E00A017003E658C /* StateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateManager.swift; sourceTree = "<group>"; };
-		A25630D91DFFC5A6006EED35 /* GameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GameViewController.xib; sourceTree = "<group>"; };
 		A25630DC1DFFC75A006EED35 /* ControllerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerManager.swift; sourceTree = "<group>"; };
 		A29D62AB1DE45F1E00DA9C73 /* ASScreenRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASScreenRecorder.h; sourceTree = "<group>"; };
 		A29D62AC1DE45F1E00DA9C73 /* ASScreenRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASScreenRecorder.m; sourceTree = "<group>"; };
@@ -133,6 +149,7 @@
 		A20FEB4B1DED1971009584FD /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				A22E04311E0177F200FF0452 /* sfx.aiff */,
 				A212E4FD1DFDDD57005ECCB6 /* sfx_1.m4a */,
 				A212E4FE1DFDDD57005ECCB6 /* sfx_2.m4a */,
 				A221A7CC1DF8B5E4007A2869 /* beam_loop.wav */,
@@ -145,8 +162,20 @@
 		A212E5011DFDED51005ECCB6 /* components */ = {
 			isa = PBXGroup;
 			children = (
+				A22E04351E01814A00FF0452 /* PopupView.swift */,
 			);
 			name = components;
+			sourceTree = "<group>";
+		};
+		A22E04411E01CBBB00FF0452 /* m13 */ = {
+			isa = PBXGroup;
+			children = (
+				A22E04421E01CBC100FF0452 /* M13ProgressView.h */,
+				A22E04431E01CBC100FF0452 /* M13ProgressView.m */,
+				A22E04441E01CBC100FF0452 /* M13ProgressViewBorderedBar.h */,
+				A22E04451E01CBC100FF0452 /* M13ProgressViewBorderedBar.m */,
+			);
+			name = m13;
 			sourceTree = "<group>";
 		};
 		A25630DB1DFFC6C7006EED35 /* manager */ = {
@@ -161,6 +190,7 @@
 		A29D62AA1DE45F0800DA9C73 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				A22E04411E01CBBB00FF0452 /* m13 */,
 				44E656AA1DF74C47008FCA4F /* facetracker */,
 				A29D62AB1DE45F1E00DA9C73 /* ASScreenRecorder.h */,
 				A29D62AC1DE45F1E00DA9C73 /* ASScreenRecorder.m */,
@@ -173,10 +203,13 @@
 			isa = PBXGroup;
 			children = (
 				A2DDF7411DDDCE4700809091 /* GameViewController.swift */,
-				A25630D91DFFC5A6006EED35 /* GameViewController.xib */,
-				44B5D3AA1DF71A9C00EC75CF /* OishiViewController.swift */,
+				A22E04331E0180CE00FF0452 /* GameViewController.xib */,
 				A226D9301DF9F33B00F0D921 /* PreviewVideoViewController.swift */,
 				A226D9311DF9F33B00F0D921 /* PreviewVideoViewController.xib */,
+				A22E04391E01BBFC00FF0452 /* VideoPreviewViewController.swift */,
+				A22E043A1E01BBFC00FF0452 /* VideoPreviewViewController.xib */,
+				A22E043D1E01CA6000FF0452 /* DownloadViewController.swift */,
+				A22E043E1E01CA6000FF0452 /* DownloadViewController.xib */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -307,6 +340,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A22E04341E0180CE00FF0452 /* GameViewController.xib in Resources */,
 				A221A7C71DF8A7C7007A2869 /* BlueLightParticle.sks in Resources */,
 				A2DDF7451DDDCE4700809091 /* Main.storyboard in Resources */,
 				A2DDF73C1DDDCE4700809091 /* GameScene.sks in Resources */,
@@ -314,14 +348,16 @@
 				44CA62C41DF77AA400550365 /* todo in Resources */,
 				A212E4FF1DFDDD57005ECCB6 /* sfx_1.m4a in Resources */,
 				A2DDF7471DDDCE4700809091 /* Assets.xcassets in Resources */,
+				A22E04401E01CA6000FF0452 /* DownloadViewController.xib in Resources */,
 				A20FEB511DED1E3E009584FD /* beam.wav in Resources */,
 				A2DDF74A1DDDCE4700809091 /* LaunchScreen.storyboard in Resources */,
 				A221A7CF1DF8B5E4007A2869 /* beam_start.wav in Resources */,
 				A221A7CE1DF8B5E4007A2869 /* beam_loop.wav in Resources */,
 				A20FEB4A1DED1344009584FD /* LightParticle.sks in Resources */,
 				A2DDF73E1DDDCE4700809091 /* Actions.sks in Resources */,
+				A22E04321E0177F200FF0452 /* sfx.aiff in Resources */,
+				A22E043C1E01BBFC00FF0452 /* VideoPreviewViewController.xib in Resources */,
 				A212E5001DFDDD57005ECCB6 /* sfx_2.m4a in Resources */,
-				A25630DA1DFFC5A6006EED35 /* GameViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,19 +417,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2DDF7401DDDCE4700809091 /* GameScene.swift in Sources */,
-				44B5D3AC1DF71A9C00EC75CF /* OishiViewController.swift in Sources */,
 				A29D62BA1DE737EE00DA9C73 /* Adapter.swift in Sources */,
+				A22E043F1E01CA6000FF0452 /* DownloadViewController.swift in Sources */,
 				A2321F701E00A017003E658C /* StateManager.swift in Sources */,
+				A22E04361E01814A00FF0452 /* PopupView.swift in Sources */,
 				A29D62AD1DE45F1E00DA9C73 /* ASScreenRecorder.m in Sources */,
 				A29D62B61DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift in Sources */,
 				A2DDF7421DDDCE4700809091 /* GameViewController.swift in Sources */,
 				A2DDF73A1DDDCE4700809091 /* AppDelegate.swift in Sources */,
 				A25630DD1DFFC75A006EED35 /* ControllerManager.swift in Sources */,
 				A226D9321DF9F33B00F0D921 /* PreviewVideoViewController.swift in Sources */,
+				A22E04461E01CBC100FF0452 /* M13ProgressView.m in Sources */,
+				A22E043B1E01BBFC00FF0452 /* VideoPreviewViewController.swift in Sources */,
 				44E656B01DF75562008FCA4F /* GooglyEyeView.m in Sources */,
 				44E656AD1DF74C51008FCA4F /* FaceTracker.m in Sources */,
 				44E656B31DF76554008FCA4F /* EyePhysics.m in Sources */,
 				A2DDF7551DDE30E100809091 /* DrawingUtility.m in Sources */,
+				A22E04471E01CBC100FF0452 /* M13ProgressViewBorderedBar.m in Sources */,
 				A29D62B81DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

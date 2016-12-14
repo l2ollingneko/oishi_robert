@@ -9,6 +9,7 @@
 import Foundation
 import ReplayKit
 import UIKit
+import AVKit
 
 class ControllerManager {
     
@@ -17,7 +18,6 @@ class ControllerManager {
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     func mainController() -> GameViewController {
-        // return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GameViewController") as! GameViewController
         return GameViewController(nibName: "GameViewController", bundle: nil)
     }
     
@@ -26,15 +26,20 @@ class ControllerManager {
         self.appDelegate.window?.makeKeyAndVisible()
     }
     
-    func previewController(rp: RPPreviewViewController) -> PreviewVideoViewController {
+    func previewController() -> PreviewVideoViewController {
         let controller = PreviewVideoViewController(nibName: "PreviewVideoViewController", bundle: nil)
-        controller.preview = rp
         return controller
     }
     
-    func presentPreviewVideoController(rp: RPPreviewViewController) {
-        self.appDelegate.window?.rootViewController = self.previewController(rp: rp)
+    func presentPreviewVideoController() {
+        self.appDelegate.window?.rootViewController = self.previewController()
         self.appDelegate.window?.makeKeyAndVisible()
     }
-
+    
+    func presentVideoPlayerController(controller: AVPlayerViewController) {
+        self.appDelegate.window?.rootViewController = controller
+        self.appDelegate.window?.makeKeyAndVisible()
+        controller.player?.play()
+    }
+    
 }
