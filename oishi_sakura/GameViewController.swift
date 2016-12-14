@@ -60,6 +60,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     // MARK: - Replay Kit
     
     var recording: Bool = false
+    var prepare: Bool = false
     
     // MARK: - sakura position
     
@@ -94,6 +95,10 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     var xScale: CGFloat = 1
     var yScale: CGFloat = 1
     var videoBox = CGRect.zero
+    
+    // MARK: - current state
+    
+    private var currentState: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -284,6 +289,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 
                 // TODO: - save face tracking id
                 saveTrackingIds[face.trackingID] = true
+                print("save trackingId: \(face.trackingID)")
                 
                 if (self.origin != .None) {
                     // TODO: - create emitter nodes
@@ -291,7 +297,14 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                     if (self.origin == .Mouth) {
                         if (face.hasMouthPosition == true) {
                             let point = self.scaledPointForScene(point: face.mouthPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
-                            self.scene?.pointDetected(faceSize: face.bounds.size, atPoint: point, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
+                            if (self.recording) {
+                                self.scene?.createMouthEmitterNodes(trackingID: face.trackingID, state: self.currentState)
+                            } else {
+                                if (!self.prepare) {
+                                    self.scene?.createMouthEmitterNodes(trackingID: face.trackingID, state: -99)
+                                }
+                            }
+                            self.scene?.pointDetected(face: face, atPoint: point, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
                         }
                     } else if (self.origin == .Ears) {
                         if (face.hasLeftEarPosition && face.hasRightEarPosition) {
@@ -350,10 +363,21 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         }
         
         // TODO: - check disappeared tracking id then remove all nodes of that tracking id
-        for key in self.trackingIds.keys {
-            if (saveTrackingIds[key] == nil) {
-                // removed face
+        if saveTrackingIds.count > self.trackingIds.count {
+            for key in saveTrackingIds.keys {
+                self.trackingIds[key] = true
             }
+        } else {
+            for key in self.trackingIds.keys {
+                if (saveTrackingIds[key] == nil) {
+                    print("saveTackingIds with key: \(key) disappeared")
+                    // removed face
+                    self.trackingIds[key] = nil
+                    self.scene?.removeAllNode(prefix: key)
+                } else {
+                    self.trackingIds[key] = true
+                }
+            }   
         }
     }
     
@@ -386,6 +410,11 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         }
  */
         
+        self.prepare = true
+        
+        self.scene?.removeAllChildren()
+        self.scene?.resetEmitterNodes()
+        
         self.swapCameraButton.isHidden = true
         self.eyesToggleButton.isHidden = true
         self.mouthToggleButton.isHidden = true
@@ -397,6 +426,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             } else {
                 self.startTimer()
                 self.recording = true
+                self.prepare = false
                 print("recording video")
             }
         })
@@ -437,6 +467,14 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 self.earsToggleButton.removeFromSuperview()
                 self.recordButton.removeFromSuperview()
                 
+                self.currentState = 0
+                StateManager.sharedInstance.resetState()
+                
+                self.scene?.removeAllChildren()
+                self.scene?.resetEmitterNodes()
+                
+                self.origin = .None
+                
                 preview.previewControllerDelegate = self
                 self.present(preview, animated: true, completion: nil)
                 self.recording = false
@@ -445,6 +483,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     }
     
     func previewController(_ previewController: RPPreviewViewController, didFinishWithActivityTypes activityTypes: Set<String>) {
+        
+        previewController.dismiss(animated: true, completion: nil)
         
         if activityTypes.count > 0 {
             // save
@@ -483,6 +523,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             print("change to state 1")
             if (self.timerCounter == 2.0) {
                 self.overlay.addSubview(self.iceFrames[0])
+                self.currentState += 1
                 self.scene?.changeLightEmitterNode(pink: false)
                 UIView.animate(withDuration: 0.25, animations: {
                     self.iceFrames[0].alpha = 0.0

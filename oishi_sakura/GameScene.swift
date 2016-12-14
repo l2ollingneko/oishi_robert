@@ -25,12 +25,10 @@ class GameScene: SKScene {
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
-    private var emitterNode : SKEmitterNode?
-    private var emitterNodes : Dictionary<UInt, [SKEmitterNode]> = Dictionary<UInt, [SKEmitterNode]>()
-    
     private var lightEmitterNode : SKEmitterNode?
     
-    private var mouthEmitterNodes : [SKEmitterNode] = [SKEmitterNode]()
+    private var radiusNods: Dictionary<UInt, [SKSpriteNode]> = Dictionary<UInt, [SKSpriteNode]>()
+    private var mouthEmitterNodes : Dictionary<UInt, [SKEmitterNode]> = Dictionary<UInt, [SKEmitterNode]>()
     
     private var leftEarEmitterNodes: [SKEmitterNode] = [SKEmitterNode]()
     private var rightEarEmitterNodes: [SKEmitterNode] = [SKEmitterNode]()
@@ -87,87 +85,60 @@ class GameScene: SKScene {
     }
     
     func pointDetected(atPoint pos: CGPoint) {
-        if let node = self.childNode(withName: "sakura_1") {
-            node.position = pos
-        } else {
-            if let n = self.emitterNode {
-                n.position = pos
-                self.addChild(n)
-            }
-        }
     }
     
-    func pointDetected(faceSize: CGSize, atPoint pos: CGPoint, headEulerAngleY: CGFloat, headEulerAngleZ: CGFloat) {
+    func pointDetected(face: GMVFaceFeature, atPoint pos: CGPoint, headEulerAngleY: CGFloat, headEulerAngleZ: CGFloat) {
         
-        // light radius
-        if let node = self.childNode(withName: "left_light_radius") {
-            node.removeFromParent()
-        }
-        if let node = self.childNode(withName: "right_light_radius") {
-            node.removeFromParent()
-        }
-        
-        if let node = self.childNode(withName: "light_radius") as! SKSpriteNode? {
-            node.size = CGSize.init(width: (faceSize.width * self.mouthLightRadiusRatio), height: (faceSize.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
+        // radius
+        if let node = self.childNode(withName: "tid\(face.trackingID)_radius") as! SKSpriteNode? {
+            node.size = CGSize.init(width: (face.bounds.size.width * self.mouthLightRadiusRatio), height: (face.bounds.size.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
             node.position = pos
         } else {
             if let n = self.lightNode?.copy() as! SKSpriteNode? {
-                n.size = CGSize.init(width: (faceSize.width * self.mouthLightRadiusRatio), height: (faceSize.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
-                n.name = "light_radius"
+                n.size = CGSize.init(width: (face.bounds.size.width * self.mouthLightRadiusRatio), height: (face.bounds.size.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
+                n.name = "tid\(face.trackingID)_radius"
                 n.position = pos
                 self.addChild(n)
             }
         }
         
         // light emitter
-        if let node = self.childNode(withName: "left_lightnode") {
-            node.removeFromParent()
-        }
-        if let node = self.childNode(withName: "right_lightnode") {
-            node.removeFromParent()
-        }
-        
-        if let node = self.childNode(withName: "lightnode") {
+        if let node = self.childNode(withName: "tid\(face.trackingID)_light_node") {
             node.position = pos
-            // MARK: - change emitter direction
             (node as! SKEmitterNode).emissionAngle = self.calculatedEmissionAngle(y: headEulerAngleY, z: headEulerAngleZ)
+            /*
             if (!self.playSound) {
                 self.playSound = true
                 self.run(SKAction.playSoundFileNamed("beam.wav", waitForCompletion: true), completion: { completed in
                     self.playSound = false
                 })
             }
+            */
         } else {
             if let n = self.lightEmitterNode?.copy() as! SKEmitterNode? {
-                n.name = "lightnode"
+                n.name = "tid\(face.trackingID)_light_node"
                 n.position = pos
                 n.emissionAngle = self.calculatedEmissionAngle(y: headEulerAngleY, z: headEulerAngleZ)
                 self.addChild(n)
             }
         }
         
-        for i in 1...6 {
-            if let leftNode = self.childNode(withName: "le_sakura_\(i)") {
-                leftNode.removeFromParent()
+        if let nodes = self.mouthEmitterNodes[face.trackingID] {
+            if (!SakuraEmitterNodeFactory.sharedInstance.lockEmitterNodeFactory) {
+                for node in nodes {
+                    if let name = node.name {
+                        if let node = self.childNode(withName: "\(name)") {
+                            node.position = pos
+                            (node as! SKEmitterNode).emissionAngle = self.calculatedEmissionAngle(y: headEulerAngleY, z: headEulerAngleZ)
+                        } else {
+                            node.position = pos
+                            self.addChild(node)
+                        }
+                    }
+                }
             }
-            if let rightNode = self.childNode(withName: "re_sakura_\(i)") {
-                rightNode.removeFromParent()
-            }
-            if let leftNode = self.childNode(withName: "ly_sakura_\(i)") {
-                leftNode.removeFromParent()
-            }
-            if let rightNode = self.childNode(withName: "ry_sakura_\(i)") {
-                rightNode.removeFromParent()
-            }
-            if let node = self.childNode(withName: "sakura_\(i)") {
-                node.position = pos
-                // MARK: - change emitter direction
-                (node as! SKEmitterNode).emissionAngle = self.calculatedEmissionAngle(y: headEulerAngleY, z: headEulerAngleZ)
-            } else {
-                self.createMouthEmitterNodes()
-                self.mouthEmitterNodes[i - 1].position = pos
-                self.addChild(self.mouthEmitterNodes[i - 1])
-            }
+        } else {
+            // TODO: - do nothing, wait for controller to tell gamescene to create nodes
         }
         
     }
@@ -377,6 +348,22 @@ class GameScene: SKScene {
         self.rightCheekImageView.center = rightCheekPoint
     }
     
+    func removeAllNode(prefix: UInt) {
+        print("emitter node count: \(self.mouthEmitterNodes[prefix]?.count)")
+        for childNode in self.children {
+            if let name = childNode.name, name.contains("tid\(prefix)") {
+                childNode.removeFromParent()
+            }
+        }
+    }
+    
+    func resetEmitterNodes() {
+        for key in self.mouthEmitterNodes.keys {
+            self.mouthEmitterNodes[key]?.removeAll()
+            self.mouthEmitterNodes[key] = [SKEmitterNode](repeating: SKEmitterNode(), count: 6)
+        }
+    }
+    
     func noPointDetected() {
         // light radius
         if let node = self.childNode(withName: "light_radius") {
@@ -474,13 +461,24 @@ class GameScene: SKScene {
     
     func calculatedEarsEmissionAngle(leftEar: Bool, y: CGFloat, z: CGFloat) -> CGFloat {
         let radZ: CGFloat = CGFloat(z * .pi / 180.0)
-        let radY = CGFloat(y * .pi / 180.0)
         return leftEar ? CGFloat(180.0 * .pi / 180.0) + radZ : CGFloat(0.0 * .pi / 180.0) + radZ
     }
     
-    func createMouthEmitterNodes() {
-        self.mouthEmitterNodes.removeAll()
-        self.mouthEmitterNodes = SakuraEmitterNodeFactory.sharedInstance.createMouthEmitterNodes()
+    func prepareMouthEmitterNodes() {
+    }
+    
+    func createMouthEmitterNodes(trackingID: UInt, state: Int) {
+        
+        let settings: Dictionary<String, AnyObject> = [
+            kEmitterNodeState: state as AnyObject,
+            kEmitterNodeNamePrefix: trackingID as AnyObject,
+            kEmitterNodeEmissionAngle: CGFloat(270.0) as AnyObject
+        ]
+        
+        SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.mouthEmitterNodes[trackingID], state: state, settings: settings)
+        
+        // self.mouthEmitterNodes.removeAll()
+        // self.mouthEmitterNodes = SakuraEmitterNodeFactory.sharedInstance.createMouthEmitterNodes()
     }
     
     func createEyesEmitterNodes() {
@@ -510,7 +508,24 @@ class GameScene: SKScene {
     }
     
     func changeLightEmitterNode(pink: Bool) {
+        
         self.lightEmitterNode = pink ? SKEmitterNode(fileNamed: "LightParticle") : SKEmitterNode(fileNamed: "BlueLightParticle")
+        
+        for child in self.children {
+            if let name =  child.name, name.contains("light_node") {
+                child.removeFromParent()
+                if let n = self.lightEmitterNode?.copy() as! SKEmitterNode? {
+                    let splitedString = name.components(separatedBy: "_")
+                    n.name = "tid\(splitedString[0])_light_node"
+                    n.position = child.position
+                    n.emissionAngle = (child as! SKEmitterNode).emissionAngle
+                    self.addChild(n)
+                }
+            }
+        }
+        
+        
+        /*
         if let node = self.childNode(withName: "lightnode") {
             // mouth
             node.removeFromParent()
@@ -544,6 +559,7 @@ class GameScene: SKScene {
                 
             }
         }
+         */
     }
     
     /*

@@ -21,6 +21,7 @@
 		A221A7CF1DF8B5E4007A2869 /* beam_start.wav in Resources */ = {isa = PBXBuildFile; fileRef = A221A7CD1DF8B5E4007A2869 /* beam_start.wav */; };
 		A226D9321DF9F33B00F0D921 /* PreviewVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A226D9301DF9F33B00F0D921 /* PreviewVideoViewController.swift */; };
 		A226D9331DF9F33B00F0D921 /* PreviewVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A226D9311DF9F33B00F0D921 /* PreviewVideoViewController.xib */; };
+		A2321F701E00A017003E658C /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2321F6F1E00A017003E658C /* StateManager.swift */; };
 		A25630DA1DFFC5A6006EED35 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A25630D91DFFC5A6006EED35 /* GameViewController.xib */; };
 		A25630DD1DFFC75A006EED35 /* ControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25630DC1DFFC75A006EED35 /* ControllerManager.swift */; };
 		A29D62AD1DE45F1E00DA9C73 /* ASScreenRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = A29D62AC1DE45F1E00DA9C73 /* ASScreenRecorder.m */; };
@@ -59,6 +60,7 @@
 		A221A7CD1DF8B5E4007A2869 /* beam_start.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beam_start.wav; sourceTree = "<group>"; };
 		A226D9301DF9F33B00F0D921 /* PreviewVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewVideoViewController.swift; sourceTree = "<group>"; };
 		A226D9311DF9F33B00F0D921 /* PreviewVideoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreviewVideoViewController.xib; sourceTree = "<group>"; };
+		A2321F6F1E00A017003E658C /* StateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateManager.swift; sourceTree = "<group>"; };
 		A25630D91DFFC5A6006EED35 /* GameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GameViewController.xib; sourceTree = "<group>"; };
 		A25630DC1DFFC75A006EED35 /* ControllerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerManager.swift; sourceTree = "<group>"; };
 		A29D62AB1DE45F1E00DA9C73 /* ASScreenRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASScreenRecorder.h; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				A25630DC1DFFC75A006EED35 /* ControllerManager.swift */,
+				A2321F6F1E00A017003E658C /* StateManager.swift */,
 			);
 			name = manager;
 			sourceTree = "<group>";
@@ -380,6 +383,7 @@
 				A2DDF7401DDDCE4700809091 /* GameScene.swift in Sources */,
 				44B5D3AC1DF71A9C00EC75CF /* OishiViewController.swift in Sources */,
 				A29D62BA1DE737EE00DA9C73 /* Adapter.swift in Sources */,
+				A2321F701E00A017003E658C /* StateManager.swift in Sources */,
 				A29D62AD1DE45F1E00DA9C73 /* ASScreenRecorder.m in Sources */,
 				A29D62B61DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift in Sources */,
 				A2DDF7421DDDCE4700809091 /* GameViewController.swift in Sources */,
