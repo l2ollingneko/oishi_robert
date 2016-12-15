@@ -496,16 +496,6 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     func startRecording() {
         let recorder = RPScreenRecorder.shared()
         
-        /*
-        let screenRecorder = ASScreenRecorder.sharedInstance()
-        if (!(screenRecorder?.isRecording)!) {
-            screenRecorder?.startRecording()
-            self.startTimer()
-            self.recording = true
-        }
- */
-        
-        
         UIView.animate(withDuration: 0.25, animations: {
             self.iceFrames[0].alpha = 1.0
             self.iceFrames[0].alpha = 0.0
@@ -539,15 +529,6 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     
     func stopRecording() {
         let recorder = RPScreenRecorder.shared()
-        
-        /*
-        let screenRecorder = ASScreenRecorder.sharedInstance()
-        if ((screenRecorder?.isRecording)!) {
-            screenRecorder?.stopRecording(completion: {
-                self.recording = false
-            })
-        }
-         */
         
         recorder.stopRecording(handler: { (preview, error) in
             if let error = error {

@@ -8,6 +8,11 @@ target 'oishi_sakura' do
   # Pods for oishi_sakura
   pod 'GoogleMobileVision/FaceDetector'
   pod 'GoogleMobileVision/MVDataOutput'
+
+  # Network
+  pod 'Alamofire'
+
+  # Utilities
   pod 'SwiftHEXColors'
   pod 'SwiftKeychainWrapper'
 

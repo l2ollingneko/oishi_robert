@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AVKit
+import AVFoundation
 
 class VideoPreviewViewController: UIViewController {
     
@@ -38,12 +40,6 @@ class VideoPreviewViewController: UIViewController {
         self.bottomBar.frame = CGRect.init(x: 0.0, y: Adapter.rHeight - barSize.height, width: barSize.width, height: barSize.height)
         self.bottomBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         self.bottomBar.layer.zPosition = 1000
-        
-        /*
-        self.playImageView.frame = CGRect.init(x: Adapter.calculatedWidthFromRatio(width: 62.0), y: Adapter.calculatedWidthFromRatio(width: 33.0), width: Adapter.calculatedWidthFromRatio(width: 136.0), height: Adapter.calculatedWidthFromRatio(width: 136.0))
-        self.playImageView.image = UIImage(named: "preview_video_play_button")
-        self.playImageView.backgroundColor = UIColor.clear
-         */
         
         self.playButton.frame = CGRect.init(x: 0.0, y: 0.0, width: barSize.width, height: barSize.height)
         self.playButton.backgroundColor = UIColor.clear

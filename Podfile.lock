@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (4.2.0)
   - GoogleInterchangeUtilities (1.2.2):
     - GoogleSymbolUtilities (~> 1.1)
   - GoogleMobileVision/Detector (1.0.4):
@@ -18,12 +19,14 @@ PODS:
   - SwiftKeychainWrapper (3.0.1)
 
 DEPENDENCIES:
+  - Alamofire
   - GoogleMobileVision/FaceDetector
   - GoogleMobileVision/MVDataOutput
   - SwiftHEXColors
   - SwiftKeychainWrapper
 
 SPEC CHECKSUMS:
+  Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
   GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
   GoogleMobileVision: 1d7afaaf30a67005fb9f281923fc61129b46468b
   GoogleNetworkingUtilities: 3edd3a8161347494f2da60ea0deddc8a472d94cb
@@ -32,6 +35,6 @@ SPEC CHECKSUMS:
   SwiftHEXColors: 8f7e364df7929e32cff9f9eeb044bb215167d6be
   SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
 
-PODFILE CHECKSUM: 4e377c55307ef1cbf6c6a9de9e217c44fa365c8c
+PODFILE CHECKSUM: 045b47038c28e7dddad5999b4bebc3f90be97ad2
 
 COCOAPODS: 1.1.1
