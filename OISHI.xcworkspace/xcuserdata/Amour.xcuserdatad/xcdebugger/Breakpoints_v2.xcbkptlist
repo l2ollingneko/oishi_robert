@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503523894.298937"
+            timestampString = "503526530.854223"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "916"
-            endingLineNumber = "916"
+            startingLineNumber = "921"
+            endingLineNumber = "921"
             landmarkName = "stopAllActions()"
             landmarkType = "7">
          </BreakpointContent>
@@ -282,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503523460.661526"
+            timestampString = "503526530.854223"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "589"
-            endingLineNumber = "589"
+            startingLineNumber = "594"
+            endingLineNumber = "594"
             landmarkName = "stopRecording()"
             landmarkType = "7">
          </BreakpointContent>
@@ -298,11 +298,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503521857.815842"
+            timestampString = "503526530.854223"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "524"
-            endingLineNumber = "524"
+            startingLineNumber = "529"
+            endingLineNumber = "529"
             landmarkName = "startRecording()"
             landmarkType = "7">
          </BreakpointContent>
@@ -314,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503523460.661526"
+            timestampString = "503526530.854223"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "577"
-            endingLineNumber = "577"
+            startingLineNumber = "582"
+            endingLineNumber = "582"
             landmarkName = "stopRecording()"
             landmarkType = "7">
          </BreakpointContent>
@@ -326,15 +326,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503523894.298937"
+            timestampString = "503526530.854223"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "759"
-            endingLineNumber = "759"
+            startingLineNumber = "764"
+            endingLineNumber = "764"
             landmarkName = "changeState()"
             landmarkType = "7">
          </BreakpointContent>
@@ -346,11 +346,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503523894.298937"
+            timestampString = "503526530.854223"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "853"
-            endingLineNumber = "853"
+            startingLineNumber = "858"
+            endingLineNumber = "858"
             landmarkName = "toggleButton(button:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -362,11 +362,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503523894.298937"
+            timestampString = "503526530.854223"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "866"
-            endingLineNumber = "866"
+            startingLineNumber = "871"
+            endingLineNumber = "871"
             landmarkName = "toggleButton(button:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -378,11 +378,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503523894.298937"
+            timestampString = "503526530.854223"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "879"
-            endingLineNumber = "879"
+            startingLineNumber = "884"
+            endingLineNumber = "884"
             landmarkName = "toggleButton(button:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -394,11 +394,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503523894.298937"
+            timestampString = "503526530.854223"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "892"
-            endingLineNumber = "892"
+            startingLineNumber = "897"
+            endingLineNumber = "897"
             landmarkName = "toggleButton(button:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -454,7 +454,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameScene.swift"
@@ -490,11 +490,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503524944.471426"
+            timestampString = "503526530.854223"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "867"
-            endingLineNumber = "867"
+            startingLineNumber = "872"
+            endingLineNumber = "872"
             landmarkName = "toggleButton(button:)"
             landmarkType = "7">
          </BreakpointContent>

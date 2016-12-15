@@ -68,23 +68,37 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
         self.playButton.addTarget(self, action: #selector(PreviewVideoViewController.playVideo), for: .touchUpInside)
         self.view.addSubview(self.playButton)
         
-        PHPhotoLibrary.requestAuthorization { (status) -> Void in
-            if (status == PHAuthorizationStatus.authorized) {
-                let allVidOptions = PHFetchOptions()
-                allVidOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.video.rawValue)
-                allVidOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-                let allVids = PHAsset.fetchAssets(with: allVidOptions)
-                if let phAsset = allVids.lastObject {
-                    self.currentAsset = phAsset
-                    let identifier = phAsset.localIdentifier
-                    let id = identifier.substring(to: identifier.index(identifier.startIndex, offsetBy: 36))
-                    print(identifier)
-                    self.currentAssetUrl = URL(string: "assets-library://asset/asset.MP4?id=\(id)&ext=MP4")
-                    PHImageManager.default().requestImage(for: phAsset, targetSize: CGSize.init(width: 320.0, height: 320.0), contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
-                        self.previewImageView.image = image
-                    })
+        let status = PHPhotoLibrary.authorizationStatus()
+        
+        if (status == PHAuthorizationStatus.denied) {
+            // TODO: -
+        } else if (status == .notDetermined) {
+            PHPhotoLibrary.requestAuthorization { (status) -> Void in
+                if (status == PHAuthorizationStatus.authorized) {
+                    self.getVideoThumbnail()
+                } else {
+                    // TODO: -
                 }
             }
+        } else if (status == .authorized) {
+            self.getVideoThumbnail()
+        }
+    }
+    
+    func getVideoThumbnail() {
+        let allVidOptions = PHFetchOptions()
+        allVidOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.video.rawValue)
+        allVidOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        let allVids = PHAsset.fetchAssets(with: allVidOptions)
+        if let phAsset = allVids.lastObject {
+            self.currentAsset = phAsset
+            let identifier = phAsset.localIdentifier
+            let id = identifier.substring(to: identifier.index(identifier.startIndex, offsetBy: 36))
+            print(identifier)
+            self.currentAssetUrl = URL(string: "assets-library://asset/asset.MP4?id=\(id)&ext=MP4")
+            PHImageManager.default().requestImage(for: phAsset, targetSize: CGSize.init(width: 320.0, height: 320.0), contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
+                self.previewImageView.image = image
+            })
         }
     }
     
