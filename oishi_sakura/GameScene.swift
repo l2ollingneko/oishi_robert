@@ -37,7 +37,7 @@ class GameScene: SKScene {
     private var leftEyeEmitterNodes: Dictionary<UInt, [SKEmitterNode]> = Dictionary<UInt, [SKEmitterNode]>()
     private var rightEyeEmitterNodes: Dictionary<UInt, [SKEmitterNode]> = Dictionary<UInt, [SKEmitterNode]>()
     
-    private var leftCheekImageView: Dictionary<UInt, UIImageView> = Dictionary<UInt, UIImageView>()
+    private var leftCheekImageView: UIImageView = UIImageView()
     private var rightCheekImageView: UIImageView = UIImageView()
     
     private var playSound: Bool = false
