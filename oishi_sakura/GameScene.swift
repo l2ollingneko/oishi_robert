@@ -37,7 +37,7 @@ class GameScene: SKScene {
     private var leftEyeEmitterNodes: Dictionary<UInt, [SKEmitterNode]> = Dictionary<UInt, [SKEmitterNode]>()
     private var rightEyeEmitterNodes: Dictionary<UInt, [SKEmitterNode]> = Dictionary<UInt, [SKEmitterNode]>()
     
-    private var leftCheekImageView: UIImageView = UIImageView()
+    private var leftCheekImageView: Dictionary<UInt, UIImageView> = Dictionary<UInt, UIImageView>()
     private var rightCheekImageView: UIImageView = UIImageView()
     
     private var playSound: Bool = false
@@ -69,14 +69,6 @@ class GameScene: SKScene {
                                               SKAction.fadeOut(withDuration: 0.5),
                                               SKAction.removeFromParent()]))
         }
-        
-        // init sound action
-        let soundAction1 = SKAction.playSoundFileNamed("sfx_1.m4a", waitForCompletion: true)
-        let soundAction2 = SKAction.playSoundFileNamed("sfx_2.m4a", waitForCompletion: true)
-        self.soundAction = SKAction.repeatForever(SKAction.sequence([
-            soundAction1,
-            soundAction2,
-        ]))
         
         // init light node
         self.lightNode = SKSpriteNode(imageNamed: "light_radius")
