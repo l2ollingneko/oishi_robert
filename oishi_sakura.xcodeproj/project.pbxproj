@@ -31,6 +31,8 @@
 		A2A43F891E028259007F156D /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A43F851E028259007F156D /* FBSDKCoreKit.framework */; };
 		A2A43F8A1E028259007F156D /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A43F861E028259007F156D /* FBSDKLoginKit.framework */; };
 		A2A43F8B1E028259007F156D /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A43F871E028259007F156D /* FBSDKShareKit.framework */; };
+		A2A43F901E028619007F156D /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A43F8F1E028619007F156D /* DataManager.swift */; };
+		A2A43F931E0286D4007F156D /* ActionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A43F921E0286D4007F156D /* ActionInfo.swift */; };
 		A2DDF73A1DDDCE4700809091 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DDF7391DDDCE4700809091 /* AppDelegate.swift */; };
 		A2DDF73C1DDDCE4700809091 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A2DDF73B1DDDCE4700809091 /* GameScene.sks */; };
 		A2DDF73E1DDDCE4700809091 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = A2DDF73D1DDDCE4700809091 /* Actions.sks */; };
@@ -71,6 +73,8 @@
 		A2A43F851E028259007F156D /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		A2A43F861E028259007F156D /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		A2A43F871E028259007F156D /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
+		A2A43F8F1E028619007F156D /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		A2A43F921E0286D4007F156D /* ActionInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionInfo.swift; sourceTree = "<group>"; };
 		A2DDF7361DDDCE4700809091 /* oishi_sakura.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = oishi_sakura.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2DDF7391DDDCE4700809091 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A2DDF73B1DDDCE4700809091 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -153,6 +157,7 @@
 		A25630DB1DFFC6C7006EED35 /* managers */ = {
 			isa = PBXGroup;
 			children = (
+				A2A43F8F1E028619007F156D /* DataManager.swift */,
 				A25630DC1DFFC75A006EED35 /* ControllerManager.swift */,
 				A2321F6F1E00A017003E658C /* StateManager.swift */,
 			);
@@ -208,6 +213,14 @@
 			name = frameworks;
 			sourceTree = "<group>";
 		};
+		A2A43F911E0286C2007F156D /* models */ = {
+			isa = PBXGroup;
+			children = (
+				A2A43F921E0286D4007F156D /* ActionInfo.swift */,
+			);
+			name = models;
+			sourceTree = "<group>";
+		};
 		A2DDF72D1DDDCE4700809091 = {
 			isa = PBXGroup;
 			children = (
@@ -233,6 +246,7 @@
 				A29D62AF1DE4747400DA9C73 /* gamekit */,
 				A25630DB1DFFC6C7006EED35 /* managers */,
 				A212E5011DFDED51005ECCB6 /* components */,
+				A2A43F911E0286C2007F156D /* models */,
 				A2A43F831E0280F6007F156D /* frameworks */,
 				A29D62AA1DE45F0800DA9C73 /* libs */,
 				A2DDF7511DDE30D900809091 /* utilities */,
@@ -393,6 +407,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2DDF7401DDDCE4700809091 /* GameScene.swift in Sources */,
+				A2A43F901E028619007F156D /* DataManager.swift in Sources */,
 				A29D62BA1DE737EE00DA9C73 /* Adapter.swift in Sources */,
 				A2321F701E00A017003E658C /* StateManager.swift in Sources */,
 				A22E04361E01814A00FF0452 /* PopupView.swift in Sources */,
@@ -402,6 +417,7 @@
 				A25630DD1DFFC75A006EED35 /* ControllerManager.swift in Sources */,
 				A226D9321DF9F33B00F0D921 /* PreviewVideoViewController.swift in Sources */,
 				A22E04461E01CBC100FF0452 /* M13ProgressView.m in Sources */,
+				A2A43F931E0286D4007F156D /* ActionInfo.swift in Sources */,
 				A22E043B1E01BBFC00FF0452 /* VideoPreviewViewController.swift in Sources */,
 				A2DDF7551DDE30E100809091 /* DrawingUtility.m in Sources */,
 				A22E04471E01CBC100FF0452 /* M13ProgressViewBorderedBar.m in Sources */,

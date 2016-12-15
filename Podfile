@@ -15,6 +15,7 @@ target 'oishi_sakura' do
   # Utilities
   pod 'SwiftHEXColors'
   pod 'SwiftKeychainWrapper'
+  pod 'SwiftyJSON'
 
 end
 
