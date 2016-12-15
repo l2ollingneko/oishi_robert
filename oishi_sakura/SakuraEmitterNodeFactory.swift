@@ -101,7 +101,7 @@ class SakuraEmitterNodeFactory {
                 }
             }
             
-            StateManager.sharedInstance.increaseState()
+            // StateManager.sharedInstance.increaseState()
         } else {
             print("not create emitter node")
         }

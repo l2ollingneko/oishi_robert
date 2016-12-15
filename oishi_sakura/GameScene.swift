@@ -10,6 +10,7 @@ import SpriteKit
 import SceneKit
 import GameplayKit
 import GoogleMobileVision
+import SwiftKeychainWrapper
 
 enum SakuraState {
     case White, Pink
@@ -19,6 +20,7 @@ class GameScene: SKScene {
     
     // static var
     
+    private let cheekRatio: CGFloat = 0.2
     private let mouthLightRadiusRatio: CGFloat = 0.125
     private let earsLightRadiusRatio: CGFloat = 0.1
     private let eyesLightRadiusRatio: CGFloat = 0.1
@@ -115,18 +117,19 @@ class GameScene: SKScene {
      
             if let node = self.childNode(withName: "sound") as! SKAudioNode? {
             } else {
-                let randomUInt: UInt32 = arc4random_uniform(2)
-                let random: Int = Int(randomUInt)
-                if (random == 0) {
-                    let sound = SKAudioNode(fileNamed: "sfx.wav")
-                    sound.name = "sound"
-                    self.addChild(sound)
-                } else {
-                    let sound = SKAudioNode(fileNamed: "beam.wav")
-                    sound.name = "sound"
-                    self.addChild(sound)        
+                DispatchQueue.main.async {
+                    let randomUInt: UInt32 = arc4random_uniform(2)
+                    let random: Int = Int(randomUInt)
+                    if (random == 0) {
+                        let sound = SKAudioNode(fileNamed: "sfx.wav")
+                        sound.name = "sound"
+                        self.addChild(sound)
+                    } else {
+                        let sound = SKAudioNode(fileNamed: "beam.wav")
+                        sound.name = "sound"
+                        self.addChild(sound)        
+                    }
                 }
-                
             }
         
             if let nodes = self.mouthEmitterNodes[face.trackingID] {
@@ -224,16 +227,18 @@ class GameScene: SKScene {
             
             if let node = self.childNode(withName: "sound") as! SKAudioNode? {
             } else {
-                let randomUInt: UInt32 = arc4random_uniform(2)
-                let random: Int = Int(randomUInt)
-                if (random == 0) {
-                    let sound = SKAudioNode(fileNamed: "sfx.wav")
-                    sound.name = "sound"
-                    self.addChild(sound)
-                } else {
-                    let sound = SKAudioNode(fileNamed: "beam.wav")
-                    sound.name = "sound"
-                    self.addChild(sound)        
+                DispatchQueue.main.async {
+                    let randomUInt: UInt32 = arc4random_uniform(2)
+                    let random: Int = Int(randomUInt)
+                    if (random == 0) {
+                        let sound = SKAudioNode(fileNamed: "sfx.wav")
+                        sound.name = "sound"
+                        self.addChild(sound)
+                    } else {
+                        let sound = SKAudioNode(fileNamed: "beam.wav")
+                        sound.name = "sound"
+                        self.addChild(sound)        
+                    }
                 }
             }
             
@@ -351,16 +356,18 @@ class GameScene: SKScene {
             
             if let node = self.childNode(withName: "sound") as! SKAudioNode? {
             } else {
-                let randomUInt: UInt32 = arc4random_uniform(2)
-                let random: Int = Int(randomUInt)
-                if (random == 0) {
-                    let sound = SKAudioNode(fileNamed: "sfx.wav")
-                    sound.name = "sound"
-                    self.addChild(sound)
-                } else {
-                    let sound = SKAudioNode(fileNamed: "beam.wav")
-                    sound.name = "sound"
-                    self.addChild(sound)        
+                DispatchQueue.main.async {
+                    let randomUInt: UInt32 = arc4random_uniform(2)
+                    let random: Int = Int(randomUInt)
+                    if (random == 0) {
+                        let sound = SKAudioNode(fileNamed: "sfx.wav")
+                        sound.name = "sound"
+                        self.addChild(sound)
+                    } else {
+                        let sound = SKAudioNode(fileNamed: "beam.wav")
+                        sound.name = "sound"
+                        self.addChild(sound)        
+                    }
                 }
             }
             
@@ -403,13 +410,132 @@ class GameScene: SKScene {
         
     }
     
-    func cheeksDetected(faceRect: CGRect, leftCheekPoint: CGPoint, rightCheekPoint: CGPoint) {
-        self.leftCheekImageView.center = leftCheekPoint
-        self.rightCheekImageView.center = rightCheekPoint
+    func cheeksDetected(face: GMVFaceFeature, state: Int, leftCheekPoint: CGPoint, rightCheekPoint: CGPoint) {
+        // cheek
+        if (state == -99) {
+            
+            var randomNum: UInt32 = arc4random_uniform(4)
+            var index: Int = Int(randomNum) + 1
+            
+            if let node = self.childNode(withName: "tid\(face.trackingID)_cheek_left") as! SKSpriteNode? {
+                let oldIndex = node.userData?["oldIndex"] as! Int
+                let cheekSize: CGSize = oldIndex <= 2 ? CGSize.init(width: 270.0, height: 188.0) : CGSize.init(width: 230.0, height: 230.0)
+                node.size = CGSize.init(width: (face.bounds.size.width * self.cheekRatio), height: (face.bounds.size.width * self.cheekRatio) * cheekSize.height / cheekSize.width)
+                node.position = leftCheekPoint
+            } else {
+                var imageNamed = "cheek_"
+                if (index == 1)  {
+                    imageNamed = "cheek_1_left"
+                } else {
+                    imageNamed = "cheek_\(index)"
+                }
+                let node = SKSpriteNode(imageNamed: imageNamed)
+                let cheekSize: CGSize = index <= 2 ? CGSize.init(width: 270.0, height: 188.0) : CGSize.init(width: 230.0, height: 230.0)
+                node.size = CGSize.init(width: (face.bounds.size.width * self.cheekRatio), height: (face.bounds.size.width * self.cheekRatio) * cheekSize.height / cheekSize.width)
+                node.name = "tid\(face.trackingID)_cheek_left"
+                node.position = leftCheekPoint
+                node.userData = [
+                    "oldIndex": index
+                ]
+                self.addChild(node)
+            }
+            
+            if let node = self.childNode(withName: "tid\(face.trackingID)_cheek_right") as! SKSpriteNode? {
+                let oldIndex = node.userData?["oldIndex"] as! Int
+                let cheekSize: CGSize = oldIndex <= 2 ? CGSize.init(width: 270.0, height: 188.0) : CGSize.init(width: 230.0, height: 230.0)
+                node.size = CGSize.init(width: (face.bounds.size.width * self.cheekRatio), height: (face.bounds.size.width * self.cheekRatio) * cheekSize.height / cheekSize.width)
+                node.position = rightCheekPoint
+            } else {
+                var imageNamed = "cheek_"
+                if (index == 1)  {
+                    imageNamed = "cheek_1_right"
+                } else {
+                    imageNamed = "cheek_\(index)"
+                }
+                let node = SKSpriteNode(imageNamed: imageNamed)
+                let cheekSize: CGSize = index <= 2 ? CGSize.init(width: 270.0, height: 188.0) : CGSize.init(width: 230.0, height: 230.0)
+                node.size = CGSize.init(width: (face.bounds.size.width * self.cheekRatio), height: (face.bounds.size.width * self.cheekRatio) * cheekSize.height / cheekSize.width)
+                node.name = "tid\(face.trackingID)_cheek_right"
+                node.userData = [
+                    "oldIndex": index
+                ]
+                node.position = rightCheekPoint
+                self.addChild(node)
+            }
+        } else {
+            if let imageNo = KeychainWrapper.standard.integer(forKey: "round") {
+                print("round: \(imageNo)")
+                if let node = self.childNode(withName: "tid\(face.trackingID)_cheek_left") as! SKSpriteNode? {
+                    if let oldIndex = node.userData?["oldIndex"] as! Int?, oldIndex != imageNo {
+                        var imageNamed = "cheek_"
+                        if (imageNo == 1)  {
+                            imageNamed = "cheek_1_right"
+                        } else {
+                            imageNamed = "cheek_\(imageNo)"
+                        }
+                        node.texture = SKTexture(imageNamed: imageNamed)
+                        node.userData?["oldIndex"] = imageNo
+                    }
+                    let cheekSize: CGSize = imageNo <= 2 ? CGSize.init(width: 270.0, height: 188.0) : CGSize.init(width: 230.0, height: 230.0)
+                    node.size = CGSize.init(width: (face.bounds.size.width * self.cheekRatio), height: (face.bounds.size.width * self.cheekRatio) * cheekSize.height / cheekSize.width)
+                    node.position = leftCheekPoint
+                } else {
+                    var imageNamed = "cheek_"
+                    if (imageNo == 1)  {
+                        imageNamed = "cheek_1_left"
+                    } else {
+                        imageNamed = "cheek_\(imageNo)"
+                    }
+                    print("imageNamed: \(imageNamed)")
+                    let node = SKSpriteNode(imageNamed: imageNamed)
+                    let cheekSize: CGSize = imageNo <= 2 ? CGSize.init(width: 270.0, height: 188.0) : CGSize.init(width: 230.0, height: 230.0)
+                    node.size = CGSize.init(width: (face.bounds.size.width * self.cheekRatio), height: (face.bounds.size.width * self.cheekRatio) * cheekSize.height / cheekSize.width)
+                    node.userData = [
+                        "oldIndex": imageNo
+                    ]
+                    node.name = "tid\(face.trackingID)_cheek_left"
+                    node.position = leftCheekPoint
+                    self.addChild(node)
+                }
+                
+                if let node = self.childNode(withName: "tid\(face.trackingID)_cheek_right") as! SKSpriteNode? {
+                    if let oldIndex = node.userData?["oldIndex"] as! Int?, oldIndex != imageNo {
+                        var imageNamed = "cheek_"
+                        if (imageNo == 1)  {
+                            imageNamed = "cheek_1_right"
+                        } else {
+                            imageNamed = "cheek_\(imageNo)"
+                        }
+                        node.texture = SKTexture(imageNamed: imageNamed)
+                        node.userData?["oldIndex"] = imageNo
+                    }
+                    let cheekSize: CGSize = imageNo <= 2 ? CGSize.init(width: 270.0, height: 188.0) : CGSize.init(width: 230.0, height: 230.0)
+                    node.size = CGSize.init(width: (face.bounds.size.width * self.cheekRatio), height: (face.bounds.size.width * self.cheekRatio) * cheekSize.height / cheekSize.width)
+                    node.position = rightCheekPoint
+                } else {
+                    var imageNamed = "cheek_"
+                    if (imageNo == 1)  {
+                        imageNamed = "cheek_1_right"
+                    } else {
+                        imageNamed = "cheek_\(imageNo)"
+                    }
+                    print("imageNamed: \(imageNamed)")
+                    let node = SKSpriteNode(imageNamed: imageNamed)
+                    let cheekSize: CGSize = imageNo <= 2 ? CGSize.init(width: 270.0, height: 188.0) : CGSize.init(width: 230.0, height: 230.0)
+                    node.size = CGSize.init(width: (face.bounds.size.width * self.cheekRatio), height: (face.bounds.size.width * self.cheekRatio) * cheekSize.height / cheekSize.width)
+                    node.userData = [
+                        "oldIndex": imageNo
+                    ]
+                    node.name = "tid\(face.trackingID)_cheek_right"
+                    node.position = rightCheekPoint
+                    self.addChild(node)
+                }
+            }
+        }
     }
     
     func removeAllNode(prefix: UInt) {
-        print("emitter node count: \(self.mouthEmitterNodes[prefix]?.count)")
+        // print("emitter node count: \(self.mouthEmitterNodes[prefix]?.count)")
         
         if (self.children.count == 0 || self.mouthEmitterNodes[prefix]?.count == 0) {
             return
@@ -433,11 +559,11 @@ class GameScene: SKScene {
             }
         }
         
-        print("remove sound node")
+        //print("remove sound node")
         
         self.lockEmitterNodes = false
         
-        print("remove childNode")
+        //print("remove childNode")
     }
     
     func resetEmitterNodes() {

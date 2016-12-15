@@ -21,6 +21,7 @@
 		A2321F701E00A017003E658C /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2321F6F1E00A017003E658C /* StateManager.swift */; };
 		A23279F31E02D499006DB3D0 /* beam.wav in Resources */ = {isa = PBXBuildFile; fileRef = A23279F21E02D498006DB3D0 /* beam.wav */; };
 		A23279F51E02DD19006DB3D0 /* sfx.wav in Resources */ = {isa = PBXBuildFile; fileRef = A23279F41E02DD19006DB3D0 /* sfx.wav */; };
+		A233BCA41E02E7B20044B0C2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A233BCA31E02E7B20044B0C2 /* GoogleService-Info.plist */; };
 		A25630DD1DFFC75A006EED35 /* ControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25630DC1DFFC75A006EED35 /* ControllerManager.swift */; };
 		A29D62B61DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D62B51DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift */; };
 		A29D62B81DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D62B71DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift */; };
@@ -64,6 +65,7 @@
 		A2321F6F1E00A017003E658C /* StateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateManager.swift; sourceTree = "<group>"; };
 		A23279F21E02D498006DB3D0 /* beam.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beam.wav; sourceTree = "<group>"; };
 		A23279F41E02DD19006DB3D0 /* sfx.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sfx.wav; sourceTree = "<group>"; };
+		A233BCA31E02E7B20044B0C2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A25630DC1DFFC75A006EED35 /* ControllerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerManager.swift; sourceTree = "<group>"; };
 		A29D62B51DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SakuraEmitterNodeFactory.swift; sourceTree = "<group>"; };
 		A29D62B71DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SakuraEmitterNodeAttributes.swift; sourceTree = "<group>"; };
@@ -77,7 +79,7 @@
 		A2A43F871E028259007F156D /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		A2A43F8F1E028619007F156D /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		A2A43F921E0286D4007F156D /* ActionInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionInfo.swift; sourceTree = "<group>"; };
-		A2DDF7361DDDCE4700809091 /* oishi_sakura.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = oishi_sakura.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2DDF7361DDDCE4700809091 /* OISHI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OISHI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2DDF7391DDDCE4700809091 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A2DDF73B1DDDCE4700809091 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		A2DDF73D1DDDCE4700809091 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 		A2DDF72D1DDDCE4700809091 = {
 			isa = PBXGroup;
 			children = (
+				A233BCA31E02E7B20044B0C2 /* GoogleService-Info.plist */,
 				A2DDF7381DDDCE4700809091 /* oishi_sakura */,
 				A2DDF7371DDDCE4700809091 /* Products */,
 				95216C3304CBAD6CECFE6A33 /* Pods */,
@@ -237,7 +240,7 @@
 		A2DDF7371DDDCE4700809091 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A2DDF7361DDDCE4700809091 /* oishi_sakura.app */,
+				A2DDF7361DDDCE4700809091 /* OISHI.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -294,7 +297,7 @@
 			);
 			name = oishi_sakura;
 			productName = oishi_sakura;
-			productReference = A2DDF7361DDDCE4700809091 /* oishi_sakura.app */;
+			productReference = A2DDF7361DDDCE4700809091 /* OISHI.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -343,6 +346,7 @@
 				A221A7C71DF8A7C7007A2869 /* BlueLightParticle.sks in Resources */,
 				A2DDF7451DDDCE4700809091 /* Main.storyboard in Resources */,
 				A23279F31E02D499006DB3D0 /* beam.wav in Resources */,
+				A233BCA41E02E7B20044B0C2 /* GoogleService-Info.plist in Resources */,
 				A2DDF73C1DDDCE4700809091 /* GameScene.sks in Resources */,
 				A226D9331DF9F33B00F0D921 /* PreviewVideoViewController.xib in Resources */,
 				44CA62C41DF77AA400550365 /* todo in Resources */,
@@ -558,7 +562,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.plaping.oishi;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = OISHI;
 				SWIFT_OBJC_BRIDGING_HEADER = "oishi_sakura/oishi_sakura-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -581,7 +585,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.plaping.oishi;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = OISHI;
 				SWIFT_OBJC_BRIDGING_HEADER = "oishi_sakura/oishi_sakura-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

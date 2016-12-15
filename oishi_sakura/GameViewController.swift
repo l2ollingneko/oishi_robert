@@ -192,9 +192,6 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let soundNode = self.scene?.childNode(withName: "sound") {
-            soundNode.removeFromParent()
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -217,10 +214,11 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         let button: UIButton = UIButton()
         button.tag = random
         self.toggleButton(button: button)
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewDidDisappear(animated)
         self.session?.stopRunning()
     }
     
@@ -314,8 +312,10 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             }
                 
             if (self.origin == .None) {
-                if let soundNode = self.scene?.childNode(withName: "sound") {
-                    soundNode.removeFromParent()
+                DispatchQueue.main.async {
+                    if let soundNode = self.scene?.childNode(withName: "sound") {
+                        soundNode.removeFromParent()
+                    }
                 }
                 self.scene?.noPointDetected()
                 self.removeCheeks()
@@ -403,9 +403,16 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                             var editedRightCheekPosition = face.rightCheekPosition
                             editedRightCheekPosition.y -= (0.065 * face.bounds.size.height)
                             
-                            let lpoint = self.scaledPoint(point: editedLeftCheekPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
-                            let rpoint = self.scaledPoint(point: editedRightCheekPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
+                            let lpoint = self.scaledPointForScene(point: editedLeftCheekPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
+                            let rpoint = self.scaledPointForScene(point: editedRightCheekPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
                             
+                            if (self.recording) {
+                                self.scene?.cheeksDetected(face: face, state: self.currentState, leftCheekPoint: lpoint, rightCheekPoint: rpoint)
+                            } else {
+                                self.scene?.cheeksDetected(face: face, state: -99, leftCheekPoint: lpoint, rightCheekPoint: rpoint)
+                            }
+                            
+                            /*
                             if (!self.addedCheeks) {
                                 
                                 var randomNum: UInt32 = arc4random_uniform(4)
@@ -449,7 +456,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                                 
                                 self.leftCheekImageView.center = lpoint
                                 self.rightCheekImageView.center = rpoint
-                            }
+                            }*/
                         }
                     }
                 } else {
@@ -475,6 +482,11 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                     self.trackingIds[key] = true
                 }
             }   
+        }
+        
+        if (self.lockStateChange) {
+            StateManager.sharedInstance.increaseState()
+            self.lockStateChange = false
         }
     }
     
@@ -559,19 +571,34 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 self.currentState = 0
                 StateManager.sharedInstance.resetState()
                 
-                if let round = KeychainWrapper.standard.integer(forKey: "round") {
-                    KeychainWrapper.standard.set(round + 1, forKey: "round")
-                }
-                
+                self.prepare = true
+        
+                self.removeCheeks()
                 self.scene?.removeAllChildren()
                 self.scene?.resetEmitterNodes()
+                
+                self.prepare = false
                 
                 self.origin = .None
                 
                 preview.previewControllerDelegate = self
                 preview.title = "OISHI"
+                
+                DispatchQueue.main.async {
+                    if let soundNode = self.scene?.childNode(withName: "sound") {
+                        soundNode.removeFromParent()
+                    }
+                }
+                
                 self.present(preview, animated: true, completion: { completed in
                     self.endSceneImageView.removeFromSuperview()
+                    if let round = KeychainWrapper.standard.integer(forKey: "round") {
+                        if (round >= 4) {
+                            KeychainWrapper.standard.set(1, forKey: "round")
+                        } else {
+                            KeychainWrapper.standard.set(round + 1, forKey: "round")
+                        }
+                    }
                 })
                 self.recording = false
             }
@@ -581,10 +608,6 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     func previewController(_ previewController: RPPreviewViewController, didFinishWithActivityTypes activityTypes: Set<String>) {
         
         DispatchQueue.main.async {
-            
-            if let node = self.scene?.childNode(withName: "sound") {
-                node.removeFromParent()
-            }
             
             for type in activityTypes {
                 print(type)
@@ -626,17 +649,11 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                     previewController.dismiss(animated: true, completion: { _ in
                         self.didCancel = false
                     })
-                    if let soundNode = self.scene?.childNode(withName: "sound") {
-                        soundNode.removeFromParent()
-                    }
                 } else {
                     self.didCancel = true
                     let popup = PopupView(frame: self.view.frame)
                     popup.initCancelSaveVideo()
                     previewController.view.addSubview(popup)
-                    if let soundNode = self.scene?.childNode(withName: "sound") {
-                        soundNode.removeFromParent()
-                    }
                 }
             }
             
@@ -683,9 +700,10 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     
     func changeState() {
         self.timerCounter += 0.5
-        print("time @ \(self.timerCounter)")
+        // print("time @ \(self.timerCounter)")
         if (self.timerCounter == 0.0) {
             if (self.timerCounter == 0.0) {
+                self.lockStateChange = true
                 for index in 0...2 {
                     self.iceFrames[index].removeFromSuperview()
                     self.iceFrames[index].alpha = 0.0
@@ -693,11 +711,11 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             }
             // start recording -> 2.0 s
             // white sakura, pink light ray, cheek 1, no ice frame
-            print("start recording")
+            // print("start recording")
         } else if (self.timerCounter >= 2.0 && self.timerCounter < 3.5) {
             // 1.5s
             // pink sakura, blue light ray, cheek 2, ice frame level 1
-            print("change to state 1")
+            // print("change to state 1")
             if (self.timerCounter == 2.0) {
                 self.currentState += 1
                 self.scene?.changeLightEmitterNode(pink: false)
@@ -710,7 +728,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         } else if (self.timerCounter == 3.5 && self.timerCounter < 5.0) {
            // 1.5s
             // pink sakura, blue light ray, cheek 2, ice frame level 2
-            print("change to state 2")
+            // print("change to state 2")
             if (self.timerCounter == 3.5) {
                 self.overlay.addSubview(self.iceFrames[1])
                 UIView.animate(withDuration: 0.25, animations: {
@@ -721,7 +739,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         } else if (self.timerCounter == 5.0 && self.timerCounter < 6.5) {
            // 1.5s
             // pink sakura, blue light ray, cheek 2, ice frame level 3
-            print("change to state 3")
+            // print("change to state 3")
             if (self.timerCounter == 5.0) {
                 self.overlay.addSubview(self.iceFrames[2])
                 UIView.animate(withDuration: 0.25, animations: {
@@ -732,7 +750,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         } else if (self.timerCounter == 6.5 && self.timerCounter < 7.0) {
             // 0.5s
             // show end screen
-            print("show end screen")
+            // print("show end screen")
             if (self.timerCounter == 6.5) {
                 self.removeCheeks()
                 self.overlay.addSubview(self.endSceneImageView)
@@ -746,7 +764,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             }
         } else if (self.timerCounter == 8.0) {
             // stop recording
-            print("stop recording")
+            // print("stop recording")
             self.scene?.changeLightEmitterNode(pink: true)
             self.stopTimer()
         }
@@ -762,7 +780,11 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.overlay.addSubview(self.endSceneImageView)
         self.origin = .None
         self.recordButton.removeFromSuperview()
-        self.scene?.removeAllChildren()
+        
+//        DispatchQueue.main.async {
+//            self.scene?.removeAllChildren()
+//        }
+        
         UIView.animate(withDuration: 0.25, animations: {
             self.endSceneImageView.alpha = 0.0
             self.endSceneImageView.alpha = 1.0
@@ -867,6 +889,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             self.mouthToggleButton.setImage(UIImage(named: "mouth_button"), for: .normal)
             self.earsToggleButton.setImage(UIImage(named: "ear_on_button"), for: .normal)
         } else if (tag == 3) {
+            self.stopAllActions()
             if (self.recording) {
                 self.immediateStopRecording()
                 // self.stopRecording()
@@ -882,16 +905,23 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     }
     
     func stopAllActions() {
-        self.scene?.removeAllChildren()
+        DispatchQueue.main.async {
+            self.scene?.removeAllChildren()
+            if (self.scene?.children.count)! > 0 {
+                for child in (self.scene?.children)! {
+                    print("remove child: \(child.name)")
+                    child.removeFromParent()
+                }
+            }
+        }
+        
         UIView.animate(withDuration: 0.25, animations: {
             self.iceFrames[0].alpha = 1.0
             self.iceFrames[0].alpha = 0.0
         }, completion: { completed in
             self.iceFrames[0].removeFromSuperview()
         })
-        if let soundNode = self.scene?.childNode(withName: "sound") {
-            soundNode.removeFromParent()
-        }
+        
     }
     
     // MARK: - Camera Settings
