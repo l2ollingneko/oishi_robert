@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A2DDF7351DDDCE4700809091"
-               BuildableName = "oishi_sakura.app"
+               BuildableName = "OISHI.app"
                BlueprintName = "oishi_sakura"
                ReferencedContainer = "container:OISHI.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A2DDF7351DDDCE4700809091"
-            BuildableName = "oishi_sakura.app"
+            BuildableName = "OISHI.app"
             BlueprintName = "oishi_sakura"
             ReferencedContainer = "container:OISHI.xcodeproj">
          </BuildableReference>
@@ -56,7 +56,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A2DDF7351DDDCE4700809091"
-            BuildableName = "oishi_sakura.app"
+            BuildableName = "OISHI.app"
             BlueprintName = "oishi_sakura"
             ReferencedContainer = "container:OISHI.xcodeproj">
          </BuildableReference>
@@ -82,7 +82,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A2DDF7351DDDCE4700809091"
-            BuildableName = "oishi_sakura.app"
+            BuildableName = "OISHI.app"
             BlueprintName = "oishi_sakura"
             ReferencedContainer = "container:OISHI.xcodeproj">
          </BuildableReference>

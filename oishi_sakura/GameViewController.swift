@@ -276,6 +276,10 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         
         let orientation = GMVUtility.imageOrientation(from: UIDevice.current.orientation, with: avCaptureDevicePosition, defaultDeviceOrientation: .portrait)
         
+        if (UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeLeft) {
+            return
+        }
+        
         let options: Dictionary<AnyHashable, Any> = [
             GMVDetectorImageOrientation: orientation.rawValue
         ]

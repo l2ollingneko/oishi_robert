@@ -9,6 +9,9 @@ target 'oishi_sakura' do
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
 
+  # Appsflyer
+  pod 'AppsFlyerFramework'
+
   # Google Mobile Vision
   pod 'GoogleMobileVision/FaceDetector'
   pod 'GoogleMobileVision/MVDataOutput'

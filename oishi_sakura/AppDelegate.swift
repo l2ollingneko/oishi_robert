@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import UserNotifications
 import SwiftKeychainWrapper
+import AppsFlyerLib
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -69,6 +70,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             KeychainWrapper.standard.set(1, forKey: "round")
         }
         
+        // MARK: - appsflyer
+        
+        AppsFlyerTracker.shared().appsFlyerDevKey = "HGETasn6yh8FhMC2LQgEWP"
+        AppsFlyerTracker.shared().appleAppID = "965172855"
+        
         return true
     }
     
@@ -93,6 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         FBSDKAppEvents.activateApp()
+        AppsFlyerTracker.shared().trackAppLaunch()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
