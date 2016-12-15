@@ -36,6 +36,8 @@
 		A29D62B81DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D62B71DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift */; };
 		A29D62BA1DE737EE00DA9C73 /* Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D62B91DE737EE00DA9C73 /* Adapter.swift */; };
 		A29D62BC1DE73B8C00DA9C73 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A29D62BB1DE73B8B00DA9C73 /* UIKit.framework */; };
+		A2A43F811E01FC59007F156D /* IndexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A43F7F1E01FC59007F156D /* IndexViewController.swift */; };
+		A2A43F821E01FC59007F156D /* IndexViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2A43F801E01FC59007F156D /* IndexViewController.xib */; };
 		A2DDF73A1DDDCE4700809091 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DDF7391DDDCE4700809091 /* AppDelegate.swift */; };
 		A2DDF73C1DDDCE4700809091 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A2DDF73B1DDDCE4700809091 /* GameScene.sks */; };
 		A2DDF73E1DDDCE4700809091 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = A2DDF73D1DDDCE4700809091 /* Actions.sks */; };
@@ -85,6 +87,8 @@
 		A29D62B71DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SakuraEmitterNodeAttributes.swift; sourceTree = "<group>"; };
 		A29D62B91DE737EE00DA9C73 /* Adapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Adapter.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A29D62BB1DE73B8B00DA9C73 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		A2A43F7F1E01FC59007F156D /* IndexViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexViewController.swift; sourceTree = "<group>"; };
+		A2A43F801E01FC59007F156D /* IndexViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IndexViewController.xib; sourceTree = "<group>"; };
 		A2DDF7361DDDCE4700809091 /* oishi_sakura.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = oishi_sakura.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2DDF7391DDDCE4700809091 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A2DDF73B1DDDCE4700809091 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -202,6 +206,8 @@
 		A29D62AE1DE4746E00DA9C73 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
+				A2A43F7F1E01FC59007F156D /* IndexViewController.swift */,
+				A2A43F801E01FC59007F156D /* IndexViewController.xib */,
 				A2DDF7411DDDCE4700809091 /* GameViewController.swift */,
 				A22E04331E0180CE00FF0452 /* GameViewController.xib */,
 				A226D9301DF9F33B00F0D921 /* PreviewVideoViewController.swift */,
@@ -350,6 +356,7 @@
 				A2DDF7471DDDCE4700809091 /* Assets.xcassets in Resources */,
 				A22E04401E01CA6000FF0452 /* DownloadViewController.xib in Resources */,
 				A20FEB511DED1E3E009584FD /* beam.wav in Resources */,
+				A2A43F821E01FC59007F156D /* IndexViewController.xib in Resources */,
 				A2DDF74A1DDDCE4700809091 /* LaunchScreen.storyboard in Resources */,
 				A221A7CF1DF8B5E4007A2869 /* beam_start.wav in Resources */,
 				A221A7CE1DF8B5E4007A2869 /* beam_loop.wav in Resources */,
@@ -435,6 +442,7 @@
 				A2DDF7551DDE30E100809091 /* DrawingUtility.m in Sources */,
 				A22E04471E01CBC100FF0452 /* M13ProgressViewBorderedBar.m in Sources */,
 				A29D62B81DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift in Sources */,
+				A2A43F811E01FC59007F156D /* IndexViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -566,6 +574,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "oishi_sakura/oishi_sakura-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -583,6 +592,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "oishi_sakura/oishi_sakura-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

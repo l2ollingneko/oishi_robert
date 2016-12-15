@@ -17,6 +17,15 @@ class ControllerManager {
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
+    func indexController() -> IndexViewController {
+        return IndexViewController(nibName: "IndexViewController", bundle: nil)
+    }
+    
+    func presentIndexController() {
+        self.appDelegate.window?.rootViewController = self.indexController()
+        self.appDelegate.window?.makeKeyAndVisible()
+    }
+    
     func mainController() -> GameViewController {
         return GameViewController(nibName: "GameViewController", bundle: nil)
     }

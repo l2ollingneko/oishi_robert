@@ -21,9 +21,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Fuck APPLE Privacy setting !</string>
+	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>FUCK APPLE Privacy setting !</string>
+	<string></string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

@@ -106,6 +106,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     private var currentState: Int = 0
     
     private var didCancel: Bool = false
+    private var showAlert: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -249,8 +250,13 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     }
     
     func scaledPointForScene(point: CGPoint, xScale: CGFloat, yScale: CGFloat, offset: CGPoint) -> CGPoint {
-        let resultPoint = CGPoint(x: point.x * xScale + offset.x, y: UIScreen.main.bounds.size.height - (point.y * yScale + offset.y))
-        return resultPoint
+        if ((UIApplication.shared.delegate) as! AppDelegate).isiPad {
+            let resultPoint = CGPoint(x: (point.x + 114.0) * xScale + offset.x, y: UIScreen.main.bounds.size.height - ((point.y + 32.0) * yScale + offset.y))
+            return resultPoint
+        } else {
+            let resultPoint = CGPoint(x: point.x * xScale + offset.x, y: UIScreen.main.bounds.size.height - (point.y * yScale + offset.y))
+            return resultPoint
+        }
     }
     
     // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
@@ -289,12 +295,18 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         DispatchQueue.main.sync {
             
             if (faces.count == 0) {
+                if let soundNode = self.scene?.childNode(withName: "sound") {
+                    soundNode.removeFromParent()
+                }
                 self.scene?.noPointDetected()
                 self.removeCheeks()
                 return
             }
                 
             if (self.origin == .None) {
+                if let soundNode = self.scene?.childNode(withName: "sound") {
+                    soundNode.removeFromParent()
+                }
                 self.scene?.noPointDetected()
                 self.removeCheeks()
                 return
@@ -312,92 +324,89 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 // TODO: - save face tracking id
                 saveTrackingIds[face.trackingID] = true
                 // print("save trackingId: \(face.trackingID)")
+                if let saved = self.trackingIds[face.trackingID] {
                 
-                if (self.origin != .None) {
-                    // TODO: - create emitter nodes
-                    
-                    if (self.origin == .Mouth) {
-                        if (face.hasMouthPosition == true) {
-                            let point = self.scaledPointForScene(point: face.mouthPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
-                            
-                            if (self.recording) {
-                                self.scene?.createMouthEmitterNodes(trackingID: face.trackingID, state: self.currentState)
-                            } else {
-                                if (!self.prepare) {
-                                    self.scene?.createMouthEmitterNodes(trackingID: face.trackingID, state: -99)
-                                }
-                            }
-                            self.scene?.pointDetected(face: face, atPoint: point, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
-                        }
-                    } else if (self.origin == .Ears) {
-                        if (face.hasLeftEarPosition && face.hasRightEarPosition) {
-                            let lpoint = self.scaledPointForScene(point: face.leftEarPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
-                            let rpoint = self.scaledPointForScene(point: face.rightEarPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
-                            
-                            if (self.recording) {
-                                self.scene?.createEarsEmitterNodes(trackingID: face.trackingID, state: self.currentState)
-                            } else {
-                                if (!self.prepare) {
-                                    self.scene?.createEarsEmitterNodes(trackingID: face.trackingID, state: -99)
-                                }
-                            }
-                            self.scene?.earsPointDetected(face: face, lpos: lpoint, rpos: rpoint, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
-                        }
-                    } else if (self.origin == .Eyes) {
-                        if (face.hasLeftEyePosition && face.hasRightEyePosition) {
-                            let lpoint = self.scaledPointForScene(point: face.leftEyePosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
-                            let rpoint = self.scaledPointForScene(point: face.rightEyePosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
-                            
-                            if (self.recording) {
-                                self.scene?.createEyesEmitterNodes(trackingID: face.trackingID, state: self.currentState)
-                            } else {
-                                if (!self.prepare) {
-                                    self.scene?.createEyesEmitterNodes(trackingID: face.trackingID, state: -99)
-                                }
-                            }
-                            
-                            self.scene?.eyesPointDetected(face: face, lpos: lpoint, rpos: rpoint, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
-                        }
-                    }
-                
-                    // Cheeks
-                    if (face.hasLeftCheekPosition && face.hasRightCheekPosition) {
-                        // TODO: - move cheek image view to skspritenode in game scene
-                        var editedLeftCheekPosition = face.leftCheekPosition
-                        editedLeftCheekPosition.y -= (0.065 * face.bounds.size.height)
+                    if (self.origin != .None) {
+                        // TODO: - create emitter nodes
                         
-                        var editedRightCheekPosition = face.rightCheekPosition
-                        editedRightCheekPosition.y -= (0.065 * face.bounds.size.height)
-                        
-                        let lpoint = self.scaledPoint(point: editedLeftCheekPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
-                        let rpoint = self.scaledPoint(point: editedRightCheekPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
-                        
-                        if (!self.addedCheeks) {
-                            
-                            self.overlay.addSubview(self.iceFrames[0])
-                            UIView.animate(withDuration: 0.25, animations: {
-                                self.iceFrames[0].alpha = 0.0
-                                self.iceFrames[0].alpha = 1.0
-                            })
-                            
-                            /*
-                            if (self.recording) {
-                                if let round = KeychainWrapper.standard.integer(forKey: "round") {
-                                    if (round == 1) {
-                                        self.leftCheekImageView.image = UIImage(named: "cheek_1_left")
-                                        self.rightCheekImageView.image = UIImage(named: "cheek_1_right")   
-                                    } else {
-                                        self.leftCheekImageView.image = UIImage(named: "cheek_\(index)")
-                                        self.rightCheekImageView.image = UIImage(named: "cheek_\(index)")
-                                    }
+                        if (self.origin == .Mouth) {
+                            if (face.hasMouthPosition == true) {
+                                let point = self.scaledPointForScene(point: face.mouthPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
+                                
+                                if (self.recording) {
+                                    self.scene?.createMouthEmitterNodes(trackingID: face.trackingID, state: self.currentState)
                                 } else {
-                                    KeychainWrapper.standard.set(1, forKey: "round")
-                                    self.leftCheekImageView.image = UIImage(named: "cheek_1_left")
-                                    self.rightCheekImageView.image = UIImage(named: "cheek_1_right")
+                                    if (!self.prepare) {
+                                        self.scene?.createMouthEmitterNodes(trackingID: face.trackingID, state: -99)
+                                    }
                                 }
-                            } else {*/
-                                let randomNum: UInt32 = arc4random_uniform(4)
-                                let index: Int = Int(randomNum) + 1
+                                if (!self.prepare) {
+                                    self.scene?.pointDetected(face: face, atPoint: point, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
+                                }
+                            }
+                        } else if (self.origin == .Ears) {
+                            if (face.hasLeftEarPosition && face.hasRightEarPosition) {
+                                let lpoint = self.scaledPointForScene(point: face.leftEarPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
+                                let rpoint = self.scaledPointForScene(point: face.rightEarPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
+                                
+                                if (self.recording) {
+                                    self.scene?.createEarsEmitterNodes(trackingID: face.trackingID, state: self.currentState)
+                                } else {
+                                    if (!self.prepare) {
+                                        self.scene?.createEarsEmitterNodes(trackingID: face.trackingID, state: -99)
+                                    }
+                                }
+                                self.scene?.earsPointDetected(face: face, lpos: lpoint, rpos: rpoint, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
+                            }
+                        } else if (self.origin == .Eyes) {
+                            if (face.hasLeftEyePosition && face.hasRightEyePosition) {
+                                let lpoint = self.scaledPointForScene(point: face.leftEyePosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
+                                let rpoint = self.scaledPointForScene(point: face.rightEyePosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
+                                
+                                if (self.recording) {
+                                    self.scene?.createEyesEmitterNodes(trackingID: face.trackingID, state: self.currentState)
+                                } else {
+                                    if (!self.prepare) {
+                                        self.scene?.createEyesEmitterNodes(trackingID: face.trackingID, state: -99)
+                                    }
+                                }
+                                
+                                self.scene?.eyesPointDetected(face: face, lpos: lpoint, rpos: rpoint, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
+                            }
+                        }
+                    
+                        // Cheeks
+                        if (face.hasLeftCheekPosition && face.hasRightCheekPosition) {
+                            // TODO: - move cheek image view to skspritenode in game scene
+                            var editedLeftCheekPosition = face.leftCheekPosition
+                            editedLeftCheekPosition.y -= (0.065 * face.bounds.size.height)
+                            
+                            var editedRightCheekPosition = face.rightCheekPosition
+                            editedRightCheekPosition.y -= (0.065 * face.bounds.size.height)
+                            
+                            let lpoint = self.scaledPoint(point: editedLeftCheekPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
+                            let rpoint = self.scaledPoint(point: editedRightCheekPosition, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
+                            
+                            if (!self.addedCheeks) {
+                                
+                                /*
+                                if (self.recording) {
+                                    if let round = KeychainWrapper.standard.integer(forKey: "round") {
+                                        if (round == 1) {
+                                            self.leftCheekImageView.image = UIImage(named: "cheek_1_left")
+                                            self.rightCheekImageView.image = UIImage(named: "cheek_1_right")   
+                                        } else {
+                                            self.leftCheekImageView.image = UIImage(named: "cheek_\(index)")
+                                            self.rightCheekImageView.image = UIImage(named: "cheek_\(index)")
+                                        }
+                                    } else {
+                                        KeychainWrapper.standard.set(1, forKey: "round")
+                                        self.leftCheekImageView.image = UIImage(named: "cheek_1_left")
+                                        self.rightCheekImageView.image = UIImage(named: "cheek_1_right")
+                                    }
+                                } else {*/
+                                var randomNum: UInt32 = arc4random_uniform(4)
+                                var index: Int = Int(randomNum) + 1
                                 
                                 if (index == 1) {
                                     self.leftCheekImageView.image = UIImage(named: "cheek_1_left")
@@ -406,29 +415,42 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                                     self.leftCheekImageView.image = UIImage(named: "cheek_\(index)")
                                     self.rightCheekImageView.image = UIImage(named: "cheek_\(index)")
                                 }
-                            // }
-                            
-                            self.leftCheekImageView.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: face.bounds.size.width * 0.75, h: face.bounds.size.width * 0.75)
-                            self.rightCheekImageView.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: face.bounds.size.width * 0.75, h: face.bounds.size.width * 0.75)
-                            
-                            self.leftCheekImageView.center = lpoint
-                            self.rightCheekImageView.center = rpoint
-                            
-                            self.leftCheekImageView.layer.zPosition = 1000
-                            self.rightCheekImageView.layer.zPosition = 1000
-                            
-                            self.overlay.addSubview(self.leftCheekImageView)
-                            self.overlay.addSubview(self.rightCheekImageView)
-                            
-                            self.addedCheeks = true
-                        } else {
-                            self.leftCheekImageView.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: face.bounds.size.width * 0.7, h: face.bounds.size.width * 0.7)
-                            self.rightCheekImageView.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: face.bounds.size.width * 0.7, h: face.bounds.size.width * 0.7)
-                            
-                            self.leftCheekImageView.center = lpoint
-                            self.rightCheekImageView.center = rpoint
+                                // }
+                                
+                                randomNum = arc4random_uniform(2)
+                                index = Int(randomNum)
+                                if (index == 0) {
+                                    self.overlay.addSubview(self.iceFrames[0])
+                                    UIView.animate(withDuration: 0.25, animations: {
+                                        self.iceFrames[0].alpha = 0.0
+                                        self.iceFrames[0].alpha = 1.0
+                                    })
+                                }
+                                
+                                self.leftCheekImageView.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: face.bounds.size.width * 0.75, h: face.bounds.size.width * 0.75)
+                                self.rightCheekImageView.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: face.bounds.size.width * 0.75, h: face.bounds.size.width * 0.75)
+                                
+                                self.leftCheekImageView.center = lpoint
+                                self.rightCheekImageView.center = rpoint
+                                
+                                self.leftCheekImageView.layer.zPosition = 1000
+                                self.rightCheekImageView.layer.zPosition = 1000
+                                
+                                self.overlay.addSubview(self.leftCheekImageView)
+                                self.overlay.addSubview(self.rightCheekImageView)
+                                
+                                self.addedCheeks = true
+                            } else {
+                                self.leftCheekImageView.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: face.bounds.size.width * 0.7, h: face.bounds.size.width * 0.7)
+                                self.rightCheekImageView.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: face.bounds.size.width * 0.7, h: face.bounds.size.width * 0.7)
+                                
+                                self.leftCheekImageView.center = lpoint
+                                self.rightCheekImageView.center = rpoint
+                            }
                         }
                     }
+                } else {
+                    // TODO: - wait for detection 2nd time
                 }
             }
         }
@@ -436,6 +458,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         // TODO: - check disappeared tracking id then remove all nodes of that tracking id
         if saveTrackingIds.count > self.trackingIds.count {
             for key in saveTrackingIds.keys {
+                print("save new trakcing id: \(key)")
                 self.trackingIds[key] = true
             }
         } else {
@@ -571,57 +594,84 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     
     func previewController(_ previewController: RPPreviewViewController, didFinishWithActivityTypes activityTypes: Set<String>) {
         
-        if activityTypes.count > 0 {
-            // save
-            // present preview
-            self.overlayWindow?.isHidden = true
+        DispatchQueue.main.async {
             
-            self.swapCameraButton.isHidden = false
-            self.eyesToggleButton.isHidden = false
-            self.mouthToggleButton.isHidden = false
-            self.earsToggleButton.isHidden = false
-            self.recordButton.isHidden = false
+            if let node = self.scene?.childNode(withName: "sound") {
+                node.removeFromParent()
+            }
             
-            self.addDownloadingView()
+            for type in activityTypes {
+                print(type)
+            }
             
-            self.origin = .None
-            self.overlayWindow?.isHidden = true
-            
-            previewController.dismiss(animated: true, completion: { completed in
+            if activityTypes.count > 0 {
+                // save
+                // present preview
+                self.overlayWindow?.isHidden = true
+                
+                self.swapCameraButton.isHidden = false
+                self.eyesToggleButton.isHidden = false
+                self.mouthToggleButton.isHidden = false
+                self.earsToggleButton.isHidden = false
+                self.recordButton.isHidden = false
+                
+                self.addDownloadingView()
                 
                 self.origin = .None
                 self.overlayWindow?.isHidden = true
                 
-                Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(GameViewController.presentPreviewVideoController), userInfo: nil, repeats: false)
-                
-                /*
-                self.present(PreviewVideoViewController(nibName: "PreviewVideoViewController", bundle: nil), animated: true, completion: { completed in
+                previewController.dismiss(animated: true, completion: { completed in
+                    
                     self.origin = .None
+                    self.overlayWindow?.isHidden = true
+                    
+                    Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(GameViewController.presentPreviewVideoController), userInfo: nil, repeats: false)
+                    
+                    /*
+                    self.present(PreviewVideoViewController(nibName: "PreviewVideoViewController", bundle: nil), animated: true, completion: { completed in
+                        self.origin = .None
+                    })
+                     */
                 })
-                 */
-            })
-        } else {
-            // no save action
-            // present alert view
-            if (self.didCancel) {
-                previewController.dismiss(animated: true, completion: nil)
-                self.didCancel = false
             } else {
-                let popup = PopupView(frame: self.view.frame)
-                popup.initCancelSaveVideo()
-                previewController.view.addSubview(popup)
-                self.didCancel = true
+                // no save action
+                // present alert view
+                if (self.didCancel) {
+                    previewController.dismiss(animated: true, completion: { _ in
+                        self.didCancel = false
+                    })
+                    if let soundNode = self.scene?.childNode(withName: "sound") {
+                        soundNode.removeFromParent()
+                    }
+                } else {
+                    self.didCancel = true
+                    let popup = PopupView(frame: self.view.frame)
+                    popup.initCancelSaveVideo()
+                    previewController.view.addSubview(popup)
+                    if let soundNode = self.scene?.childNode(withName: "sound") {
+                        soundNode.removeFromParent()
+                    }
+                }
             }
+            
         }
     }
     
     func addDownloadingView() {
         let view = UIView(frame: self.view.frame)
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.85)
+        view.backgroundColor = UIColor.black
         let activity = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         activity.center = view.center
         activity.startAnimating()
+        
+        let label = UILabel(frame: CGRect.init(x: 0.0, y: view.center.y + 40.0, width: view.frame.size.width, height: 50.0))
+        label.textAlignment = .center
+        label.textColor = UIColor.white
+        label.font = UIFont.systemFont(ofSize: 16.0, weight: 0.85)
+        label.text = "Processing video ..."
+        
         view.addSubview(activity)
+        view.addSubview(label)
         
         self.overlay.addSubview(view)
     }
@@ -765,7 +815,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.versionLabel.frame.origin = CGPoint(x: 10.0, y: 0.0)
         self.versionLabel.font = UIFont.systemFont(ofSize: 30.0)
         self.versionLabel.textColor = UIColor.white
-        self.versionLabel.text = "v 2.3.0"
+        self.versionLabel.text = "v 2.3.1"
         self.versionLabel.sizeToFit()
         
         self.skView?.addSubview(self.versionLabel)
@@ -821,14 +871,13 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     }
     
     func stopAllActions() {
+        self.scene?.removeAllChildren()
         UIView.animate(withDuration: 0.25, animations: {
             self.iceFrames[0].alpha = 1.0
             self.iceFrames[0].alpha = 0.0
         }, completion: { completed in
             self.iceFrames[0].removeFromSuperview()
         })
-        self.scene?.removeAllChildren()
-        self.scene?.stopActions()
     }
     
     // MARK: - Camera Settings

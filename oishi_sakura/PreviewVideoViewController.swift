@@ -29,7 +29,7 @@ class PreviewVideoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.frame = CGRect.init(x: 0.0, y: 0.0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+        self.view.frame = CGRect.init(x: 0.0, y: 0.0, width: Adapter.rWidth, height: Adapter.rHeight)
         
         self.backgroundImageView.frame = self.view.frame
         self.backgroundImageView.image = UIImage(named: "preview_bg")

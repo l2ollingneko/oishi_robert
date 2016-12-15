@@ -12,16 +12,27 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var isiPad: Bool = false
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        self.window = UIWindow(frame: CGRect.init(x: 0.0, y: 0.0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
+        if ((UIScreen.main.bounds.size.height / UIScreen.main.bounds.size.width) < 1.5) {
+            self.window = UIWindow(frame: CGRect.init(x: 114.0, y: 32.0, width: 540.0, height: 960.0))
+            
+            let bg = UIImageView(frame: CGRect.init(x: -114.0, y: -32.0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
+            bg.image = UIImage(named: "ipad_bg")
+            bg.backgroundColor = UIColor.black
+            
+            self.isiPad = true
+            
+            self.window?.addSubview(bg)
+            self.window?.sendSubview(toBack: bg)
+        } else {
+            self.window = UIWindow(frame: CGRect.init(x: 0.0, y: 0.0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
+        }
         
-        print("window frame: \(self.window?.frame)")
-        
-        self.window?.rootViewController = GameViewController(nibName: "GameViewController", bundle: nil)
-        self.window?.makeKeyAndVisible()
+        ControllerManager.sharedInstance.presentIndexController()
         
         return true
     }
