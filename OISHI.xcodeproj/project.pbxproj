@@ -12,7 +12,6 @@
 		A221A7C71DF8A7C7007A2869 /* BlueLightParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A221A7C61DF8A7C7007A2869 /* BlueLightParticle.sks */; };
 		A226D9321DF9F33B00F0D921 /* PreviewVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A226D9301DF9F33B00F0D921 /* PreviewVideoViewController.swift */; };
 		A226D9331DF9F33B00F0D921 /* PreviewVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A226D9311DF9F33B00F0D921 /* PreviewVideoViewController.xib */; };
-		A22E04321E0177F200FF0452 /* sfx.aiff in Resources */ = {isa = PBXBuildFile; fileRef = A22E04311E0177F200FF0452 /* sfx.aiff */; };
 		A22E04341E0180CE00FF0452 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A22E04331E0180CE00FF0452 /* GameViewController.xib */; };
 		A22E04361E01814A00FF0452 /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22E04351E01814A00FF0452 /* PopupView.swift */; };
 		A22E043B1E01BBFC00FF0452 /* VideoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22E04391E01BBFC00FF0452 /* VideoPreviewViewController.swift */; };
@@ -21,6 +20,7 @@
 		A22E04471E01CBC100FF0452 /* M13ProgressViewBorderedBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A22E04451E01CBC100FF0452 /* M13ProgressViewBorderedBar.m */; };
 		A2321F701E00A017003E658C /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2321F6F1E00A017003E658C /* StateManager.swift */; };
 		A23279F31E02D499006DB3D0 /* beam.wav in Resources */ = {isa = PBXBuildFile; fileRef = A23279F21E02D498006DB3D0 /* beam.wav */; };
+		A23279F51E02DD19006DB3D0 /* sfx.wav in Resources */ = {isa = PBXBuildFile; fileRef = A23279F41E02DD19006DB3D0 /* sfx.wav */; };
 		A25630DD1DFFC75A006EED35 /* ControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25630DC1DFFC75A006EED35 /* ControllerManager.swift */; };
 		A29D62B61DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D62B51DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift */; };
 		A29D62B81DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D62B71DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift */; };
@@ -53,7 +53,6 @@
 		A221A7C61DF8A7C7007A2869 /* BlueLightParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BlueLightParticle.sks; sourceTree = "<group>"; };
 		A226D9301DF9F33B00F0D921 /* PreviewVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewVideoViewController.swift; sourceTree = "<group>"; };
 		A226D9311DF9F33B00F0D921 /* PreviewVideoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreviewVideoViewController.xib; sourceTree = "<group>"; };
-		A22E04311E0177F200FF0452 /* sfx.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = sfx.aiff; sourceTree = "<group>"; };
 		A22E04331E0180CE00FF0452 /* GameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GameViewController.xib; sourceTree = "<group>"; };
 		A22E04351E01814A00FF0452 /* PopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
 		A22E04391E01BBFC00FF0452 /* VideoPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPreviewViewController.swift; sourceTree = "<group>"; };
@@ -64,6 +63,7 @@
 		A22E04451E01CBC100FF0452 /* M13ProgressViewBorderedBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M13ProgressViewBorderedBar.m; sourceTree = "<group>"; };
 		A2321F6F1E00A017003E658C /* StateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateManager.swift; sourceTree = "<group>"; };
 		A23279F21E02D498006DB3D0 /* beam.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beam.wav; sourceTree = "<group>"; };
+		A23279F41E02DD19006DB3D0 /* sfx.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sfx.wav; sourceTree = "<group>"; };
 		A25630DC1DFFC75A006EED35 /* ControllerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerManager.swift; sourceTree = "<group>"; };
 		A29D62B51DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SakuraEmitterNodeFactory.swift; sourceTree = "<group>"; };
 		A29D62B71DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SakuraEmitterNodeAttributes.swift; sourceTree = "<group>"; };
@@ -132,7 +132,7 @@
 		A20FEB4B1DED1971009584FD /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				A22E04311E0177F200FF0452 /* sfx.aiff */,
+				A23279F41E02DD19006DB3D0 /* sfx.wav */,
 				A23279F21E02D498006DB3D0 /* beam.wav */,
 			);
 			name = resources;
@@ -315,7 +315,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A2DDF7311DDDCE4700809091 /* Build configuration list for PBXProject "oishi_sakura" */;
+			buildConfigurationList = A2DDF7311DDDCE4700809091 /* Build configuration list for PBXProject "OISHI" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -338,6 +338,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A23279F51E02DD19006DB3D0 /* sfx.wav in Resources */,
 				A22E04341E0180CE00FF0452 /* GameViewController.xib in Resources */,
 				A221A7C71DF8A7C7007A2869 /* BlueLightParticle.sks in Resources */,
 				A2DDF7451DDDCE4700809091 /* Main.storyboard in Resources */,
@@ -350,7 +351,6 @@
 				A2DDF74A1DDDCE4700809091 /* LaunchScreen.storyboard in Resources */,
 				A20FEB4A1DED1344009584FD /* LightParticle.sks in Resources */,
 				A2DDF73E1DDDCE4700809091 /* Actions.sks in Resources */,
-				A22E04321E0177F200FF0452 /* sfx.aiff in Resources */,
 				A22E043C1E01BBFC00FF0452 /* VideoPreviewViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -591,7 +591,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A2DDF7311DDDCE4700809091 /* Build configuration list for PBXProject "oishi_sakura" */ = {
+		A2DDF7311DDDCE4700809091 /* Build configuration list for PBXProject "OISHI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A2DDF74C1DDDCE4700809091 /* Debug */,

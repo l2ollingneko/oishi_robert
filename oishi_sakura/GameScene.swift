@@ -118,7 +118,7 @@ class GameScene: SKScene {
                 let randomUInt: UInt32 = arc4random_uniform(2)
                 let random: Int = Int(randomUInt)
                 if (random == 0) {
-                    let sound = SKAudioNode(fileNamed: "sfx.aiff")
+                    let sound = SKAudioNode(fileNamed: "sfx.wav")
                     sound.name = "sound"
                     self.addChild(sound)
                 } else {
@@ -227,7 +227,7 @@ class GameScene: SKScene {
                 let randomUInt: UInt32 = arc4random_uniform(2)
                 let random: Int = Int(randomUInt)
                 if (random == 0) {
-                    let sound = SKAudioNode(fileNamed: "sfx.aiff")
+                    let sound = SKAudioNode(fileNamed: "sfx.wav")
                     sound.name = "sound"
                     self.addChild(sound)
                 } else {
@@ -354,7 +354,7 @@ class GameScene: SKScene {
                 let randomUInt: UInt32 = arc4random_uniform(2)
                 let random: Int = Int(randomUInt)
                 if (random == 0) {
-                    let sound = SKAudioNode(fileNamed: "sfx.aiff")
+                    let sound = SKAudioNode(fileNamed: "sfx.wav")
                     sound.name = "sound"
                     self.addChild(sound)
                 } else {
@@ -420,11 +420,11 @@ class GameScene: SKScene {
         DispatchQueue.main.sync {
             for childNode in self.children {
                 if let name = childNode.name, name.contains("tid\(prefix)") {
-                    print("name: \(name)")
+                    // print("name: \(name)")
                     if let node = self.childNode(withName: name) {
                         node.removeFromParent()
                     }
-                    print("success remove node w/ name: \(name)")
+                    // print("success remove node w/ name: \(name)")
                 }
             }
             

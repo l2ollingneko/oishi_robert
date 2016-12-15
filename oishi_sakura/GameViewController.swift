@@ -104,6 +104,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     // MARK: - current state
     
     private var currentState: Int = 0
+    private var lockStateChange: Bool = false
     
     private var didCancel: Bool = false
     private var showAlert: Bool = false
@@ -568,6 +569,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 self.origin = .None
                 
                 preview.previewControllerDelegate = self
+                preview.title = "OISHI"
                 self.present(preview, animated: true, completion: { completed in
                     self.endSceneImageView.removeFromSuperview()
                 })
