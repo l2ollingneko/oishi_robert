@@ -5,7 +5,11 @@ target 'oishi_sakura' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
 
-  # Pods for oishi_sakura
+  # Analytics Firebase
+  pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
+
+  # Google Mobile Vision
   pod 'GoogleMobileVision/FaceDetector'
   pod 'GoogleMobileVision/MVDataOutput'
 

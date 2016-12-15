@@ -20,6 +20,7 @@ class VideoPreviewViewController: UIViewController {
     var playImageView = UIImageView()
     var playButton = UIButton()
     var closeButton = UIButton()
+    var timeTrack = M13ProgressViewBorderedBar()
     
     var url: URL?
     var videoUrlString: String?
@@ -28,7 +29,7 @@ class VideoPreviewViewController: UIViewController {
     
     var duration: Float64 = 0
     
-    var timer: AnyObject?
+    var timer: Any?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,11 +42,17 @@ class VideoPreviewViewController: UIViewController {
         self.bottomBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         self.bottomBar.layer.zPosition = 1000
         
-        self.playButton.frame = CGRect.init(x: 0.0, y: 0.0, width: barSize.width, height: barSize.height)
+        self.playImageView.frame = CGRect.init(x: Adapter.calculatedWidthFromRatio(width: 62.0), y: Adapter.calculatedWidthFromRatio(width: 33.0), width: Adapter.calculatedWidthFromRatio(width: 136.0), height: Adapter.calculatedWidthFromRatio(width: 136.0))
+        self.playImageView.image = UIImage(named: "preview_video_play_button")
+        self.playImageView.backgroundColor = UIColor.clear
+        
+        self.playButton.frame = CGRect.init(x: Adapter.calculatedWidthFromRatio(width: 2.0), y: 0.0, width: Adapter.calculatedWidthFromRatio(width: 202.0), height: Adapter.calculatedWidthFromRatio(width: 202.0))
         self.playButton.backgroundColor = UIColor.clear
+        /*
         self.playButton.titleLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: 0.85)
         self.playButton.setTitle("Play Video", for: .normal)
         self.playButton.setTitleColor(UIColor.white, for: .normal)
+         */
         self.playButton.addTarget(self, action: #selector(VideoPreviewViewController.checkVideo), for: .touchUpInside)
         
         self.closeButton.frame = CGRect.init(x: Adapter.calculatedWidthFromRatio(width: 1000.0), y: Adapter.calculatedHeightFromRatio(height: 50.0), width: Adapter.calculatedWidthFromRatio(width: 193.0), height: Adapter.calculatedHeightFromRatio(height: 196.0))
@@ -54,9 +61,18 @@ class VideoPreviewViewController: UIViewController {
         self.closeButton.isUserInteractionEnabled = true
         self.closeButton.layer.zPosition = 1000
         
+        let progressBarSize = CGSize.init(width: Adapter.rWidth - Adapter.calculatedWidthFromRatio(width: 326.0), height: Adapter.calculatedHeightFromRatio(height: 40.0))
+        self.timeTrack.frame = CGRect.init(x: Adapter.calculatedWidthFromRatio(width: 264.0), y: Adapter.calculatedHeightFromRatio(height: (202.0 - 40.0) / 2.0), width: progressBarSize.width, height: progressBarSize.height)
+        self.timeTrack.layer.cornerRadius = progressBarSize.height / 2.0
+        self.timeTrack.clipsToBounds = true
+        self.timeTrack.layer.borderColor = UIColor.white.cgColor
+        self.timeTrack.layer.borderWidth = Adapter.calculatedWidthFromRatio(width: 8.0)
+        self.timeTrack.primaryColor = UIColor.white
+        self.timeTrack.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         
         self.bottomBar.addSubview(self.playImageView)
         self.bottomBar.addSubview(self.playButton)
+        self.bottomBar.addSubview(self.timeTrack)
         
         self.videoView.frame = CGRect.init(x: 0.0, y: 0.0, width: Adapter.rWidth, height: Adapter.rHeight)
         self.videoView.backgroundColor = UIColor.black
@@ -119,6 +135,11 @@ class VideoPreviewViewController: UIViewController {
         self.avPlayer.seek(to: kCMTimeZero)
         
         print("duration: \(duration)")
+        
+        let interval = CMTimeMakeWithSeconds(0.1, 1000)
+        self.timer = self.avPlayer.addPeriodicTimeObserver(forInterval: interval, queue: nil, using: { time in
+            self.timeTrack.setProgress(CGFloat(CGFloat(time.seconds) / CGFloat(self.duration)), animated: true)
+        })
         
         self.avPlayer.play()
     }
