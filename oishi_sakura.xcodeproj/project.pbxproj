@@ -20,6 +20,7 @@
 		A22E04461E01CBC100FF0452 /* M13ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = A22E04431E01CBC100FF0452 /* M13ProgressView.m */; };
 		A22E04471E01CBC100FF0452 /* M13ProgressViewBorderedBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A22E04451E01CBC100FF0452 /* M13ProgressViewBorderedBar.m */; };
 		A2321F701E00A017003E658C /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2321F6F1E00A017003E658C /* StateManager.swift */; };
+		A23279F31E02D499006DB3D0 /* beam.wav in Resources */ = {isa = PBXBuildFile; fileRef = A23279F21E02D498006DB3D0 /* beam.wav */; };
 		A25630DD1DFFC75A006EED35 /* ControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25630DC1DFFC75A006EED35 /* ControllerManager.swift */; };
 		A29D62B61DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D62B51DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift */; };
 		A29D62B81DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D62B71DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift */; };
@@ -62,6 +63,7 @@
 		A22E04441E01CBC100FF0452 /* M13ProgressViewBorderedBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M13ProgressViewBorderedBar.h; sourceTree = "<group>"; };
 		A22E04451E01CBC100FF0452 /* M13ProgressViewBorderedBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M13ProgressViewBorderedBar.m; sourceTree = "<group>"; };
 		A2321F6F1E00A017003E658C /* StateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateManager.swift; sourceTree = "<group>"; };
+		A23279F21E02D498006DB3D0 /* beam.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beam.wav; sourceTree = "<group>"; };
 		A25630DC1DFFC75A006EED35 /* ControllerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerManager.swift; sourceTree = "<group>"; };
 		A29D62B51DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SakuraEmitterNodeFactory.swift; sourceTree = "<group>"; };
 		A29D62B71DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SakuraEmitterNodeAttributes.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				A22E04311E0177F200FF0452 /* sfx.aiff */,
+				A23279F21E02D498006DB3D0 /* beam.wav */,
 			);
 			name = resources;
 			sourceTree = "<group>";
@@ -338,6 +341,7 @@
 				A22E04341E0180CE00FF0452 /* GameViewController.xib in Resources */,
 				A221A7C71DF8A7C7007A2869 /* BlueLightParticle.sks in Resources */,
 				A2DDF7451DDDCE4700809091 /* Main.storyboard in Resources */,
+				A23279F31E02D499006DB3D0 /* beam.wav in Resources */,
 				A2DDF73C1DDDCE4700809091 /* GameScene.sks in Resources */,
 				A226D9331DF9F33B00F0D921 /* PreviewVideoViewController.xib in Resources */,
 				44CA62C41DF77AA400550365 /* todo in Resources */,

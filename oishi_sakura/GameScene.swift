@@ -115,9 +115,18 @@ class GameScene: SKScene {
      
             if let node = self.childNode(withName: "sound") as! SKAudioNode? {
             } else {
-                let sound = SKAudioNode(fileNamed: "sfx.aiff")
-                sound.name = "sound"
-                self.addChild(sound)
+                let randomUInt: UInt32 = arc4random_uniform(2)
+                let random: Int = Int(randomUInt)
+                if (random == 0) {
+                    let sound = SKAudioNode(fileNamed: "sfx.aiff")
+                    sound.name = "sound"
+                    self.addChild(sound)
+                } else {
+                    let sound = SKAudioNode(fileNamed: "beam.wav")
+                    sound.name = "sound"
+                    self.addChild(sound)        
+                }
+                
             }
         
             if let nodes = self.mouthEmitterNodes[face.trackingID] {
@@ -145,230 +154,251 @@ class GameScene: SKScene {
     
     func earsPointDetected(face: GMVFaceFeature, lpos: CGPoint, rpos: CGPoint, headEulerAngleY: CGFloat, headEulerAngleZ: CGFloat) {
         
-        // radius
-        if let node = self.childNode(withName: "tid\(face.trackingID)_radius_left") as! SKSpriteNode? {
-            node.size = CGSize.init(width: (face.bounds.size.width * self.mouthLightRadiusRatio), height: (face.bounds.size.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
-            node.position = lpos
-        } else {
-            if let n = self.lightNode?.copy() as! SKSpriteNode? {
-                n.size = CGSize.init(width: (face.bounds.size.width * self.mouthLightRadiusRatio), height: (face.bounds.size.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
-                n.name = "tid\(face.trackingID)_radius_left"
-                n.position = lpos
-                self.addChild(n)
+        if (!self.lockEmitterNodes) {
+            // radius
+            if let node = self.childNode(withName: "tid\(face.trackingID)_radius_left") as! SKSpriteNode? {
+                node.size = CGSize.init(width: (face.bounds.size.width * self.mouthLightRadiusRatio), height: (face.bounds.size.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
+                node.position = lpos
+            } else {
+                if let n = self.lightNode?.copy() as! SKSpriteNode? {
+                    n.size = CGSize.init(width: (face.bounds.size.width * self.mouthLightRadiusRatio), height: (face.bounds.size.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
+                    n.name = "tid\(face.trackingID)_radius_left"
+                    n.position = lpos
+                    self.addChild(n)
+                }
             }
-        }
-        
-        // radius
-        if let node = self.childNode(withName: "tid\(face.trackingID)_radius_right") as! SKSpriteNode? {
-            node.size = CGSize.init(width: (face.bounds.size.width * self.mouthLightRadiusRatio), height: (face.bounds.size.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
-            node.position = rpos
-        } else {
-            if let n = self.lightNode?.copy() as! SKSpriteNode? {
-                n.size = CGSize.init(width: (face.bounds.size.width * self.mouthLightRadiusRatio), height: (face.bounds.size.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
-                n.name = "tid\(face.trackingID)_radius_right"
-                n.position = rpos
-                self.addChild(n)
+            
+            // radius
+            if let node = self.childNode(withName: "tid\(face.trackingID)_radius_right") as! SKSpriteNode? {
+                node.size = CGSize.init(width: (face.bounds.size.width * self.mouthLightRadiusRatio), height: (face.bounds.size.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
+                node.position = rpos
+            } else {
+                if let n = self.lightNode?.copy() as! SKSpriteNode? {
+                    n.size = CGSize.init(width: (face.bounds.size.width * self.mouthLightRadiusRatio), height: (face.bounds.size.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
+                    n.name = "tid\(face.trackingID)_radius_right"
+                    n.position = rpos
+                    self.addChild(n)
+                }
             }
-        }
-        
-        // light emitter
-        if let node = self.childNode(withName: "tid\(face.trackingID)_light_node_left") {
-            node.position = lpos
-            (node as! SKEmitterNode).emissionAngle = self.calculatedEarsEmissionAngle(leftEar: true, y: headEulerAngleY, z: headEulerAngleZ)
-            /*
-            if (!self.playSound) {
-                self.playSound = true
-                self.run(SKAction.playSoundFileNamed("beam.wav", waitForCompletion: true), completion: { completed in
-                    self.playSound = false
-                })
+            
+            // light emitter
+            if let node = self.childNode(withName: "tid\(face.trackingID)_light_node_left") {
+                node.position = lpos
+                (node as! SKEmitterNode).emissionAngle = self.calculatedEarsEmissionAngle(leftEar: true, y: headEulerAngleY, z: headEulerAngleZ)
+                /*
+                if (!self.playSound) {
+                    self.playSound = true
+                    self.run(SKAction.playSoundFileNamed("beam.wav", waitForCompletion: true), completion: { completed in
+                        self.playSound = false
+                    })
+                }
+                */
+            } else {
+                if let n = self.lightEmitterNode?.copy() as! SKEmitterNode? {
+                    n.name = "tid\(face.trackingID)_light_node_left"
+                    n.position = lpos
+                    n.emissionAngle = self.calculatedEarsEmissionAngle(leftEar: true, y: headEulerAngleY, z: headEulerAngleZ)
+                    self.addChild(n)
+                }
             }
-            */
-        } else {
-            if let n = self.lightEmitterNode?.copy() as! SKEmitterNode? {
-                n.name = "tid\(face.trackingID)_light_node_left"
-                n.position = lpos
-                n.emissionAngle = self.calculatedEarsEmissionAngle(leftEar: true, y: headEulerAngleY, z: headEulerAngleZ)
-                self.addChild(n)
+            
+            if let node = self.childNode(withName: "tid\(face.trackingID)_light_node_right") {
+                node.position = rpos
+                (node as! SKEmitterNode).emissionAngle = self.calculatedEarsEmissionAngle(leftEar: false, y: headEulerAngleY, z: headEulerAngleZ)
+                /*
+                if (!self.playSound) {
+                    self.playSound = true
+                    self.run(SKAction.playSoundFileNamed("beam.wav", waitForCompletion: true), completion: { completed in
+                        self.playSound = false
+                    })
+                }
+                */
+            } else {
+                if let n = self.lightEmitterNode?.copy() as! SKEmitterNode? {
+                    n.name = "tid\(face.trackingID)_light_node_right"
+                    n.position = rpos
+                    n.emissionAngle = self.calculatedEarsEmissionAngle(leftEar: false, y: headEulerAngleY, z: headEulerAngleZ)
+                    self.addChild(n)
+                }
             }
-        }
-        
-        if let node = self.childNode(withName: "tid\(face.trackingID)_light_node_right") {
-            node.position = rpos
-            (node as! SKEmitterNode).emissionAngle = self.calculatedEarsEmissionAngle(leftEar: false, y: headEulerAngleY, z: headEulerAngleZ)
-            /*
-            if (!self.playSound) {
-                self.playSound = true
-                self.run(SKAction.playSoundFileNamed("beam.wav", waitForCompletion: true), completion: { completed in
-                    self.playSound = false
-                })
+            
+            if let node = self.childNode(withName: "sound") as! SKAudioNode? {
+            } else {
+                let randomUInt: UInt32 = arc4random_uniform(2)
+                let random: Int = Int(randomUInt)
+                if (random == 0) {
+                    let sound = SKAudioNode(fileNamed: "sfx.aiff")
+                    sound.name = "sound"
+                    self.addChild(sound)
+                } else {
+                    let sound = SKAudioNode(fileNamed: "beam.wav")
+                    sound.name = "sound"
+                    self.addChild(sound)        
+                }
             }
-            */
-        } else {
-            if let n = self.lightEmitterNode?.copy() as! SKEmitterNode? {
-                n.name = "tid\(face.trackingID)_light_node_right"
-                n.position = rpos
-                n.emissionAngle = self.calculatedEarsEmissionAngle(leftEar: false, y: headEulerAngleY, z: headEulerAngleZ)
-                self.addChild(n)
-            }
-        }
-        
-        if let node = self.childNode(withName: "sound") as! SKAudioNode? {
-        } else {
-            let sound = SKAudioNode(fileNamed: "sfx.aiff")
-            sound.name = "sound"
-            self.addChild(sound)
-        }
-        
-        if let nodes = self.leftEarEmitterNodes[face.trackingID] {
-            if (!SakuraEmitterNodeFactory.sharedInstance.lockEmitterNodeFactory) {
-                for node in nodes {
-                    if let name = node.name {
-                        if let node = self.childNode(withName: "\(name)") {
-                            node.position = lpos
-                            (node as! SKEmitterNode).emissionAngle = self.calculatedEarsEmissionAngle(leftEar: true, y: headEulerAngleY, z: headEulerAngleZ)
-                        } else {
-                            node.position = lpos
-                            self.addChild(node)
+            
+            if let nodes = self.leftEarEmitterNodes[face.trackingID] {
+                if (!SakuraEmitterNodeFactory.sharedInstance.lockEmitterNodeFactory) {
+                    for node in nodes {
+                        if let name = node.name {
+                            if let node = self.childNode(withName: "\(name)") {
+                                node.position = lpos
+                                (node as! SKEmitterNode).emissionAngle = self.calculatedEarsEmissionAngle(leftEar: true, y: headEulerAngleY, z: headEulerAngleZ)
+                            } else {
+                                node.position = lpos
+                                self.addChild(node)
+                            }
                         }
                     }
                 }
+            } else {
+                // TODO: - do nothing, wait for controller to tell gamescene to create nodes
             }
-        } else {
-            // TODO: - do nothing, wait for controller to tell gamescene to create nodes
-        }
-        
-        if let nodes = self.rightEarEmitterNodes[face.trackingID] {
-            if (!SakuraEmitterNodeFactory.sharedInstance.lockEmitterNodeFactory) {
-                for node in nodes {
-                    if let name = node.name {
-                        if let node = self.childNode(withName: "\(name)") {
-                            node.position = rpos
-                            (node as! SKEmitterNode).emissionAngle = self.calculatedEarsEmissionAngle(leftEar: false, y: headEulerAngleY, z: headEulerAngleZ)
-                        } else {
-                            node.position = rpos
-                            self.addChild(node)
+            
+            if let nodes = self.rightEarEmitterNodes[face.trackingID] {
+                if (!SakuraEmitterNodeFactory.sharedInstance.lockEmitterNodeFactory) {
+                    for node in nodes {
+                        if let name = node.name {
+                            if let node = self.childNode(withName: "\(name)") {
+                                node.position = rpos
+                                (node as! SKEmitterNode).emissionAngle = self.calculatedEarsEmissionAngle(leftEar: false, y: headEulerAngleY, z: headEulerAngleZ)
+                            } else {
+                                node.position = rpos
+                                self.addChild(node)
+                            }
                         }
                     }
                 }
+            } else {
+                // TODO: - do nothing, wait for controller to tell gamescene to create nodes
             }
-        } else {
-            // TODO: - do nothing, wait for controller to tell gamescene to create nodes
+            
         }
         
     }
     
     func eyesPointDetected(face: GMVFaceFeature, lpos: CGPoint, rpos: CGPoint, headEulerAngleY: CGFloat, headEulerAngleZ: CGFloat) {
         
-        // radius
-        if let node = self.childNode(withName: "tid\(face.trackingID)_radius_left") as! SKSpriteNode? {
-            node.size = CGSize.init(width: (face.bounds.size.width * self.mouthLightRadiusRatio), height: (face.bounds.size.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
-            node.position = lpos
-        } else {
-            if let n = self.lightNode?.copy() as! SKSpriteNode? {
-                n.size = CGSize.init(width: (face.bounds.size.width * self.mouthLightRadiusRatio), height: (face.bounds.size.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
-                n.name = "tid\(face.trackingID)_radius_left"
-                n.position = lpos
-                self.addChild(n)
+        if (!self.lockEmitterNodes) {
+            // radius
+            if let node = self.childNode(withName: "tid\(face.trackingID)_radius_left") as! SKSpriteNode? {
+                node.size = CGSize.init(width: (face.bounds.size.width * self.mouthLightRadiusRatio), height: (face.bounds.size.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
+                node.position = lpos
+            } else {
+                if let n = self.lightNode?.copy() as! SKSpriteNode? {
+                    n.size = CGSize.init(width: (face.bounds.size.width * self.mouthLightRadiusRatio), height: (face.bounds.size.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
+                    n.name = "tid\(face.trackingID)_radius_left"
+                    n.position = lpos
+                    self.addChild(n)
+                }
             }
-        }
-        
-        // radius
-        if let node = self.childNode(withName: "tid\(face.trackingID)_radius_right") as! SKSpriteNode? {
-            node.size = CGSize.init(width: (face.bounds.size.width * self.mouthLightRadiusRatio), height: (face.bounds.size.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
-            node.position = rpos
-        } else {
-            if let n = self.lightNode?.copy() as! SKSpriteNode? {
-                n.size = CGSize.init(width: (face.bounds.size.width * self.mouthLightRadiusRatio), height: (face.bounds.size.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
-                n.name = "tid\(face.trackingID)_radius_right"
-                n.position = rpos
-                self.addChild(n)
+            
+            // radius
+            if let node = self.childNode(withName: "tid\(face.trackingID)_radius_right") as! SKSpriteNode? {
+                node.size = CGSize.init(width: (face.bounds.size.width * self.mouthLightRadiusRatio), height: (face.bounds.size.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
+                node.position = rpos
+            } else {
+                if let n = self.lightNode?.copy() as! SKSpriteNode? {
+                    n.size = CGSize.init(width: (face.bounds.size.width * self.mouthLightRadiusRatio), height: (face.bounds.size.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
+                    n.name = "tid\(face.trackingID)_radius_right"
+                    n.position = rpos
+                    self.addChild(n)
+                }
             }
-        }
-        
-        // light emitter
-        if let node = self.childNode(withName: "tid\(face.trackingID)_light_node_left") {
-            node.position = lpos
-            (node as! SKEmitterNode).emissionAngle = self.calculatedEyesEmissionAngle(leftEye: true, y: headEulerAngleY, z: headEulerAngleZ)
-            /*
-            if (!self.playSound) {
-                self.playSound = true
-                self.run(SKAction.playSoundFileNamed("beam.wav", waitForCompletion: true), completion: { completed in
-                    self.playSound = false
-                })
+            
+            // light emitter
+            if let node = self.childNode(withName: "tid\(face.trackingID)_light_node_left") {
+                node.position = lpos
+                (node as! SKEmitterNode).emissionAngle = self.calculatedEyesEmissionAngle(leftEye: true, y: headEulerAngleY, z: headEulerAngleZ)
+                /*
+                if (!self.playSound) {
+                    self.playSound = true
+                    self.run(SKAction.playSoundFileNamed("beam.wav", waitForCompletion: true), completion: { completed in
+                        self.playSound = false
+                    })
+                }
+                */
+            } else {
+                if let n = self.lightEmitterNode?.copy() as! SKEmitterNode? {
+                    n.name = "tid\(face.trackingID)_light_node_left"
+                    n.position = lpos
+                    n.emissionAngle = self.calculatedEyesEmissionAngle(leftEye: true, y: headEulerAngleY, z: headEulerAngleZ)
+                    n.speed += (n.speed / 3.0)
+                    self.addChild(n)
+                }
             }
-            */
-        } else {
-            if let n = self.lightEmitterNode?.copy() as! SKEmitterNode? {
-                n.name = "tid\(face.trackingID)_light_node_left"
-                n.position = lpos
-                n.emissionAngle = self.calculatedEyesEmissionAngle(leftEye: true, y: headEulerAngleY, z: headEulerAngleZ)
-                n.speed += (n.speed / 3.0)
-                self.addChild(n)
+            
+            if let node = self.childNode(withName: "tid\(face.trackingID)_light_node_right") {
+                node.position = rpos
+                (node as! SKEmitterNode).emissionAngle = self.calculatedEyesEmissionAngle(leftEye: false, y: headEulerAngleY, z: headEulerAngleZ)
+                /*
+                if (!self.playSound) {
+                    self.playSound = true
+                    self.run(SKAction.playSoundFileNamed("beam.wav", waitForCompletion: true), completion: { completed in
+                        self.playSound = false
+                    })
+                }
+                */
+            } else {
+                if let n = self.lightEmitterNode?.copy() as! SKEmitterNode? {
+                    n.name = "tid\(face.trackingID)_light_node_right"
+                    n.position = rpos
+                    n.emissionAngle = self.calculatedEyesEmissionAngle(leftEye: false, y: headEulerAngleY, z: headEulerAngleZ)
+                    n.speed += (n.speed / 3.0)
+                    self.addChild(n)
+                }
             }
-        }
-        
-        if let node = self.childNode(withName: "tid\(face.trackingID)_light_node_right") {
-            node.position = rpos
-            (node as! SKEmitterNode).emissionAngle = self.calculatedEyesEmissionAngle(leftEye: false, y: headEulerAngleY, z: headEulerAngleZ)
-            /*
-            if (!self.playSound) {
-                self.playSound = true
-                self.run(SKAction.playSoundFileNamed("beam.wav", waitForCompletion: true), completion: { completed in
-                    self.playSound = false
-                })
+            
+            if let node = self.childNode(withName: "sound") as! SKAudioNode? {
+            } else {
+                let randomUInt: UInt32 = arc4random_uniform(2)
+                let random: Int = Int(randomUInt)
+                if (random == 0) {
+                    let sound = SKAudioNode(fileNamed: "sfx.aiff")
+                    sound.name = "sound"
+                    self.addChild(sound)
+                } else {
+                    let sound = SKAudioNode(fileNamed: "beam.wav")
+                    sound.name = "sound"
+                    self.addChild(sound)        
+                }
             }
-            */
-        } else {
-            if let n = self.lightEmitterNode?.copy() as! SKEmitterNode? {
-                n.name = "tid\(face.trackingID)_light_node_right"
-                n.position = rpos
-                n.emissionAngle = self.calculatedEyesEmissionAngle(leftEye: false, y: headEulerAngleY, z: headEulerAngleZ)
-                n.speed += (n.speed / 3.0)
-                self.addChild(n)
-            }
-        }
-        
-        if let node = self.childNode(withName: "sound") as! SKAudioNode? {
-        } else {
-            let sound = SKAudioNode(fileNamed: "sfx.aiff")
-            sound.name = "sound"
-            self.addChild(sound)
-        }
-        
-         if let nodes = self.leftEyeEmitterNodes[face.trackingID] {
-            if (!SakuraEmitterNodeFactory.sharedInstance.lockEmitterNodeFactory) {
-                for node in nodes {
-                    if let name = node.name {
-                        if let node = self.childNode(withName: "\(name)") {
-                            node.position = lpos
-                            (node as! SKEmitterNode).emissionAngle = self.calculatedEyesEmissionAngle(leftEye: true, y: headEulerAngleY, z: headEulerAngleZ)
-                        } else {
-                            node.position = lpos
-                            self.addChild(node)
+            
+             if let nodes = self.leftEyeEmitterNodes[face.trackingID] {
+                if (!SakuraEmitterNodeFactory.sharedInstance.lockEmitterNodeFactory) {
+                    for node in nodes {
+                        if let name = node.name {
+                            if let node = self.childNode(withName: "\(name)") {
+                                node.position = lpos
+                                (node as! SKEmitterNode).emissionAngle = self.calculatedEyesEmissionAngle(leftEye: true, y: headEulerAngleY, z: headEulerAngleZ)
+                            } else {
+                                node.position = lpos
+                                self.addChild(node)
+                            }
                         }
                     }
                 }
+            } else {
+                // TODO: - do nothing, wait for controller to tell gamescene to create nodes
             }
-        } else {
-            // TODO: - do nothing, wait for controller to tell gamescene to create nodes
-        }
-        
-        if let nodes = self.rightEyeEmitterNodes[face.trackingID] {
-            if (!SakuraEmitterNodeFactory.sharedInstance.lockEmitterNodeFactory) {
-                for node in nodes {
-                    if let name = node.name {
-                        if let node = self.childNode(withName: "\(name)") {
-                            node.position = rpos
-                            (node as! SKEmitterNode).emissionAngle = self.calculatedEyesEmissionAngle(leftEye: false, y: headEulerAngleY, z: headEulerAngleZ)
-                        } else {
-                            node.position = rpos
-                            self.addChild(node)
+            
+            if let nodes = self.rightEyeEmitterNodes[face.trackingID] {
+                if (!SakuraEmitterNodeFactory.sharedInstance.lockEmitterNodeFactory) {
+                    for node in nodes {
+                        if let name = node.name {
+                            if let node = self.childNode(withName: "\(name)") {
+                                node.position = rpos
+                                (node as! SKEmitterNode).emissionAngle = self.calculatedEyesEmissionAngle(leftEye: false, y: headEulerAngleY, z: headEulerAngleZ)
+                            } else {
+                                node.position = rpos
+                                self.addChild(node)
+                            }
                         }
                     }
                 }
+            } else {
+                // TODO: - do nothing, wait for controller to tell gamescene to create nodes
             }
-        } else {
-            // TODO: - do nothing, wait for controller to tell gamescene to create nodes
         }
         
     }

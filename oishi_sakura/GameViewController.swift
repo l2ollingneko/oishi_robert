@@ -169,8 +169,10 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
        
         self.skView?.ignoresSiblingOrder = true
         
+        /*
         self.skView?.showsFPS = true
         self.skView?.showsNodeCount = true
+         */
         
         self.view.addSubview(self.skView!)
         self.view.bringSubview(toFront: self.skView!)
@@ -185,6 +187,13 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.endSceneImageView.contentMode = .scaleAspectFit
         self.endSceneImageView.alpha = 0.0
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let soundNode = self.scene?.childNode(withName: "sound") {
+            soundNode.removeFromParent()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -313,7 +322,11 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             }
             
             // Display detected features in overlay.
-            for face in faces {
+            for (index, face) in faces.enumerated() {
+                
+                if (index >= 2) {
+                    return
+                }
                 
                 /* check origin of desired emitter node
                     1. mouth
@@ -508,6 +521,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 print(error.localizedDescription)
             } else {
             self.iceFrames[0].removeFromSuperview()
+                self.scene?.changeLightEmitterNode(pink: true)
                 self.startTimer()
                 self.recording = true
                 self.prepare = false
@@ -806,7 +820,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.versionLabel.text = "v 2.4.0"
         self.versionLabel.sizeToFit()
         
-        self.skView?.addSubview(self.versionLabel)
+        // self.skView?.addSubview(self.versionLabel)
     }
     
     func toggleButton(button: UIButton) {
