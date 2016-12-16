@@ -219,17 +219,20 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { granted in
-            if (granted) {
-                print("go")
-            } else {
-                print("fucking god")
-                let popup = PopupView(frame: self.realFrame)
-                popup.backgroundImageView.image = UIImage(named: "change_privacy")
-                popup.layer.zPosition = 10000
-                self.view.addSubview(popup)
-            }
-        })
+        let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+        
+        if (status == AVAuthorizationStatus.denied) {
+                ControllerManager.sharedInstance.presentIndexController()
+        } else if (status == AVAuthorizationStatus.notDetermined) {
+            AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { granted in
+                if (!granted) {
+                    DispatchQueue.main.sync {
+                        ControllerManager.sharedInstance.presentIndexController()
+                    }
+                    return
+                }
+            })
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -1031,13 +1034,15 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             }
         }
         
-        if (self.iceFrames[0].isDescendant(of: self.overlay)) {
-            UIView.animate(withDuration: 0.25, animations: {
-                self.iceFrames[0].alpha = 1.0
-                self.iceFrames[0].alpha = 0.0
-            }, completion: { completed in
-                self.iceFrames[0].removeFromSuperview()
-            })
+        if (self.iceFrames.count > 0) {
+            if (self.iceFrames[0].isDescendant(of: self.overlay)) {
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.iceFrames[0].alpha = 1.0
+                    self.iceFrames[0].alpha = 0.0
+                }, completion: { completed in
+                    self.iceFrames[0].removeFromSuperview()
+                })
+            }
         }
         
         self.stopBackgroundMusic()

@@ -71,6 +71,7 @@
 		A233BCA31E02E7B20044B0C2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A233BCA51E03BFDA0044B0C2 /* Callback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Callback.swift; sourceTree = "<group>"; };
 		A25630DC1DFFC75A006EED35 /* ControllerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerManager.swift; sourceTree = "<group>"; };
+		A268A6971E046B50002B94DD /* OISHI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OISHI.entitlements; sourceTree = "<group>"; };
 		A29D62B51DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SakuraEmitterNodeFactory.swift; sourceTree = "<group>"; };
 		A29D62B71DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SakuraEmitterNodeAttributes.swift; sourceTree = "<group>"; };
 		A29D62B91DE737EE00DA9C73 /* Adapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Adapter.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -262,6 +263,7 @@
 		A2DDF7381DDDCE4700809091 /* oishi_sakura */ = {
 			isa = PBXGroup;
 			children = (
+				A268A6971E046B50002B94DD /* OISHI.entitlements */,
 				A21EA0961E040A3600344261 /* services */,
 				A29D62AE1DE4746E00DA9C73 /* controllers */,
 				A29D62AF1DE4747400DA9C73 /* gamekit */,
@@ -329,6 +331,14 @@
 						DevelopmentTeam = FQ9R46R5K8;
 						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};

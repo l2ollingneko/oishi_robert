@@ -9,6 +9,7 @@
 import UIKit
 import SystemConfiguration
 import AVFoundation
+import UserNotifications
 
 class IndexViewController: UIViewController {
     
@@ -68,13 +69,37 @@ class IndexViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Page, action: .Opened, label: "splash_page")
-        
         Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(IndexViewController.skipIndex), userInfo: nil, repeats: false)
         
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+    
+    func skipIndex() {
+        
+        let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+        if (status == AVAuthorizationStatus.denied) {
+            self.skipable = false
+            let popup = PopupView(frame: self.realFrame)
+            popup.backgroundColor = UIColor.black.withAlphaComponent(0.65)
+            popup.backgroundImageView.image = UIImage(named: "change_privacy")
+            popup.layer.zPosition = 10000
+            self.view.addSubview(popup)
+        } else {
+            ControllerManager.sharedInstance.presentMainController()
+        }
+        
+        /*
         let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
         
         if (status == AVAuthorizationStatus.denied) {
@@ -83,10 +108,24 @@ class IndexViewController: UIViewController {
             AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { granted in
                 if (!granted) {
                     self.skipable = false
+                    let popup = PopupView(frame: self.realFrame)
+                    popup.backgroundColor = UIColor.black.withAlphaComponent(0.65)
+                    popup.backgroundImageView.image = UIImage(named: "change_privacy")
+                    popup.layer.zPosition = 10000
+                    self.view.addSubview(popup)
+                    self.skipIndex()
+                } else {
+                    // ControllerManager.sharedInstance.presentMainController()
+                    // Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(IndexViewController.skipIndex), userInfo: nil, repeats: false)
+                    self.skipable = true
+                    Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(IndexViewController.skipIndex), userInfo: nil, repeats: false)
                 }
             })
         } else if (status == AVAuthorizationStatus.restricted) {
             self.skipable = false
+        } else if (status == AVAuthorizationStatus.authorized) {
+            ControllerManager.sharedInstance.presentMainController()
+            // Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(IndexViewController.skipIndex), userInfo: nil, repeats: false)
         }
         
         if (!self.skipable) {
@@ -97,13 +136,12 @@ class IndexViewController: UIViewController {
             self.view.addSubview(popup)
         }
         
-    }
-    
-    func skipIndex() {
         // TODO: - goto tutorial or mylist
-        if (self.skipable) {
-            ControllerManager.sharedInstance.presentMainController()
+        if (!self.skipable) {
+            // ControllerManager.sharedInstance.presentMainController()
+            Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(IndexViewController.skipIndex), userInfo: nil, repeats: false)
         }
+         */
     }
     
 }
