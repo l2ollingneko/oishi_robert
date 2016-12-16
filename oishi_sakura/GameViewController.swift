@@ -643,6 +643,9 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         
                 if (status == PHAuthorizationStatus.denied) {
                     // TODO: -
+                    self.endSceneImageView.removeFromSuperview()
+                    self.viewDidAppear(true)
+                    
                     let randomUInt: UInt32 = arc4random_uniform(3)
                     let random: Int = Int(randomUInt)
                     let button: UIButton = UIButton()
@@ -664,6 +667,9 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                             self.recording = false
                         } else {
                             // TODO: -
+                            self.endSceneImageView.removeFromSuperview()
+                            self.viewDidAppear(true)
+                            
                             let randomUInt: UInt32 = arc4random_uniform(3)
                             let random: Int = Int(randomUInt)
                             let button: UIButton = UIButton()
