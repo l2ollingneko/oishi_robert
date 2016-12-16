@@ -24,7 +24,7 @@ class SakuraEmitterNodeFactory {
     private(set) var lockEmitterNodeFactory: Bool = false
     
     private var staticTextures: [Int: [String]] = [
-        0: ["", "sakura_2", "sakura_2", "", "", ""],
+        0: ["", "sakura_2", "", "", "", ""],
         1: ["sakura_1", "", "sakura_3", "sakura_4", "sakura_5", "sakura_6"],
         2: ["sakura_1", "", "sakura_3", "sakura_4", "sakura_5", "sakura_6"],
         3: ["sakura_1", "", "sakura_3", "sakura_4", "sakura_5", "sakura_6"]

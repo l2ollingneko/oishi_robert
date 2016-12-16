@@ -767,11 +767,11 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             // start recording -> 2.0 s
             // white sakura, pink light ray, cheek 1, no ice frame
             // print("start recording")
-        } else if (self.timerCounter >= 2.0 && self.timerCounter < 3.5) {
+        } else if (self.timerCounter >= 4.5 && self.timerCounter < 5.5) {
             // 1.5s
             // pink sakura, blue light ray, cheek 2, ice frame level 1
             // print("change to state 1")
-            if (self.timerCounter == 2.0) {
+            if (self.timerCounter == 4.5) {
                 self.lockStateChange = true
                 self.currentState += 1
                 self.scene?.changeLightEmitterNode(pink: false)
@@ -781,11 +781,11 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                     self.iceFrames[0].alpha = 1.0
                 })
             }
-        } else if (self.timerCounter == 3.5 && self.timerCounter < 5.0) {
+        } else if (self.timerCounter == 5.5 && self.timerCounter < 6.5) {
            // 1.5s
             // pink sakura, blue light ray, cheek 2, ice frame level 2
             // print("change to state 2")
-            if (self.timerCounter == 3.5) {
+            if (self.timerCounter == 5.5) {
                 self.lockStateChange = true
                 self.currentState += 1
                 self.overlay.addSubview(self.iceFrames[1])
@@ -794,11 +794,11 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                     self.iceFrames[1].alpha = 1.0
                 })
             }
-        } else if (self.timerCounter == 5.0 && self.timerCounter < 6.5) {
+        } else if (self.timerCounter == 6.5 && self.timerCounter < 8.0) {
            // 1.5s
             // pink sakura, blue light ray, cheek 2, ice frame level 3
             // print("change to state 3")
-            if (self.timerCounter == 5.0) {
+            if (self.timerCounter == 6.5) {
                 self.lockStateChange = true
                 self.currentState += 1
                 self.overlay.addSubview(self.iceFrames[2])
@@ -807,11 +807,11 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                     self.iceFrames[2].alpha = 1.0
                 })
             }
-        } else if (self.timerCounter == 6.5 && self.timerCounter < 7.0) {
+        } else if (self.timerCounter == 8.0 && self.timerCounter < 9.5) {
             // 0.5s
             // show end screen
             // print("show end screen")
-            if (self.timerCounter == 6.5) {
+            if (self.timerCounter == 8.0) {
                 self.removeCheeks()
                 self.overlay.addSubview(self.endSceneImageView)
                 self.origin = .None
@@ -822,7 +822,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                     self.endSceneImageView.alpha = 1.0
                 })
             }
-        } else if (self.timerCounter == 8.0) {
+        } else if (self.timerCounter == 9.5) {
             // stop recording
             // print("stop recording")
             self.scene?.changeLightEmitterNode(pink: true)

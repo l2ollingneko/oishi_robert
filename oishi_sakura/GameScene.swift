@@ -149,7 +149,10 @@ class GameScene: SKScene {
                         } else {
                             if let name = node.userData?["name"] as! String? {
                                 if let node = self.childNode(withName: "\(name)") {
-                                    node.removeFromParent()
+                                    print("remove name: \(name)")
+                                    DispatchQueue.main.async {
+                                        node.removeFromParent()
+                                    }
                                 }
                             }
                         }
@@ -263,6 +266,12 @@ class GameScene: SKScene {
                                 node.position = lpos
                                 self.addChild(node)
                             }
+                        } else {
+                            if let name = node.userData?["name"] as! String? {
+                                if let node = self.childNode(withName: "\(name)") {
+                                    node.removeFromParent()
+                                }
+                            }
                         }
                     }
                 }
@@ -280,6 +289,12 @@ class GameScene: SKScene {
                             } else {
                                 node.position = rpos
                                 self.addChild(node)
+                            }
+                         } else {
+                            if let name = node.userData?["name"] as! String? {
+                                if let node = self.childNode(withName: "\(name)") {
+                                    node.removeFromParent()
+                                }
                             }
                         }
                     }
@@ -393,6 +408,12 @@ class GameScene: SKScene {
                                 node.position = lpos
                                 self.addChild(node)
                             }
+                        } else {
+                            if let name = node.userData?["name"] as! String? {
+                                if let node = self.childNode(withName: "\(name)") {
+                                    node.removeFromParent()
+                                }
+                            }
                         }
                     }
                 }
@@ -410,6 +431,12 @@ class GameScene: SKScene {
                             } else {
                                 node.position = rpos
                                 self.addChild(node)
+                            }
+                        } else {
+                            if let name = node.userData?["name"] as! String? {
+                                if let node = self.childNode(withName: "\(name)") {
+                                    node.removeFromParent()
+                                }
                             }
                         }
                     }
