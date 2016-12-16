@@ -53,6 +53,8 @@ class GameScene: SKScene {
     
     private var lockEmitterNodes: Bool = false
     
+    private var willRemoveNodes: [SKNode] = [SKNode]()
+    
     override init(size: CGSize) {
         super.init(size: size)
         
@@ -154,9 +156,13 @@ class GameScene: SKScene {
                             if let name = node.userData?["name"] as! String? {
                                 if let node = self.childNode(withName: "\(name)") {
                                     print("remove name: \(name)")
+                                    self.willRemoveNodes.append(node)
+                                    Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(GameScene.removeNode), userInfo: node, repeats: false)
+                                    /*
                                     DispatchQueue.main.async {
                                         node.removeFromParent()
                                     }
+                                     */
                                 }
                             }
                         }
@@ -277,7 +283,9 @@ class GameScene: SKScene {
                         } else {
                             if let name = node.userData?["name"] as! String? {
                                 if let node = self.childNode(withName: "\(name)") {
-                                    node.removeFromParent()
+                                    self.willRemoveNodes.append(node)
+                                    Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(GameScene.removeNode), userInfo: node, repeats: false)
+                                    // node.removeFromParent()
                                 }
                             }
                         }
@@ -423,7 +431,9 @@ class GameScene: SKScene {
                         } else {
                             if let name = node.userData?["name"] as! String? {
                                 if let node = self.childNode(withName: "\(name)") {
-                                    node.removeFromParent()
+                                    self.willRemoveNodes.append(node)
+                                    Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(GameScene.removeNode), userInfo: node, repeats: false)
+                                    //node.removeFromParent()
                                 }
                             }
                         }
@@ -965,6 +975,12 @@ class GameScene: SKScene {
     func stopActions() {
         self.removeAllActions()
         self.playSound = false
+    }
+    
+    func removeNode() {
+        for node in self.willRemoveNodes {
+            node.removeFromParent()
+        }
     }
     
 }
