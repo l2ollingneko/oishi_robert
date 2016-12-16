@@ -393,8 +393,17 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                     if (self.origin != .None) {
                         // TODO: - create emitter nodes
                         
-                        if (!self.isSoundPlaying) {
+                        if (!self.isSoundPlaying && !self.prepare) {
                             self.playBackgroundMusic(filename: "")
+                            if (!self.recording) {
+                                let randomNum: UInt32 = arc4random_uniform(2)
+                                let index: Int = Int(randomNum)
+                                self.overlay.addSubview(self.iceFrames[0])
+                                UIView.animate(withDuration: 0.25, animations: {
+                                    self.iceFrames[0].alpha = 0.0
+                                    self.iceFrames[0].alpha = 1.0
+                                })
+                            }
                         }
                         
                         if (self.origin == .Mouth) {
@@ -466,16 +475,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                                 self.scene?.cheeksDetected(face: face, state: -99, leftCheekPoint: lpoint, rightCheekPoint: rpoint)
                             }
                             
-                            if (!self.addedCheeks) {
-                                var randomNum: UInt32 = arc4random_uniform(2)
-                                var index: Int = Int(randomNum)
-                                if (index == 0) {
-                                    self.overlay.addSubview(self.iceFrames[0])
-                                    UIView.animate(withDuration: 0.25, animations: {
-                                        self.iceFrames[0].alpha = 0.0
-                                        self.iceFrames[0].alpha = 1.0
-                                    })
-                                }
+                            if (!self.addedCheeks && !self.prepare) {
                                 self.addedCheeks = true
                             }
                         }
@@ -532,22 +532,25 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     func startRecording() {
         let recorder = RPScreenRecorder.shared()
         
+        self.prepare = true
+        self.stopBackgroundMusic()
+        
+        self.removeCheeks()
+        self.scene?.removeAllChildren()
+        self.scene?.resetEmitterNodes()
+        
+        self.iceFrames[0].removeFromSuperview()
+        
         recorder.startRecording(withMicrophoneEnabled: true, handler: { error in
             if let error = error {
                 print(error.localizedDescription)
+                self.prepare = false
             } else {
-                self.prepare = true
-                
-                self.removeCheeks()
-                self.scene?.removeAllChildren()
-                self.scene?.resetEmitterNodes()
-                
                 self.swapCameraButton.isHidden = true
                 self.eyesToggleButton.isHidden = true
                 self.mouthToggleButton.isHidden = true
                 self.earsToggleButton.isHidden = true
                 
-                self.iceFrames[0].removeFromSuperview()
                 self.scene?.changeLightEmitterNode(pink: true)
                 self.startTimer()
                 self.recording = true
@@ -995,12 +998,14 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             }
         }
         
-        UIView.animate(withDuration: 0.25, animations: {
-            self.iceFrames[0].alpha = 1.0
-            self.iceFrames[0].alpha = 0.0
-        }, completion: { completed in
-            self.iceFrames[0].removeFromSuperview()
-        })
+        if (self.iceFrames[0].isDescendant(of: self.overlay)) {
+            UIView.animate(withDuration: 0.25, animations: {
+                self.iceFrames[0].alpha = 1.0
+                self.iceFrames[0].alpha = 0.0
+            }, completion: { completed in
+                self.iceFrames[0].removeFromSuperview()
+            })
+        }
         
         self.stopBackgroundMusic()
     }
