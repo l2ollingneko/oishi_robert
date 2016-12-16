@@ -660,8 +660,11 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                             self.recording = false
                         } else {
                             // TODO: -
-                            self.endSceneImageView.removeFromSuperview()
-                            self.viewDidAppear(true)
+                            DispatchQueue.main.async {
+                                self.recording = false
+                                self.endSceneImageView.removeFromSuperview()
+                                self.viewDidAppear(true)
+                            }
                             
                             let randomUInt: UInt32 = arc4random_uniform(3)
                             let random: Int = Int(randomUInt)
