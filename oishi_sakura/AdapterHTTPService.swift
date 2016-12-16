@@ -35,10 +35,11 @@ class AdapterHTTPService {
     // MARK: - get data info
     
     func getDataInfo(cb: Callback<Bool>) {
-        let url = self.BASE_API_URL + "mobileapp_getDataInfo.aspx"
+        let url = self.BASE_API_URL + "getDataInfo.aspx"
         Alamofire.request(url).responseJSON { response in
             if let data: AnyObject = response.result.value as AnyObject? {
                 let json = JSON(data)
+                print(json)
                 for appData in json["appdata"].array! {
                     for key in AdapterHTTPService.APP_DATA_KEY {
                         _ = DataManager.sharedInstance.setObjectForKey(value: appData[key].string as AnyObject?, key: key)
@@ -101,6 +102,8 @@ class AdapterHTTPService {
             if let data: AnyObject = response.result.value as AnyObject? {
                 let json = JSON(data)
                 print(json)
+            } else {
+                print("no response")
             }
         }
 
@@ -181,7 +184,7 @@ class AdapterHTTPService {
     }
     
     func startGame() {
-        var url: String = "http://www.estcolathai.com/promotion/api/mobile/applicationstatlog.aspx"
+        var url: String = "http://www.oishidrink.com/sakura/api/mobile/applicationstatlog.aspx"
         if let api_stat = DataManager.sharedInstance.getObjectForKey(key: "api_stat") as? String {
             url = api_stat
         }
@@ -193,7 +196,7 @@ class AdapterHTTPService {
     }
     
     func shareResult() {
-        var url: String = "http://www.estcolathai.com/promotion/api/mobile/applicationstatlog.aspx"
+        var url: String = "http://www.oishidrink.com/sakura/api/mobile/applicationstatlog.aspx"
         if let api_stat = DataManager.sharedInstance.getObjectForKey(key: "api_stat") as? String {
             url = api_stat
         }
@@ -205,7 +208,7 @@ class AdapterHTTPService {
     }
     
     func saveVideo() {
-        var url: String = "http://www.estcolathai.com/promotion/api/mobile/applicationstatlog.aspx"
+        var url: String = "http://www.oishidrink.com/sakura/api/mobile/applicationstatlog.aspx"
         if let api_stat = DataManager.sharedInstance.getObjectForKey(key: "api_stat") as? String {
             url = api_stat
         }

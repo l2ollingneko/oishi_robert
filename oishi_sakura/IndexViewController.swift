@@ -52,7 +52,7 @@ class IndexViewController: UIViewController {
         self.view.addSubview(self.backgroundImageView)
         self.view.addSubview(self.button)
        
-        // AdapterHTTPService.sharedInstance.openApp()
+        AdapterHTTPService.sharedInstance.openApp()
         
     }
     
