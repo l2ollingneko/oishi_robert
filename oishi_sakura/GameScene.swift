@@ -141,9 +141,11 @@ class GameScene: SKScene {
                         if let name = node.name {
                             if let node = self.childNode(withName: "\(name)") {
                                 node.position = pos
+                                node.zPosition = 1000
                                 (node as! SKEmitterNode).emissionAngle = self.calculatedEmissionAngle(y: headEulerAngleY, z: headEulerAngleZ)
                             } else {
                                 node.position = pos
+                                node.zPosition = 1000
                                 self.addChild(node)
                             }
                         } else {

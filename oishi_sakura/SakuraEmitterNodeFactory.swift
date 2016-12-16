@@ -24,10 +24,10 @@ class SakuraEmitterNodeFactory {
     private(set) var lockEmitterNodeFactory: Bool = false
     
     private var staticTextures: [Int: [String]] = [
-        0: ["", "sakura_2", "", "", "", ""],
-        1: ["sakura_1", "", "sakura_3", "sakura_4", "sakura_5", "sakura_6"],
-        2: ["sakura_1", "", "sakura_3", "sakura_4", "sakura_5", "sakura_6"],
-        3: ["sakura_1", "", "sakura_3", "sakura_4", "sakura_5", "sakura_6"]
+        0: ["", "sakura_2", "sakura_3", "", "", ""],
+        1: ["sakura_1", "", "", "sakura_4", "sakura_5", "sakura_6"],
+        2: ["sakura_1", "", "", "sakura_4", "sakura_5", "sakura_6"],
+        3: ["sakura_1", "", "", "sakura_4", "sakura_5", "sakura_6"]
     ]
     
     private init() {}
@@ -64,7 +64,7 @@ class SakuraEmitterNodeFactory {
             
         } else if (state >= StateManager.sharedInstance.currentState) {
             
-            SakuraEmitterNodeAttributes.genAttributes()
+            // SakuraEmitterNodeAttributes.genAttributes()
             
             print("create with state: \(state)")
             
@@ -89,7 +89,7 @@ class SakuraEmitterNodeFactory {
                                 name = "\(name)_\(direction)"
                             }
                             print("create node name \(name)")
-                            let node = self.createEmitterNode(index: index - 1)
+                            let node = self.createEmitterNode(index: index - 1, name: "FUCK")
                             node.name = name
                             node.particleTexture = SKTexture(imageNamed: imageNamed)
                             if let emissionAngle = settings[kEmitterNodeEmissionAngle] as! CGFloat? {
@@ -397,9 +397,7 @@ class SakuraEmitterNodeFactory {
     func createEmitterNode(index: Int, name: String) -> SKEmitterNode {
         let node = SKEmitterNode()
         
-        node.name = name
-        
-        node.particleBirthRate          = (SakuraEmitterNodeAttributes.birthRate[index])
+        node.particleBirthRate          = (SakuraEmitterNodeAttributes.attributes[SakuraEmitterNodeAttributes.keys[0]]?[index])!
         
         node.particleLifetime           = (SakuraEmitterNodeAttributes.lifetime[index])
         node.particleLifetimeRange      = (SakuraEmitterNodeAttributes.lifetimeRange[index])

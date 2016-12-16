@@ -1074,7 +1074,6 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 for format in (device as! AVCaptureDevice).formats {
                     let ranges = (format as! AVCaptureDeviceFormat).videoSupportedFrameRateRanges as! [AVFrameRateRange]
                     let frameRates = ranges[0]
-                    print("frameRates: \(frameRates.maxFrameRate)")
                     /*
                     if (frameRates.maxFrameRate >= maxFps  && frameRates.maxFrameRate <= 240) {
                         maxFps = frameRates.maxFrameRate
@@ -1087,7 +1086,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                     }
                 }
                 if minFps != 99 {
-                    print("maxFps: \(maxFps)")
+                    print("maxFps: \(minFps)")
                     let timeValue = Int64(1200.0 / minFps)
                     let timeScale: Int32 = 1200
                     try! (device as! AVCaptureDevice).lockForConfiguration()

@@ -31,7 +31,7 @@ class SakuraEmitterNodeAttributes {
     
     static let attributes: Dictionary<String, [CGFloat]> = [
         SakuraEmitterNodeAttributes.keys[0] : [
-            10.0, 20.0, 10.0, 3.0, 2.0, 1.0
+            25.0, 12.0, 10.0, 5.0, 5.0, 3.0
         ],
         SakuraEmitterNodeAttributes.keys[1] : [
             3.0, 3.0, 1.5, 1.0, 3.0, 3.0
@@ -61,7 +61,7 @@ class SakuraEmitterNodeAttributes {
             500.0, 500.0, -500.0, 300.0, 500.0, 500.0
         ],
         SakuraEmitterNodeAttributes.keys[10] : [
-            0.025, 0.025, 0.03, 0.01, 0.015, 0.01
+            0.03, 0.025, 0.03, 0.01, 0.015, 0.01
         ],
         SakuraEmitterNodeAttributes.keys[11] : [
             0.025, 0.025, 0.025, 0.1, 0.025, 0.01
@@ -86,7 +86,7 @@ class SakuraEmitterNodeAttributes {
         //  10.0, 12.0, 10.0, 3.0, 2.0, 1.0
         birthRate = [
             (5.0...15.0).random(),
-            (15.0...20.0).random(),
+            (7.0...15.0).random(),
             (5.0...15.0).random(),
             (1.0...8.0).random(),
             (1.0...7.0).random(),
