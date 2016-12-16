@@ -13,6 +13,7 @@ import ReplayKit
 import AVFoundation
 import GoogleMobileVision
 import SwiftKeychainWrapper
+import Photos
 
 enum SakuraOrigin {
     case Mouth, Eyes, Ears, None
@@ -111,6 +112,9 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     
     // MARK: - frame
     private var realFrame: CGRect = CGRect.zero
+    
+    // MARK: -
+    var blackView: UIView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -624,23 +628,63 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 preview.previewControllerDelegate = self
                 preview.popoverPresentationController?.sourceView = self.view
                 
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                if appDelegate.isiPad {
+                    preview.popoverPresentationController?.delegate = self
+                }
+                
                 DispatchQueue.main.async {
                     if let soundNode = self.scene?.childNode(withName: "sound") {
                         soundNode.removeFromParent()
                     }
                 }
                 
-                self.present(preview, animated: true, completion: { completed in
-                    self.endSceneImageView.removeFromSuperview()
-                    if let round = KeychainWrapper.standard.integer(forKey: "round") {
-                        if (round >= 4) {
-                            KeychainWrapper.standard.set(1, forKey: "round")
+                let status = PHPhotoLibrary.authorizationStatus()
+        
+                if (status == PHAuthorizationStatus.denied) {
+                    // TODO: -
+                    let randomUInt: UInt32 = arc4random_uniform(3)
+                    let random: Int = Int(randomUInt)
+                    let button: UIButton = UIButton()
+                    button.tag = random
+                    self.toggleButton(button: button)
+                } else if (status == .notDetermined) {
+                    PHPhotoLibrary.requestAuthorization { (status) -> Void in
+                        if (status == PHAuthorizationStatus.authorized) {
+                            self.present(preview, animated: true, completion: { completed in
+                            self.endSceneImageView.removeFromSuperview()
+                            if let round = KeychainWrapper.standard.integer(forKey: "round") {
+                                    if (round >= 4) {
+                                        KeychainWrapper.standard.set(1, forKey: "round")
+                                    } else {
+                                        KeychainWrapper.standard.set(round + 1, forKey: "round")
+                                    }
+                                }
+                            })
+                            self.recording = false
                         } else {
-                            KeychainWrapper.standard.set(round + 1, forKey: "round")
+                            // TODO: -
+                            let randomUInt: UInt32 = arc4random_uniform(3)
+                            let random: Int = Int(randomUInt)
+                            let button: UIButton = UIButton()
+                            button.tag = random
+                            self.toggleButton(button: button)
                         }
                     }
-                })
-                self.recording = false
+                } else if (status == .authorized) {
+                    self.present(preview, animated: true, completion: { completed in
+                    self.endSceneImageView.removeFromSuperview()
+                    if let round = KeychainWrapper.standard.integer(forKey: "round") {
+                            if (round >= 4) {
+                                KeychainWrapper.standard.set(1, forKey: "round")
+                            } else {
+                                KeychainWrapper.standard.set(round + 1, forKey: "round")
+                            }
+                        }
+                    })
+                    self.recording = false
+                }
+                
             }
         })
     }
@@ -685,15 +729,24 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             } else {
                 // no save action
                 // present alert view
-                if (self.didCancel) {
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                if appDelegate.isiPad {
                     previewController.dismiss(animated: true, completion: { _ in
                         self.didCancel = false
+                        self.viewDidAppear(true)
                     })
                 } else {
-                    self.didCancel = true
-                    let popup = PopupView(frame: self.view.frame)
-                    popup.initCancelSaveVideo()
-                    previewController.view.addSubview(popup)
+                    if (self.didCancel) {
+                        previewController.dismiss(animated: true, completion: { _ in
+                            self.didCancel = false
+                            self.viewDidAppear(true)
+                        })
+                    } else {
+                        self.didCancel = true
+                        let popup = PopupView(frame: self.view.frame)
+                        popup.initCancelSaveVideo()
+                        previewController.view.addSubview(popup)
+                    }
                 }
             }
             
@@ -1083,6 +1136,14 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             }
         }
         return nil
+    }
+    
+}
+
+extension GameViewController: UIPopoverPresentationControllerDelegate {
+    
+    func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
+        self.viewDidAppear(true)
     }
     
 }

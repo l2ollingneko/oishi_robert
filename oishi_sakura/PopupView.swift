@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol PopupViewDelegate {
+    func popupClosed()
+}
+
 class PopupView: UIView {
     
     var backgroundImageView: UIImageView = UIImageView()
@@ -16,6 +20,8 @@ class PopupView: UIView {
     var closeButton: UIButton = UIButton()
     var leftButton: UIButton = UIButton()
     var rightButton: UIButton = UIButton()
+    
+    var delegate: PopupViewDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -53,6 +59,7 @@ class PopupView: UIView {
     func close(button: UIButton) {
         print("close did tap")
         self.removeFromSuperview()
+        self.delegate?.popupClosed()
     }
     
     /*

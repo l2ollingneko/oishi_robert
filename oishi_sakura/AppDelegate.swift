@@ -24,7 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         if ((UIScreen.main.bounds.size.height / UIScreen.main.bounds.size.width) < 1.5) {
-            print(UIScreen.main.bounds.size)
             // self.window = UIWindow(frame: CGRect.init(x: 114.0, y: 32.0, width: 540.0, height: 960.0))
             self.window = UIWindow(frame: CGRect.init(x: 0.0, y: 0.0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
             
