@@ -24,7 +24,6 @@ class AdapterGoogleAnalytics {
     
     private init() {}
     
-    /*
     func sendGoogleAnalyticsEventTracking(category: GoogleAnalyticsCategory, action: GoogleAnalyticsAction, label: String) {
         let builder = GAIDictionaryBuilder.createEvent(
             withCategory: category.rawValue,
@@ -35,6 +34,5 @@ class AdapterGoogleAnalytics {
         let tracker: GAITracker = GAI.sharedInstance().tracker(withTrackingId: "UA-66731261-12")
         tracker.send(builder!.build() as [NSObject : AnyObject])
     }
-     */
     
 }

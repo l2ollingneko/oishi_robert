@@ -71,28 +71,38 @@ class IndexViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        // AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Page, action: .Opened, label: "splash_page")
+        AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Page, action: .Opened, label: "splash_page")
         
         Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(IndexViewController.skipIndex), userInfo: nil, repeats: false)
-        AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { granted in
-            if (granted) {
-                print("go")
-            } else {
-                print("fucking god")
+        
+        let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+        
+        if (status == AVAuthorizationStatus.denied) {
                 self.skipable = false
-                let popup = PopupView(frame: self.realFrame)
-                popup.backgroundColor = UIColor.black.withAlphaComponent(0.65)
-                popup.backgroundImageView.image = UIImage(named: "change_privacy")
-                popup.layer.zPosition = 10000
-                self.view.addSubview(popup)
-            }
-        })
+        } else if (status == AVAuthorizationStatus.notDetermined) {
+            AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { granted in
+                if (!granted) {
+                    self.skipable = false
+                }
+            })
+        } else if (status == AVAuthorizationStatus.restricted) {
+            self.skipable = false
+        }
+        
+        if (!self.skipable) {
+            let popup = PopupView(frame: self.realFrame)
+            popup.backgroundColor = UIColor.black.withAlphaComponent(0.65)
+            popup.backgroundImageView.image = UIImage(named: "change_privacy")
+            popup.layer.zPosition = 10000
+            self.view.addSubview(popup)
+        }
+        
     }
     
     func skipIndex() {
         // TODO: - goto tutorial or mylist
         if (self.skipable) {
-            // ControllerManager.sharedInstance.presentMainController()
+            ControllerManager.sharedInstance.presentMainController()
         }
     }
     

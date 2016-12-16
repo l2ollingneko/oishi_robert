@@ -92,7 +92,7 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        // AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Page, action: .Opened, label: "finish")
+        AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Page, action: .Opened, label: "finish")
         
         /*
         if let url = self.currentAssetUrl {
@@ -179,7 +179,7 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
     
     func playVideo() {
         
-        // AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: "play")
+        AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: "play")
         
         if let asset = self.currentAsset {
             guard (asset.mediaType == PHAssetMediaType.video)
@@ -353,7 +353,7 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
     
     func checkFBReadPermissions() {
         
-        // AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: "share_fb")
+        AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: "share_fb")
         
         if let _ = FBSDKAccessToken.current() {
             let request = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "email,gender,link,first_name,last_name"], httpMethod: "GET")

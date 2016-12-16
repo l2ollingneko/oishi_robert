@@ -63,7 +63,7 @@ class VideoPreviewViewController: UIViewController {
         super.viewDidAppear(animated)
         print("fucking check video")
         
-        // AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Page, action: .Opened, label: "preview")
+        AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Page, action: .Opened, label: "preview")
         
         self.checkVideo()
     }

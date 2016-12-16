@@ -36,5 +36,7 @@
 	<string>1:818717432684:ios:645e752b0f66c5ca</string>
 	<key>DATABASE_URL</key>
 	<string>https://oishi-promotion-2016.firebaseio.com</string>
+    <key>TRACKING_ID</key>
+    <string>UA-48812367-21</string>
 </dict>
 </plist>

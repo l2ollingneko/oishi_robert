@@ -236,7 +236,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         super.viewDidAppear(animated)
         self.session?.startRunning()
         
-        // AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Page, action: .Opened, label: "home")
+        AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Page, action: .Opened, label: "home")
         
         // overlay window
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -549,8 +549,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 self.prepare = false
             } else {
                 
-                // AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Page, action: .Opened, label: "recording")
-                // AdapterHTTPService.sharedInstance.saveGameNonToken()
+                AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Page, action: .Opened, label: "recording")
+                AdapterHTTPService.sharedInstance.saveGameNonToken()
                 
                 self.swapCameraButton.isHidden = true
                 self.eyesToggleButton.isHidden = true
@@ -1003,7 +1003,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         }
         
         if let label = buttonName {
-            // AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: label)
+            AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: label)
         }
     }
     
