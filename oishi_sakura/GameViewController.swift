@@ -640,8 +640,13 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                     PHPhotoLibrary.requestAuthorization { (status) -> Void in
                         if (status == PHAuthorizationStatus.authorized) {
                             self.present(preview, animated: true, completion: { completed in
-                            self.endSceneImageView.removeFromSuperview()
-                            if let round = KeychainWrapper.standard.integer(forKey: "round") {
+                                if let origin = DataManager.sharedInstance.getObjectForKey(key: "emitter_origin") {
+                                    AdapterHTTPService.sharedInstance.saveGameComplete(emitterOrigin: origin as! String)
+                                } else {
+                                    print("no emitter_origin saved")
+                                }
+                                self.endSceneImageView.removeFromSuperview()
+                                if let round = KeychainWrapper.standard.integer(forKey: "round") {
                                     if (round >= 3) {
                                         KeychainWrapper.standard.set(1, forKey: "round")
                                     } else {
@@ -664,8 +669,13 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                     }
                 } else if (status == .authorized) {
                     self.present(preview, animated: true, completion: { completed in
-                    self.endSceneImageView.removeFromSuperview()
-                    if let round = KeychainWrapper.standard.integer(forKey: "round") {
+                        if let origin = DataManager.sharedInstance.getObjectForKey(key: "emitter_origin") {
+                            AdapterHTTPService.sharedInstance.saveGameComplete(emitterOrigin: origin as! String)
+                        } else {
+                            print("no emitter_origin saved")
+                        }
+                        self.endSceneImageView.removeFromSuperview()
+                        if let round = KeychainWrapper.standard.integer(forKey: "round") {
                             if (round >= 3) {
                                 KeychainWrapper.standard.set(1, forKey: "round")
                             } else {
@@ -942,6 +952,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         var buttonName: String?
         let tag = button.tag
         if (tag == 0) {
+            DataManager.sharedInstance.setObjectForKey(value: "eyes" as AnyObject?, key: "emitter_origin")
             self.stopAllActions()
             buttonName = "eyes"
             /*
@@ -956,6 +967,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             self.mouthToggleButton.setImage(UIImage(named: "mouth_button"), for: .normal)
             self.earsToggleButton.setImage(UIImage(named: "ear_button"), for: .normal)
         } else if (tag == 1) {
+            DataManager.sharedInstance.setObjectForKey(value: "mouth" as AnyObject?, key: "emitter_origin")
             self.stopAllActions()
             buttonName = "mouth"
             /*
@@ -970,6 +982,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             self.mouthToggleButton.setImage(UIImage(named: "mouth_on_button"), for: .normal)
             self.earsToggleButton.setImage(UIImage(named: "ear_button"), for: .normal)
         } else if (tag == 2) {
+            DataManager.sharedInstance.setObjectForKey(value: "ears" as AnyObject?, key: "emitter_origin")
             self.stopAllActions()
             buttonName = "ears"
             /*
@@ -992,7 +1005,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 // self.recordButton.setImage(UIImage(named: "start_record_button"), for: .normal)
             } else {
                 buttonName = "record"
-                // AdapterHTTPService.sharedInstance.startGame()
+                AdapterHTTPService.sharedInstance.startGame()
                 self.startRecording()
                 self.recordButton.setImage(UIImage(named: "stop_record_button"), for: .normal)
             }

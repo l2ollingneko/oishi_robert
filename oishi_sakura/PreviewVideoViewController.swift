@@ -16,6 +16,8 @@ import FBSDKShareKit
 
 import SwiftyJSON
 
+import SwiftKeychainWrapper
+
 class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
     
     var backgroundImageView: UIImageView = UIImageView()
@@ -430,6 +432,10 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
                             DataManager.sharedInstance.setObjectForKey(value: link, key: "link")
                         }
                     
+                        if let fakefbuid = KeychainWrapper.standard.string(forKey: "fbuid") {
+                            AdapterHTTPService.sharedInstance.updateFacebookIDNonToken(fakefbuid: fakefbuid)
+                        }
+                        
                         self.checkFBPublishPermissions()
                     }
                 }
@@ -546,12 +552,14 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
         print("didCompleteWithResults")
         self.uploadingView.removeFromSuperview()
         ControllerManager.sharedInstance.presentMainController()
-        /*
-        if let _ = results["postId"] {
-            OtificationHTTPService.sharedInstance.saveFBShare(results["postId"] as! String)
-            OtificationHTTPService.sharedInstance.shareResult()
+        
+        for (key, value) in results {
+            print("\(key): \(value)")
         }
-         */
+        
+        if let _ = results["video_id"] {
+            AdapterHTTPService.sharedInstance.saveFBShare(postId: results["video_id"] as! String)
+        }
     }
     
 }

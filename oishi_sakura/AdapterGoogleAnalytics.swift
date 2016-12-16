@@ -31,7 +31,7 @@ class AdapterGoogleAnalytics {
             label: label,
             value: nil)
         
-        let tracker: GAITracker = GAI.sharedInstance().tracker(withTrackingId: "UA-66731261-12")
+        let tracker: GAITracker = GAI.sharedInstance().tracker(withTrackingId: "UA-48812367-21")
         tracker.send(builder!.build() as [NSObject : AnyObject])
     }
     
