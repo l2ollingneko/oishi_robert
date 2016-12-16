@@ -1004,16 +1004,18 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             self.earsToggleButton.setImage(UIImage(named: "ear_on_button"), for: .normal)
         } else if (tag == 3) {
             self.stopAllActions()
-            if (self.recording) {
-                buttonName = "stop"
-                self.immediateStopRecording()
-                // self.stopRecording()
-                // self.recordButton.setImage(UIImage(named: "start_record_button"), for: .normal)
-            } else {
-                buttonName = "record"
-                AdapterHTTPService.sharedInstance.startGame()
-                self.startRecording()
-                self.recordButton.setImage(UIImage(named: "stop_record_button"), for: .normal)
+            if (!self.prepare) {
+                if (self.recording) {
+                    buttonName = "stop"
+                    self.immediateStopRecording()
+                    // self.stopRecording()
+                    // self.recordButton.setImage(UIImage(named: "start_record_button"), for: .normal)
+                } else {
+                    buttonName = "record"
+                    AdapterHTTPService.sharedInstance.startGame()
+                    self.startRecording()
+                    self.recordButton.setImage(UIImage(named: "stop_record_button"), for: .normal)
+                }
             }
         } else {
             buttonName = "switch_camera"
