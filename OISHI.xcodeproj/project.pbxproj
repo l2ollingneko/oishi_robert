@@ -22,6 +22,7 @@
 		A23279F31E02D499006DB3D0 /* beam.wav in Resources */ = {isa = PBXBuildFile; fileRef = A23279F21E02D498006DB3D0 /* beam.wav */; };
 		A23279F51E02DD19006DB3D0 /* sfx.wav in Resources */ = {isa = PBXBuildFile; fileRef = A23279F41E02DD19006DB3D0 /* sfx.wav */; };
 		A233BCA41E02E7B20044B0C2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A233BCA31E02E7B20044B0C2 /* GoogleService-Info.plist */; };
+		A233BCA61E03BFDA0044B0C2 /* Callback.swift in Sources */ = {isa = PBXBuildFile; fileRef = A233BCA51E03BFDA0044B0C2 /* Callback.swift */; };
 		A25630DD1DFFC75A006EED35 /* ControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25630DC1DFFC75A006EED35 /* ControllerManager.swift */; };
 		A29D62B61DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D62B51DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift */; };
 		A29D62B81DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29D62B71DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift */; };
@@ -66,6 +67,7 @@
 		A23279F21E02D498006DB3D0 /* beam.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beam.wav; sourceTree = "<group>"; };
 		A23279F41E02DD19006DB3D0 /* sfx.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sfx.wav; sourceTree = "<group>"; };
 		A233BCA31E02E7B20044B0C2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A233BCA51E03BFDA0044B0C2 /* Callback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Callback.swift; sourceTree = "<group>"; };
 		A25630DC1DFFC75A006EED35 /* ControllerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerManager.swift; sourceTree = "<group>"; };
 		A29D62B51DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SakuraEmitterNodeFactory.swift; sourceTree = "<group>"; };
 		A29D62B71DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SakuraEmitterNodeAttributes.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				A2A43F921E0286D4007F156D /* ActionInfo.swift */,
+				A233BCA51E03BFDA0044B0C2 /* Callback.swift */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -418,6 +421,7 @@
 				A2A43F901E028619007F156D /* DataManager.swift in Sources */,
 				A29D62BA1DE737EE00DA9C73 /* Adapter.swift in Sources */,
 				A2321F701E00A017003E658C /* StateManager.swift in Sources */,
+				A233BCA61E03BFDA0044B0C2 /* Callback.swift in Sources */,
 				A22E04361E01814A00FF0452 /* PopupView.swift in Sources */,
 				A29D62B61DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift in Sources */,
 				A2DDF7421DDDCE4700809091 /* GameViewController.swift in Sources */,

@@ -455,52 +455,6 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                                 }
                                 self.addedCheeks = true
                             }
-                            
-                            /*
-                            if (!self.addedCheeks) {
-                                
-                                var randomNum: UInt32 = arc4random_uniform(4)
-                                var index: Int = Int(randomNum) + 1
-                                
-                                if (index == 1) {
-                                    self.leftCheekImageView.image = UIImage(named: "cheek_1_left")
-                                    self.rightCheekImageView.image = UIImage(named: "cheek_1_right")
-                                } else {
-                                    self.leftCheekImageView.image = UIImage(named: "cheek_\(index)")
-                                    self.rightCheekImageView.image = UIImage(named: "cheek_\(index)")
-                                }
-                                // }
-                                
-                                randomNum = arc4random_uniform(2)
-                                index = Int(randomNum)
-                                if (index == 0) {
-                                    self.overlay.addSubview(self.iceFrames[0])
-                                    UIView.animate(withDuration: 0.25, animations: {
-                                        self.iceFrames[0].alpha = 0.0
-                                        self.iceFrames[0].alpha = 1.0
-                                    })
-                                }
-                                
-                                self.leftCheekImageView.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: face.bounds.size.width * 0.75, h: face.bounds.size.width * 0.75)
-                                self.rightCheekImageView.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: face.bounds.size.width * 0.75, h: face.bounds.size.width * 0.75)
-                                
-                                self.leftCheekImageView.center = lpoint
-                                self.rightCheekImageView.center = rpoint
-                                
-                                self.leftCheekImageView.layer.zPosition = 1000
-                                self.rightCheekImageView.layer.zPosition = 1000
-                                
-                                self.overlay.addSubview(self.leftCheekImageView)
-                                self.overlay.addSubview(self.rightCheekImageView)
-                                
-                                self.addedCheeks = true
-                            } else {
-                                self.leftCheekImageView.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: face.bounds.size.width * 0.7, h: face.bounds.size.width * 0.7)
-                                self.rightCheekImageView.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: face.bounds.size.width * 0.7, h: face.bounds.size.width * 0.7)
-                                
-                                self.leftCheekImageView.center = lpoint
-                                self.rightCheekImageView.center = rpoint
-                            }*/
                         }
                     }
                 } else {
@@ -644,20 +598,23 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 if (status == PHAuthorizationStatus.denied) {
                     // TODO: -
                     self.endSceneImageView.removeFromSuperview()
+                    self.recording = false
                     self.viewDidAppear(true)
                     
+                    /*
                     let randomUInt: UInt32 = arc4random_uniform(3)
                     let random: Int = Int(randomUInt)
                     let button: UIButton = UIButton()
                     button.tag = random
                     self.toggleButton(button: button)
+                     */
                 } else if (status == .notDetermined) {
                     PHPhotoLibrary.requestAuthorization { (status) -> Void in
                         if (status == PHAuthorizationStatus.authorized) {
                             self.present(preview, animated: true, completion: { completed in
                             self.endSceneImageView.removeFromSuperview()
                             if let round = KeychainWrapper.standard.integer(forKey: "round") {
-                                    if (round >= 4) {
+                                    if (round >= 3) {
                                         KeychainWrapper.standard.set(1, forKey: "round")
                                     } else {
                                         KeychainWrapper.standard.set(round + 1, forKey: "round")
@@ -735,6 +692,11 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             } else {
                 // no save action
                 // present alert view
+                previewController.dismiss(animated: true, completion: { _ in
+                    self.didCancel = false
+                    self.viewDidAppear(true)
+                })
+                /*
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 if appDelegate.isiPad {
                     previewController.dismiss(animated: true, completion: { _ in
@@ -742,18 +704,12 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                         self.viewDidAppear(true)
                     })
                 } else {
-                    if (self.didCancel) {
-                        previewController.dismiss(animated: true, completion: { _ in
-                            self.didCancel = false
-                            self.viewDidAppear(true)
-                        })
-                    } else {
-                        self.didCancel = true
-                        let popup = PopupView(frame: self.view.frame)
-                        popup.initCancelSaveVideo()
-                        previewController.view.addSubview(popup)
-                    }
+                    previewController.dismiss(animated: true, completion: { _ in
+                        self.didCancel = false
+                        self.viewDidAppear(true)
+                    })
                 }
+                 */
             }
             
         }
@@ -816,6 +772,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             // pink sakura, blue light ray, cheek 2, ice frame level 1
             // print("change to state 1")
             if (self.timerCounter == 2.0) {
+                self.lockStateChange = true
                 self.currentState += 1
                 self.scene?.changeLightEmitterNode(pink: false)
                 self.overlay.addSubview(self.iceFrames[0])
@@ -829,6 +786,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             // pink sakura, blue light ray, cheek 2, ice frame level 2
             // print("change to state 2")
             if (self.timerCounter == 3.5) {
+                self.lockStateChange = true
+                self.currentState += 1
                 self.overlay.addSubview(self.iceFrames[1])
                 UIView.animate(withDuration: 0.25, animations: {
                     self.iceFrames[1].alpha = 0.0
@@ -840,6 +799,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             // pink sakura, blue light ray, cheek 2, ice frame level 3
             // print("change to state 3")
             if (self.timerCounter == 5.0) {
+                self.lockStateChange = true
+                self.currentState += 1
                 self.overlay.addSubview(self.iceFrames[2])
                 UIView.animate(withDuration: 0.25, animations: {
                     self.iceFrames[2].alpha = 0.0

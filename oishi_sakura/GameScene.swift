@@ -88,6 +88,8 @@ class GameScene: SKScene {
         
         if (!self.lockEmitterNodes) {
             // radius
+            
+            /*
             if let node = self.childNode(withName: "tid\(face.trackingID)_radius") as! SKSpriteNode? {
                 node.size = CGSize.init(width: (face.bounds.size.width * self.mouthLightRadiusRatio), height: (face.bounds.size.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
                 node.position = pos
@@ -99,6 +101,7 @@ class GameScene: SKScene {
                     self.addChild(n)
                 }
             }
+             */
             
             // light emitter
             if let node = self.childNode(withName: "tid\(face.trackingID)_light_node") {
@@ -143,6 +146,12 @@ class GameScene: SKScene {
                                 node.position = pos
                                 self.addChild(node)
                             }
+                        } else {
+                            if let name = node.userData?["name"] as! String? {
+                                if let node = self.childNode(withName: "\(name)") {
+                                    node.removeFromParent()
+                                }
+                            }
                         }
                     }
                 }
@@ -158,6 +167,7 @@ class GameScene: SKScene {
     func earsPointDetected(face: GMVFaceFeature, lpos: CGPoint, rpos: CGPoint, headEulerAngleY: CGFloat, headEulerAngleZ: CGFloat) {
         
         if (!self.lockEmitterNodes) {
+            /*
             // radius
             if let node = self.childNode(withName: "tid\(face.trackingID)_radius_left") as! SKSpriteNode? {
                 node.size = CGSize.init(width: (face.bounds.size.width * self.mouthLightRadiusRatio), height: (face.bounds.size.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
@@ -182,7 +192,7 @@ class GameScene: SKScene {
                     n.position = rpos
                     self.addChild(n)
                 }
-            }
+            }*/
             
             // light emitter
             if let node = self.childNode(withName: "tid\(face.trackingID)_light_node_left") {
@@ -285,6 +295,7 @@ class GameScene: SKScene {
     func eyesPointDetected(face: GMVFaceFeature, lpos: CGPoint, rpos: CGPoint, headEulerAngleY: CGFloat, headEulerAngleZ: CGFloat) {
         
         if (!self.lockEmitterNodes) {
+            /*
             // radius
             if let node = self.childNode(withName: "tid\(face.trackingID)_radius_left") as! SKSpriteNode? {
                 node.size = CGSize.init(width: (face.bounds.size.width * self.mouthLightRadiusRatio), height: (face.bounds.size.width * self.mouthLightRadiusRatio) * 248.0 / 287.0)
@@ -309,7 +320,7 @@ class GameScene: SKScene {
                     n.position = rpos
                     self.addChild(n)
                 }
-            }
+            }*/
             
             // light emitter
             if let node = self.childNode(withName: "tid\(face.trackingID)_light_node_left") {
@@ -414,7 +425,7 @@ class GameScene: SKScene {
         // cheek
         if (state == -99) {
             
-            var randomNum: UInt32 = arc4random_uniform(4)
+            var randomNum: UInt32 = arc4random_uniform(3)
             var index: Int = Int(randomNum) + 1
             
             if let node = self.childNode(withName: "tid\(face.trackingID)_cheek_left") as! SKSpriteNode? {
@@ -532,6 +543,26 @@ class GameScene: SKScene {
                 }
             }
         }
+    }
+    
+    func removeSakuraNode(prefix: UInt) {
+        if (self.children.count == 0 || self.mouthEmitterNodes[prefix]?.count == 0) {
+            return
+        }
+        
+        self.lockEmitterNodes = true
+        
+        DispatchQueue.main.async {
+            for childNode in self.children {
+                if let name = childNode.name, name.contains("tid\(prefix)_sakura_node") {
+                    if let node = self.childNode(withName: name) {
+                        node.removeFromParent()
+                    }
+                }
+            }
+        }
+        
+        self.lockEmitterNodes = false
     }
     
     func removeAllNode(prefix: UInt) {
@@ -703,6 +734,16 @@ class GameScene: SKScene {
         ]
         
         SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.mouthEmitterNodes[trackingID], state: state, settings: settings)
+
+        /*
+        if (state != -99) {
+            SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.mouthEmitterNodes[trackingID], state: state, settings: settings, cb: Callback() { _, success, _, _ in
+                self.removeSakuraNode(prefix: trackingID)
+            })
+        } else {
+            SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.mouthEmitterNodes[trackingID], state: state, settings: settings)
+        }
+         */
         
         // self.mouthEmitterNodes.removeAll()
         // self.mouthEmitterNodes = SakuraEmitterNodeFactory.sharedInstance.createMouthEmitterNodes()

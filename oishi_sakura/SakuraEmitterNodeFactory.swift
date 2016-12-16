@@ -24,9 +24,9 @@ class SakuraEmitterNodeFactory {
     private(set) var lockEmitterNodeFactory: Bool = false
     
     private var staticTextures: [Int: [String]] = [
-        0: ["", "sakura_2", "sakura_3", "", "", ""],
-        1: ["sakura_1", "sakura_2", "sakura_3", "", "sakura_5", ""],
-        2: ["sakura_1", "", "sakura_3", "sakura_4", "sakura_5", ""],
+        0: ["", "sakura_2", "sakura_2", "", "", ""],
+        1: ["sakura_1", "", "sakura_3", "sakura_4", "sakura_5", "sakura_6"],
+        2: ["sakura_1", "", "sakura_3", "sakura_4", "sakura_5", "sakura_6"],
         3: ["sakura_1", "", "sakura_3", "sakura_4", "sakura_5", "sakura_6"]
     ]
     
@@ -63,11 +63,104 @@ class SakuraEmitterNodeFactory {
             }
             
         } else if (state >= StateManager.sharedInstance.currentState) {
+            
             SakuraEmitterNodeAttributes.genAttributes()
+            
+            print("create with state: \(state)")
             
             var numberOfNodes: Int = 4
             if (state == 0) {
-                numberOfNodes = 2
+                numberOfNodes = 3
+            } else if (state == 3) {
+                numberOfNodes = 5
+            }
+            
+            if nodes == nil {
+                nodes = [SKEmitterNode](repeating: SKEmitterNode(), count: 6)
+            }
+            
+            for index in 1...6 {
+                if let imageNamed = self.staticTextures[state]?[index-1] {
+                    if (imageNamed != "") {
+                        if (nodes![index-1].name == nil) {
+                            // create new node
+                            var name = "tid\(settings[kEmitterNodeNamePrefix]!)_sakura_node_\(index)"
+                            if let direction = settings[kEmitterNodeDirecion] as! String? {
+                                name = "\(name)_\(direction)"
+                            }
+                            print("create node name \(name)")
+                            let node = self.createEmitterNode(index: index - 1)
+                            node.name = name
+                            node.particleTexture = SKTexture(imageNamed: imageNamed)
+                            if let emissionAngle = settings[kEmitterNodeEmissionAngle] as! CGFloat? {
+                                node.emissionAngle = CGFloat(emissionAngle * .pi / 180.0)
+                            } else {
+                                node.emissionAngle = CGFloat(270 * .pi / 180.0)
+                            }
+                            node.emissionAngleRange = CGFloat(40.0 * .pi / 180.0)
+                            nodes![index-1] = node
+                        }
+                    } else {
+                        var name = "tid\(settings[kEmitterNodeNamePrefix]!)_sakura_node_\(index)"
+                        if let direction = settings[kEmitterNodeDirecion] as! String? {
+                            name = "\(name)_\(direction)"
+                        }
+                        let node = self.createEmitterNode(index: index - 1)
+                        node.userData = [
+                            "name": name
+                        ]
+                        nodes![index-1] = node
+                    }
+                }
+            }
+            
+            // StateManager.sharedInstance.increaseState()
+        } else {
+            print("not create emitter node")
+        }
+        
+        self.lockEmitterNodeFactory = false
+        
+    }
+    
+    func createEmitterNodes(nodes: inout [SKEmitterNode]?, state: Int, settings: Dictionary<String, AnyObject>, cb: Callback<Bool>) {
+        
+        self.lockEmitterNodeFactory = true
+        
+        if (state == -99) {
+            // random
+            SakuraEmitterNodeAttributes.genAttributes()
+        
+            if nodes == nil {
+                nodes = [SKEmitterNode](repeating: SKEmitterNode(), count: 6)
+            }
+            
+            for i in 0...5 {
+                let node = self.createEmitterNode(index: i)
+                var name = "tid\(settings[kEmitterNodeNamePrefix]!)_sakura_node_\(i)"
+                if let direction = settings[kEmitterNodeDirecion] as! String? {
+                    name = "\(name)_\(direction)"
+                }
+                node.name = name
+                if let emissionAngle = settings[kEmitterNodeEmissionAngle] as! CGFloat? {
+                    node.emissionAngle = CGFloat(emissionAngle * .pi / 180.0)
+                } else {
+                    node.emissionAngle = CGFloat(270 * .pi / 180.0)
+                }
+                node.emissionAngleRange = CGFloat(40.0 * .pi / 180.0)
+                if nodes != nil {
+                    nodes![i] = node
+                }
+            }
+            
+        } else if (state >= StateManager.sharedInstance.currentState) {
+            SakuraEmitterNodeAttributes.genAttributes()
+            
+            print("create with state: \(state)")
+            
+            var numberOfNodes: Int = 4
+            if (state == 0) {
+                numberOfNodes = 3
             } else if (state == 3) {
                 numberOfNodes = 5
             }
@@ -100,6 +193,8 @@ class SakuraEmitterNodeFactory {
                     }
                 }
             }
+            
+            cb.callback(true, true, nil, nil)
             
             // StateManager.sharedInstance.increaseState()
         } else {
@@ -143,12 +238,14 @@ class SakuraEmitterNodeFactory {
         } else if (state >= StateManager.sharedInstance.currentState) {
             SakuraEmitterNodeAttributes.genAttributes()
             
+            /*
             var numberOfNodes: Int = 4
             if (state == 0) {
                 numberOfNodes = 2
             } else if (state == 3) {
                 numberOfNodes = 5
             }
+             */
             
             if nodes == nil {
                 nodes = [SKEmitterNode](repeating: SKEmitterNode(), count: 6)
