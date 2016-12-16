@@ -127,12 +127,12 @@ class GameScene: SKScene {
                         let sound = SKAudioNode(fileNamed: "sfx.wav")
                         sound.position = (self.view?.center)!
                         sound.name = "sound"
-                        self.addChild(sound)
+                        //self.addChild(sound)
                     } else {
                         let sound = SKAudioNode(fileNamed: "beam.wav")
                         sound.position = (self.view?.center)!
                         sound.name = "sound"
-                        self.addChild(sound)
+                        //self.addChild(sound)
                     }
                 }
             }
@@ -251,12 +251,12 @@ class GameScene: SKScene {
                         let sound = SKAudioNode(fileNamed: "sfx.wav")
                         sound.position = (self.view?.center)!
                         sound.name = "sound"
-                        self.addChild(sound)
+                        //self.addChild(sound)
                     } else {
                         let sound = SKAudioNode(fileNamed: "beam.wav")
                         sound.position = (self.view?.center)!
                         sound.name = "sound"
-                        self.addChild(sound)        
+                        //self.addChild(sound)
                     }
                 }
             }
@@ -399,12 +399,12 @@ class GameScene: SKScene {
                         let sound = SKAudioNode(fileNamed: "sfx.wav")
                         sound.position = (self.view?.center)!
                         sound.name = "sound"
-                        self.addChild(sound)
+                        //self.addChild(sound)
                     } else {
                         let sound = SKAudioNode(fileNamed: "beam.wav")
                         sound.position = (self.view?.center)!
                         sound.name = "sound"
-                        self.addChild(sound)        
+                        //self.addChild(sound)
                     }
                 }
             }

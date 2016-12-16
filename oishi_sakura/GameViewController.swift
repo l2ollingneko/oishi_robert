@@ -116,7 +116,10 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     // MARK: -
     var blackView: UIView?
     
-    // MARK: - 
+    // MARK: - bg sound
+    
+    var isSoundPlaying: Bool = false
+    var backgroundMusicPlayer: AVAudioPlayer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -351,6 +354,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 if let soundNode = self.scene?.childNode(withName: "sound") {
                     soundNode.removeFromParent()
                 }
+                self.stopBackgroundMusic()
                 self.scene?.noPointDetected()
                 self.removeCheeks()
                 return
@@ -362,6 +366,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                         soundNode.removeFromParent()
                     }
                 }
+                self.stopBackgroundMusic()
                 self.scene?.noPointDetected()
                 self.removeCheeks()
                 return
@@ -387,6 +392,10 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 
                     if (self.origin != .None) {
                         // TODO: - create emitter nodes
+                        
+                        if (!self.isSoundPlaying) {
+                            self.playBackgroundMusic(filename: "")
+                        }
                         
                         if (self.origin == .Mouth) {
                             if (face.hasMouthPosition == true) {
@@ -523,29 +532,22 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     func startRecording() {
         let recorder = RPScreenRecorder.shared()
         
-        UIView.animate(withDuration: 0.25, animations: {
-            self.iceFrames[0].alpha = 1.0
-            self.iceFrames[0].alpha = 0.0
-        }, completion: { completed in
-            self.iceFrames[0].removeFromSuperview()
-        })
-        
-        self.prepare = true
-        
-        self.removeCheeks()
-        self.scene?.removeAllChildren()
-        self.scene?.resetEmitterNodes()
-        
-        self.swapCameraButton.isHidden = true
-        self.eyesToggleButton.isHidden = true
-        self.mouthToggleButton.isHidden = true
-        self.earsToggleButton.isHidden = true
-        
         recorder.startRecording(withMicrophoneEnabled: true, handler: { error in
             if let error = error {
                 print(error.localizedDescription)
             } else {
-            self.iceFrames[0].removeFromSuperview()
+                self.prepare = true
+                
+                self.removeCheeks()
+                self.scene?.removeAllChildren()
+                self.scene?.resetEmitterNodes()
+                
+                self.swapCameraButton.isHidden = true
+                self.eyesToggleButton.isHidden = true
+                self.mouthToggleButton.isHidden = true
+                self.earsToggleButton.isHidden = true
+                
+                self.iceFrames[0].removeFromSuperview()
                 self.scene?.changeLightEmitterNode(pink: true)
                 self.startTimer()
                 self.recording = true
@@ -1000,6 +1002,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             self.iceFrames[0].removeFromSuperview()
         })
         
+        self.stopBackgroundMusic()
     }
     
     // MARK: - Camera Settings
@@ -1120,6 +1123,48 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             }
         }
         return nil
+    }
+    
+    func playBackgroundMusic(filename: String) {
+        
+        var resourceName = "beam"
+        
+        let randomUInt: UInt32 = arc4random_uniform(2)
+        let random: Int = Int(randomUInt)
+        if (random == 0) {
+            resourceName = "sfx"
+        }
+        
+        //The location of the file and its type
+        let url = Bundle.main.url(forResource: resourceName, withExtension: "wav")
+        
+        //Returns an error if it can't find the file name
+        if (url == nil) {
+            return
+        }
+        
+        var error: NSError? = nil
+        
+        //Assigns the actual music to the music player
+        self.backgroundMusicPlayer = try! AVAudioPlayer(contentsOf: url!)
+        
+        //Error if it failed to create the music player
+        if backgroundMusicPlayer == nil {
+            return
+        }
+        
+        //A negative means it loops forever
+        self.backgroundMusicPlayer?.stop()
+        self.backgroundMusicPlayer.numberOfLoops = -1
+        self.backgroundMusicPlayer.prepareToPlay()
+        self.backgroundMusicPlayer.play()
+        
+        self.isSoundPlaying = true
+    }
+    
+    func stopBackgroundMusic() {
+        self.backgroundMusicPlayer?.stop()
+        self.isSoundPlaying = false
     }
     
 }
