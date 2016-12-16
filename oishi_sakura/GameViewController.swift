@@ -109,12 +109,22 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     private var didCancel: Bool = false
     private var showAlert: Bool = false
     
+    // MARK: - frame
+    private var realFrame: CGRect = CGRect.zero
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         
         self.view.frame = CGRect.init(x: 0.0, y: 0.0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if appDelegate.isiPad {
+            self.realFrame = CGRect.init(x: 0.0, y: 0.0, width: 540.0, height: 960.0)
+        } else {
+            self.realFrame = self.view.frame
+        }
         
         // video
         self.session = AVCaptureSession()
@@ -130,8 +140,13 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        self.placeHolder.frame = self.view.frame
-        self.overlay.frame = self.view.frame
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if appDelegate.isiPad {
+            self.view.frame = CGRect.init(x: 114.0, y: 32.0, width: 540.0, height: 960.0)
+        }
+        
+        self.placeHolder.frame = self.realFrame
+        self.overlay.frame = self.realFrame
         
         self.view.addSubview(self.placeHolder)
         self.view.addSubview(self.overlay)
@@ -160,7 +175,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.faceDetector = GMVDetector(ofType: GMVDetectorTypeFace, options: options)
         
         // game scene
-        self.skView = SKView(frame: self.view.frame)
+        self.skView = SKView(frame: self.realFrame)
         self.skView?.backgroundColor = UIColor.clear
         
         self.scene = GameScene(size: UIScreen.main.bounds.size)
@@ -188,6 +203,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.endSceneImageView.contentMode = .scaleAspectFit
         self.endSceneImageView.alpha = 0.0
         
+        self.updateCameraSelection()
+        self.setupCameraPreview()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -199,7 +216,13 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.session?.startRunning()
         
         // overlay window
-        self.overlayWindow = UIWindow(frame: (self.view.window?.frame)!)
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if appDelegate.isiPad {
+            self.overlayWindow = UIWindow(frame: CGRect.init(x: 114.0, y: 32.0, width: 540.0, height: 960.0))
+        } else {
+            self.overlayWindow = UIWindow(frame: (self.view.window?.frame)!)
+        }
+        
         self.overlayWindow?.windowLevel = UIWindowLevelAlert
         self.overlayWindow?.isHidden = false
         self.overlayWindow?.backgroundColor = UIColor.clear
@@ -416,6 +439,19 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                                 self.scene?.cheeksDetected(face: face, state: -99, leftCheekPoint: lpoint, rightCheekPoint: rpoint)
                             }
                             
+                            if (!self.addedCheeks) {
+                                var randomNum: UInt32 = arc4random_uniform(2)
+                                var index: Int = Int(randomNum)
+                                if (index == 0) {
+                                    self.overlay.addSubview(self.iceFrames[0])
+                                    UIView.animate(withDuration: 0.25, animations: {
+                                        self.iceFrames[0].alpha = 0.0
+                                        self.iceFrames[0].alpha = 1.0
+                                    })
+                                }
+                                self.addedCheeks = true
+                            }
+                            
                             /*
                             if (!self.addedCheeks) {
                                 
@@ -586,7 +622,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 self.origin = .None
                 
                 preview.previewControllerDelegate = self
-                preview.title = "OISHI"
+                preview.popoverPresentationController?.sourceView = self.view
                 
                 DispatchQueue.main.async {
                     if let soundNode = self.scene?.childNode(withName: "sound") {
@@ -665,7 +701,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     }
     
     func addDownloadingView() {
-        let view = UIView(frame: self.view.frame)
+        let view = UIView(frame: self.realFrame)
         view.backgroundColor = UIColor.black
         let activity = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         activity.center = view.center

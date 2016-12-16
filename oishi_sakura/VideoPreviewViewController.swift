@@ -31,12 +31,48 @@ class VideoPreviewViewController: UIViewController {
     
     var timer: Any?
     
+    // MARK: - frame
+    private var realFrame: CGRect = CGRect.zero
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.clear
-
-        // Do any additional setup after loading the view.
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if appDelegate.isiPad {
+            self.realFrame = CGRect.init(x: 0.0, y: 0.0, width: 540.0, height: 960.0)
+        } else {
+            self.realFrame = self.view.frame
+        }
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(VideoPreviewViewController.playerDidPlayToEnd), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+        self.avPlayer.replaceCurrentItem(with: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("fucking check video")
+        self.checkVideo()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if appDelegate.isiPad {
+            self.view.frame = CGRect.init(x: 114.0, y: 32.0, width: 540.0, height: 960.0)
+        }
+        
         let barSize = CGSize.init(width: Adapter.rWidth, height: Adapter.calculatedHeightFromRatio(height: 202.0))
         self.bottomBar.frame = CGRect.init(x: 0.0, y: Adapter.rHeight - barSize.height, width: barSize.width, height: barSize.height)
         self.bottomBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
@@ -80,24 +116,6 @@ class VideoPreviewViewController: UIViewController {
         self.view.addSubview(self.videoView)
         self.videoView.addSubview(self.closeButton)
         self.videoView.addSubview(self.bottomBar)
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(VideoPreviewViewController.playerDidPlayToEnd), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
-        self.avPlayer.replaceCurrentItem(with: nil)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        print("fucking check video")
-        self.checkVideo()
     }
 
     override func didReceiveMemoryWarning() {

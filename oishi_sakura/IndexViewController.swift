@@ -18,10 +18,20 @@ class IndexViewController: UIViewController {
     var counter: Int = 0
     var isLoadedData: Bool = false
     
+    // MARK: - frame
+    private var realFrame: CGRect = CGRect.zero
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.frame = CGRect.init(x: 0.0, y: 0.0, width: Adapter.rWidth, height: Adapter.rHeight)
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if appDelegate.isiPad {
+            self.realFrame = CGRect.init(x: 0.0, y: 0.0, width: 540.0, height: 960.0)
+        } else {
+            self.realFrame = self.view.frame
+        }
         
         self.view.backgroundColor = UIColor.clear
         self.backgroundImageView.backgroundColor = UIColor.clear
@@ -39,6 +49,13 @@ class IndexViewController: UIViewController {
         self.view.addSubview(self.backgroundImageView)
         self.view.addSubview(self.button)
        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if appDelegate.isiPad {
+            self.view.frame = CGRect.init(x: 114.0, y: 32.0, width: 540.0, height: 960.0)
+        }
     }
 
     override func didReceiveMemoryWarning() {

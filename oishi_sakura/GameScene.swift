@@ -20,7 +20,7 @@ class GameScene: SKScene {
     
     // static var
     
-    private let cheekRatio: CGFloat = 0.2
+    private let cheekRatio: CGFloat = (UIApplication.shared.delegate as! AppDelegate).isiPad ? 0.35 : 0.2
     private let mouthLightRadiusRatio: CGFloat = 0.125
     private let earsLightRadiusRatio: CGFloat = 0.1
     private let eyesLightRadiusRatio: CGFloat = 0.1

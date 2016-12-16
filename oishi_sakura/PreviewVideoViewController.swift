@@ -32,57 +32,26 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
     
     var uploadingView: UIView = UIView()
     
+    // MARK: - frame
+    private var realFrame: CGRect = CGRect.zero
+
+    
     private var _prefersStatusBarHidden: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.frame = CGRect.init(x: 0.0, y: 0.0, width: Adapter.rWidth, height: Adapter.rHeight)
+        self.view.frame = CGRect.init(x: 0.0, y: 0.0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
         
-        self.backgroundImageView.frame = self.view.frame
-        self.backgroundImageView.image = UIImage(named: "preview_bg")
-        
-        self.view.addSubview(self.backgroundImageView)
-        
-        self.homeButton.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: 256.0, h: 249.0)
-        self.homeButton.setImage(UIImage(named: "home_button"), for: .normal)
-        self.homeButton.addTarget(self, action: #selector(PreviewVideoViewController.dismissController), for: .touchUpInside)
-        
-        self.shareButton.frame = Adapter.calculatedRectFromRatio(x: 394.0, y: 1886.0, w: 371.0 * 1.2, h: 158.0 * 1.2)
-        self.shareButton.setImage(UIImage(named: "share_button"), for: .normal)
-        self.shareButton.addTarget(self, action: #selector(PreviewVideoViewController.checkFBReadPermissions), for: .touchUpInside)
-        
-        self.view.addSubview(self.homeButton)
-        self.view.addSubview(self.shareButton)
-        
-        self.previewImageView.frame = Adapter.calculatedRectFromRatio(x: 67.0, y: 620.0, w: 1108.0, h: 1108.0)
-        self.previewImageView.layer.cornerRadius = 4.0
-        self.previewImageView.layer.borderColor = UIColor.white.cgColor
-        self.previewImageView.layer.borderWidth = CGFloat(4.0)
-        self.previewImageView.clipsToBounds = true
-        self.previewImageView.contentMode = .scaleAspectFill
-        self.view.addSubview(self.previewImageView)
-        
-        self.playButton.frame = Adapter.calculatedRectFromRatio(x: 429.0, y: 990.0, w: 384.0, h: 384.0)
-        self.playButton.setImage(UIImage(named: "play_button"), for: .normal)
-        self.playButton.addTarget(self, action: #selector(PreviewVideoViewController.playVideo), for: .touchUpInside)
-        self.view.addSubview(self.playButton)
-        
-        let status = PHPhotoLibrary.authorizationStatus()
-        
-        if (status == PHAuthorizationStatus.denied) {
-            // TODO: -
-        } else if (status == .notDetermined) {
-            PHPhotoLibrary.requestAuthorization { (status) -> Void in
-                if (status == PHAuthorizationStatus.authorized) {
-                    self.getVideoThumbnail()
-                } else {
-                    // TODO: -
-                }
-            }
-        } else if (status == .authorized) {
-            self.getVideoThumbnail()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if appDelegate.isiPad {
+            self.realFrame = CGRect.init(x: 0.0, y: 0.0, width: 540.0, height: 960.0)
+        } else {
+            self.realFrame = self.view.frame
         }
+    }
+    
+    override func viewWillLayoutSubviews() {
     }
     
     func getVideoThumbnail() {
@@ -147,6 +116,57 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if appDelegate.isiPad {
+            self.view.frame = CGRect.init(x: 114.0, y: 32.0, width: 540.0, height: 960.0)
+        }
+        
+        self.backgroundImageView.frame = self.realFrame
+        self.backgroundImageView.image = UIImage(named: "preview_bg")
+        
+        self.view.addSubview(self.backgroundImageView)
+        
+        self.homeButton.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: 256.0, h: 249.0)
+        self.homeButton.setImage(UIImage(named: "home_button"), for: .normal)
+        self.homeButton.addTarget(self, action: #selector(PreviewVideoViewController.dismissController), for: .touchUpInside)
+        
+        self.shareButton.frame = Adapter.calculatedRectFromRatio(x: 394.0, y: 1886.0, w: 371.0 * 1.2, h: 158.0 * 1.2)
+        self.shareButton.setImage(UIImage(named: "share_button"), for: .normal)
+        self.shareButton.addTarget(self, action: #selector(PreviewVideoViewController.checkFBReadPermissions), for: .touchUpInside)
+        
+        self.view.addSubview(self.homeButton)
+        self.view.addSubview(self.shareButton)
+        
+        self.previewImageView.frame = Adapter.calculatedRectFromRatio(x: 67.0, y: 620.0, w: 1108.0, h: 1108.0)
+        self.previewImageView.layer.cornerRadius = 4.0
+        self.previewImageView.layer.borderColor = UIColor.white.cgColor
+        self.previewImageView.layer.borderWidth = CGFloat(4.0)
+        self.previewImageView.clipsToBounds = true
+        self.previewImageView.contentMode = .scaleAspectFill
+        self.view.addSubview(self.previewImageView)
+        
+        self.playButton.frame = Adapter.calculatedRectFromRatio(x: 429.0, y: 990.0, w: 384.0, h: 384.0)
+        self.playButton.setImage(UIImage(named: "play_button"), for: .normal)
+        self.playButton.addTarget(self, action: #selector(PreviewVideoViewController.playVideo), for: .touchUpInside)
+        self.view.addSubview(self.playButton)
+        
+        let status = PHPhotoLibrary.authorizationStatus()
+        
+        if (status == PHAuthorizationStatus.denied) {
+            // TODO: -
+        } else if (status == .notDetermined) {
+            PHPhotoLibrary.requestAuthorization { (status) -> Void in
+                if (status == PHAuthorizationStatus.authorized) {
+                    self.getVideoThumbnail()
+                } else {
+                    // TODO: -
+                }
+            }
+        } else if (status == .authorized) {
+            self.getVideoThumbnail()
+        }
+        
     }
 
     func dismissController() {
@@ -393,19 +413,21 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
         
         FBSDKShareAPI.share(with: videoContent, delegate: self)
         
-        self.uploadingView = UIView(frame: self.view.frame)
+        self.uploadingView = UIView(frame: self.realFrame)
+        self.uploadingView.layer.zPosition = 10000
         self.uploadingView.backgroundColor = UIColor.black
+        
         let activity = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-        activity.center = view.center
+        activity.center = self.uploadingView.center
         activity.startAnimating()
         
-        let label = UILabel(frame: CGRect.init(x: 0.0, y: view.center.y + 40.0, width: view.frame.size.width, height: 50.0))
+        let label = UILabel(frame: CGRect.init(x: 0.0, y: self.uploadingView.center.y + 40.0, width: self.uploadingView.frame.size.width, height: 50.0))
         label.textAlignment = .center
         label.textColor = UIColor.white
         label.font = UIFont.systemFont(ofSize: 16.0, weight: 0.85)
         label.text = "Uploading Video ..."
         
-        let description = UILabel(frame: CGRect.init(x: 0.0, y: view.center.y + 65.0, width: view.frame.size.width, height: 50.0))
+        let description = UILabel(frame: CGRect.init(x: 0.0, y: self.uploadingView.center.y + 65.0, width: self.uploadingView.frame.size.width, height: 50.0))
         description.textAlignment = .center
         description.textColor = UIColor.white
         description.numberOfLines = 2
@@ -417,6 +439,7 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
         self.uploadingView.addSubview(description)
         
         self.view.addSubview(self.uploadingView)
+        self.view.bringSubview(toFront: self.uploadingView)
         
         /*
         let dialog = FBSDKShareDialog()
