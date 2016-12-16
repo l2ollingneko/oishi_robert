@@ -62,6 +62,9 @@ class VideoPreviewViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         print("fucking check video")
+        
+        // AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Page, action: .Opened, label: "preview")
+        
         self.checkVideo()
     }
     

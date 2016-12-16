@@ -31,7 +31,7 @@ class SakuraEmitterNodeAttributes {
     
     static let attributes: Dictionary<String, [CGFloat]> = [
         SakuraEmitterNodeAttributes.keys[0] : [
-            20.0, 15.0, 20.0, 15.0, 5.0, 5.0
+            15.0, 15.0, 15.0, 15.0, 5.0, 5.0
         ],
         SakuraEmitterNodeAttributes.keys[1] : [
             3.0, 3.0, 1.5, 1.0, 3.0, 3.0

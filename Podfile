@@ -12,6 +12,9 @@ target 'oishi_sakura' do
   # Appsflyer
   pod 'AppsFlyerFramework'
 
+  # Google Analytics
+  pod 'Google/Analytics'
+
   # Google Mobile Vision
   pod 'GoogleMobileVision/FaceDetector'
   pod 'GoogleMobileVision/MVDataOutput'

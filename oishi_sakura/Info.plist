@@ -43,9 +43,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>We'd like to use the camera to detect face</string>
+	<string>We&apos;d like to use the camera to detect face</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We'd like to save your VDO</string>
+	<string>We&apos;d like to save your VDO</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

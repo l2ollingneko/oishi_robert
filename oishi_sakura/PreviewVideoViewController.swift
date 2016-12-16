@@ -91,6 +91,9 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Page, action: .Opened, label: "finish")
+        
         /*
         if let url = self.currentAssetUrl {
         } else {
@@ -175,6 +178,9 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
     }
     
     func playVideo() {
+        
+        // AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: "play")
+        
         if let asset = self.currentAsset {
             guard (asset.mediaType == PHAssetMediaType.video)
             else {
@@ -346,6 +352,9 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
     }
     
     func checkFBReadPermissions() {
+        
+        // AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: "share_fb")
+        
         if let _ = FBSDKAccessToken.current() {
             let request = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "email,gender,link,first_name,last_name"], httpMethod: "GET")
             let connection = FBSDKGraphRequestConnection()
@@ -353,6 +362,29 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
                 if (error != nil) {
                     print("\(error?.localizedDescription)")
                 } else {
+                    var json = JSON(result)
+                    
+                    // var params = Dictionary<String, AnyObject>()
+                    if let firstname = json["first_name"].string as AnyObject? {
+                        DataManager.sharedInstance.setObjectForKey(value: firstname, key: "first_name")
+                    }
+                    
+                    if let lastname = json["last_name"].string as AnyObject? {
+                        DataManager.sharedInstance.setObjectForKey(value: lastname, key: "last_name")
+                    }
+                    
+                    if let email = json["email"].string as AnyObject? {
+                        DataManager.sharedInstance.setObjectForKey(value: email, key: "email")
+                    }
+                    
+                    if let gender = json["gender"].string as AnyObject? {
+                        DataManager.sharedInstance.setObjectForKey(value: gender, key: "gender")
+                    }
+                    
+                    if let link = json["link"].string as AnyObject? {
+                        DataManager.sharedInstance.setObjectForKey(value: link, key: "link")
+                    }
+                    
                     self.checkFBPublishPermissions()
                 }
             })
@@ -363,7 +395,7 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
             
             loginManager.loginBehavior = FBSDKLoginBehavior.browser
             
-            loginManager.logIn(withReadPermissions: ["public_profile", "user_about_me"], from: self, handler: {
+            loginManager.logIn(withReadPermissions: ["public_profile", "email", "user_about_me"], from: self, handler: {
                 (result, error) in
                 if (error != nil) {
                     // fb login error
@@ -371,9 +403,33 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
                     let result: FBSDKLoginManagerLoginResult = result!
                     if (result.isCancelled) {
                         // fb login cancelled
-                    } else if (result.declinedPermissions.contains("public_profile") || result.declinedPermissions.contains("user_about_me")) {
+                    } else if (result.declinedPermissions.contains("public_profile") || result.declinedPermissions.contains("user_about_me") || result.declinedPermissions.contains("email")) {
                         // declined "public_profile", "email" or "user_about_me"
                     } else {
+                        
+                        var json = JSON(result)
+                        
+                        // var params = Dictionary<String, AnyObject>()
+                        if let firstname = json["first_name"].string as AnyObject? {
+                            DataManager.sharedInstance.setObjectForKey(value: firstname, key: "first_name")
+                        }
+                        
+                        if let lastname = json["last_name"].string as AnyObject? {
+                            DataManager.sharedInstance.setObjectForKey(value: lastname, key: "last_name")
+                        }
+                        
+                        if let email = json["email"].string as AnyObject? {
+                            DataManager.sharedInstance.setObjectForKey(value: email, key: "email")
+                        }
+                        
+                        if let gender = json["gender"].string as AnyObject? {
+                            DataManager.sharedInstance.setObjectForKey(value: gender, key: "gender")
+                        }
+                        
+                        if let link = json["link"].string as AnyObject? {
+                            DataManager.sharedInstance.setObjectForKey(value: link, key: "link")
+                        }
+                    
                         self.checkFBPublishPermissions()
                     }
                 }
@@ -405,6 +461,8 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
     }
     
     func shareFacebookResult() {
+        
+        // AdapterHTTPService.sharedInstance.shareResult()
         
         let video = FBSDKShareVideo(videoURL: self.currentAssetUrl)
         

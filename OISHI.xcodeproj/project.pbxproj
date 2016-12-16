@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		44CA62C41DF77AA400550365 /* todo in Resources */ = {isa = PBXBuildFile; fileRef = 44CA62C31DF77AA400550365 /* todo */; };
 		A20FEB4A1DED1344009584FD /* LightParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A20FEB491DED1344009584FD /* LightParticle.sks */; };
+		A21EA0951E04093000344261 /* AdapterGoogleAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21EA0941E04093000344261 /* AdapterGoogleAnalytics.swift */; };
+		A21EA0981E040A4700344261 /* AdapterHTTPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21EA0971E040A4700344261 /* AdapterHTTPService.swift */; };
 		A221A7C71DF8A7C7007A2869 /* BlueLightParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A221A7C61DF8A7C7007A2869 /* BlueLightParticle.sks */; };
 		A226D9321DF9F33B00F0D921 /* PreviewVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A226D9301DF9F33B00F0D921 /* PreviewVideoViewController.swift */; };
 		A226D9331DF9F33B00F0D921 /* PreviewVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A226D9311DF9F33B00F0D921 /* PreviewVideoViewController.xib */; };
@@ -50,8 +51,9 @@
 
 /* Begin PBXFileReference section */
 		3A3E221C62913F7B9924A621 /* Pods-oishi_sakura.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-oishi_sakura.release.xcconfig"; path = "Pods/Target Support Files/Pods-oishi_sakura/Pods-oishi_sakura.release.xcconfig"; sourceTree = "<group>"; };
-		44CA62C31DF77AA400550365 /* todo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = todo; sourceTree = "<group>"; };
 		A20FEB491DED1344009584FD /* LightParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LightParticle.sks; sourceTree = "<group>"; };
+		A21EA0941E04093000344261 /* AdapterGoogleAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdapterGoogleAnalytics.swift; sourceTree = "<group>"; };
+		A21EA0971E040A4700344261 /* AdapterHTTPService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdapterHTTPService.swift; sourceTree = "<group>"; };
 		A221A7C61DF8A7C7007A2869 /* BlueLightParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BlueLightParticle.sks; sourceTree = "<group>"; };
 		A226D9301DF9F33B00F0D921 /* PreviewVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewVideoViewController.swift; sourceTree = "<group>"; };
 		A226D9311DF9F33B00F0D921 /* PreviewVideoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreviewVideoViewController.xib; sourceTree = "<group>"; };
@@ -148,6 +150,15 @@
 				A22E04351E01814A00FF0452 /* PopupView.swift */,
 			);
 			name = components;
+			sourceTree = "<group>";
+		};
+		A21EA0961E040A3600344261 /* services */ = {
+			isa = PBXGroup;
+			children = (
+				A21EA0941E04093000344261 /* AdapterGoogleAnalytics.swift */,
+				A21EA0971E040A4700344261 /* AdapterHTTPService.swift */,
+			);
+			name = services;
 			sourceTree = "<group>";
 		};
 		A22E04411E01CBBB00FF0452 /* m13 */ = {
@@ -251,6 +262,7 @@
 		A2DDF7381DDDCE4700809091 /* oishi_sakura */ = {
 			isa = PBXGroup;
 			children = (
+				A21EA0961E040A3600344261 /* services */,
 				A29D62AE1DE4746E00DA9C73 /* controllers */,
 				A29D62AF1DE4747400DA9C73 /* gamekit */,
 				A25630DB1DFFC6C7006EED35 /* managers */,
@@ -266,7 +278,6 @@
 				A2DDF7461DDDCE4700809091 /* Assets.xcassets */,
 				A2DDF7481DDDCE4700809091 /* LaunchScreen.storyboard */,
 				A2DDF74B1DDDCE4700809091 /* Info.plist */,
-				44CA62C31DF77AA400550365 /* todo */,
 			);
 			path = oishi_sakura;
 			sourceTree = "<group>";
@@ -352,7 +363,6 @@
 				A233BCA41E02E7B20044B0C2 /* GoogleService-Info.plist in Resources */,
 				A2DDF73C1DDDCE4700809091 /* GameScene.sks in Resources */,
 				A226D9331DF9F33B00F0D921 /* PreviewVideoViewController.xib in Resources */,
-				44CA62C41DF77AA400550365 /* todo in Resources */,
 				A2DDF7471DDDCE4700809091 /* Assets.xcassets in Resources */,
 				A2A43F821E01FC59007F156D /* IndexViewController.xib in Resources */,
 				A2DDF74A1DDDCE4700809091 /* LaunchScreen.storyboard in Resources */,
@@ -417,6 +427,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A21EA0981E040A4700344261 /* AdapterHTTPService.swift in Sources */,
 				A2DDF7401DDDCE4700809091 /* GameScene.swift in Sources */,
 				A2A43F901E028619007F156D /* DataManager.swift in Sources */,
 				A29D62BA1DE737EE00DA9C73 /* Adapter.swift in Sources */,
@@ -424,6 +435,7 @@
 				A233BCA61E03BFDA0044B0C2 /* Callback.swift in Sources */,
 				A22E04361E01814A00FF0452 /* PopupView.swift in Sources */,
 				A29D62B61DE7010C00DA9C73 /* SakuraEmitterNodeFactory.swift in Sources */,
+				A21EA0951E04093000344261 /* AdapterGoogleAnalytics.swift in Sources */,
 				A2DDF7421DDDCE4700809091 /* GameViewController.swift in Sources */,
 				A2DDF73A1DDDCE4700809091 /* AppDelegate.swift in Sources */,
 				A25630DD1DFFC75A006EED35 /* ControllerManager.swift in Sources */,
@@ -565,7 +577,7 @@
 				INFOPLIST_FILE = oishi_sakura/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.plaping.oishi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.adapter.oishi;
 				PRODUCT_NAME = OISHI;
 				SWIFT_OBJC_BRIDGING_HEADER = "oishi_sakura/oishi_sakura-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -588,7 +600,7 @@
 				INFOPLIST_FILE = oishi_sakura/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.plaping.oishi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.adapter.oishi;
 				PRODUCT_NAME = OISHI;
 				SWIFT_OBJC_BRIDGING_HEADER = "oishi_sakura/oishi_sakura-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;

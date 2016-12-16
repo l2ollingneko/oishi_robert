@@ -23,6 +23,12 @@ PODS:
     - GoogleInterchangeUtilities (~> 1.2)
     - GoogleSymbolUtilities (~> 1.1)
     - GoogleToolboxForMac/Logger (~> 2.1)
+  - Google/Analytics (3.0.3):
+    - Google/Core
+    - GoogleAnalytics (~> 3.12)
+  - Google/Core (3.0.3):
+    - FirebaseAnalytics (~> 3.2)
+  - GoogleAnalytics (3.17.0)
   - GoogleInterchangeUtilities (1.2.2):
     - GoogleSymbolUtilities (~> 1.1)
   - GoogleMobileVision/Detector (1.0.4):
@@ -52,6 +58,7 @@ DEPENDENCIES:
   - AppsFlyerFramework
   - Firebase/Core
   - Firebase/Messaging
+  - Google/Analytics
   - GoogleMobileVision/FaceDetector
   - GoogleMobileVision/MVDataOutput
   - SwiftHEXColors
@@ -66,6 +73,8 @@ SPEC CHECKSUMS:
   FirebaseCore: 1e383fdfe37b6b5d6ff88e84204bdee30276af0f
   FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
   FirebaseMessaging: acf66347e43c5637c697060c3001d25c809a4131
+  Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
+  GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
   GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
   GoogleMobileVision: 1d7afaaf30a67005fb9f281923fc61129b46468b
   GoogleNetworkingUtilities: 3edd3a8161347494f2da60ea0deddc8a472d94cb
@@ -76,6 +85,6 @@ SPEC CHECKSUMS:
   SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
   SwiftyJSON: 38a8ea2006779c0fc4c310cb2ee8195327740faf
 
-PODFILE CHECKSUM: d056ab323366f612d5c1af75a6b217325cbbbaa2
+PODFILE CHECKSUM: 02478dff85a23d923f364962faf1b992e18f8fba
 
 COCOAPODS: 1.1.1

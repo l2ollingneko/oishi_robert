@@ -236,6 +236,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         super.viewDidAppear(animated)
         self.session?.startRunning()
         
+        // AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Page, action: .Opened, label: "home")
+        
         // overlay window
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if appDelegate.isiPad {
@@ -546,6 +548,10 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 print(error.localizedDescription)
                 self.prepare = false
             } else {
+                
+                // AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Page, action: .Opened, label: "recording")
+                // AdapterHTTPService.sharedInstance.saveGameNonToken()
+                
                 self.swapCameraButton.isHidden = true
                 self.eyesToggleButton.isHidden = true
                 self.mouthToggleButton.isHidden = true
@@ -702,6 +708,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                     
                     self.origin = .None
                     self.overlayWindow?.isHidden = true
+                    
+                    // AdapterHTTPService.sharedInstance.saveVideo()
                     
                     Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(GameViewController.presentPreviewVideoController), userInfo: nil, repeats: false)
                     
@@ -931,9 +939,11 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     }
     
     func toggleButton(button: UIButton) {
+        var buttonName: String?
         let tag = button.tag
         if (tag == 0) {
             self.stopAllActions()
+            buttonName = "eyes"
             /*
             if (self.origin == .Eyes) {
                 self.origin = .None
@@ -947,6 +957,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             self.earsToggleButton.setImage(UIImage(named: "ear_button"), for: .normal)
         } else if (tag == 1) {
             self.stopAllActions()
+            buttonName = "mouth"
             /*
             if (self.origin == .Mouth) {
                 self.origin = .None
@@ -960,6 +971,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             self.earsToggleButton.setImage(UIImage(named: "ear_button"), for: .normal)
         } else if (tag == 2) {
             self.stopAllActions()
+            buttonName = "ears"
             /*
             if (self.origin == .Ears) {
                 self.origin = .None
@@ -974,16 +986,24 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         } else if (tag == 3) {
             self.stopAllActions()
             if (self.recording) {
+                buttonName = "stop"
                 self.immediateStopRecording()
                 // self.stopRecording()
                 // self.recordButton.setImage(UIImage(named: "start_record_button"), for: .normal)
             } else {
+                buttonName = "record"
+                // AdapterHTTPService.sharedInstance.startGame()
                 self.startRecording()
                 self.recordButton.setImage(UIImage(named: "stop_record_button"), for: .normal)
             }
         } else {
+            buttonName = "switch_camera"
             self.frontCamera = !self.frontCamera
             self.updateCameraSelection()
+        }
+        
+        if let label = buttonName {
+            // AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: label)
         }
     }
     

@@ -77,6 +77,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppsFlyerTracker.shared().appsFlyerDevKey = "HGETasn6yh8FhMC2LQgEWP"
         AppsFlyerTracker.shared().appleAppID = "965172855"
         
+        /*
+        if let _ = FBSDKAccessToken.current() {
+            let id = FBSDKAccessToken.current().userID
+            KeychainWrapper.standard.set(id!, forKey: "fbuid")
+        } else {
+            if let _ = KeychainWrapper.standard.string(forKey: "fbuid") {
+                //
+            } else {
+                let id = "fakefbuid_\(NSUUID().uuidString)"
+                KeychainWrapper.standard.set(id, forKey: "fbuid")
+            }
+        }
+         */
+        
         return true
     }
     

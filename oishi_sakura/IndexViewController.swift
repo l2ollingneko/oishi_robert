@@ -52,6 +52,8 @@ class IndexViewController: UIViewController {
         self.view.addSubview(self.backgroundImageView)
         self.view.addSubview(self.button)
        
+        // AdapterHTTPService.sharedInstance.openApp()
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -68,6 +70,9 @@ class IndexViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Page, action: .Opened, label: "splash_page")
+        
         Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(IndexViewController.skipIndex), userInfo: nil, repeats: false)
         AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { granted in
             if (granted) {
@@ -87,7 +92,7 @@ class IndexViewController: UIViewController {
     func skipIndex() {
         // TODO: - goto tutorial or mylist
         if (self.skipable) {
-            ControllerManager.sharedInstance.presentMainController()
+            // ControllerManager.sharedInstance.presentMainController()
         }
     }
     
