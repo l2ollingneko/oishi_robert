@@ -125,12 +125,14 @@ class GameScene: SKScene {
                     let random: Int = Int(randomUInt)
                     if (random == 0) {
                         let sound = SKAudioNode(fileNamed: "sfx.wav")
+                        sound.position = (self.view?.center)!
                         sound.name = "sound"
                         self.addChild(sound)
                     } else {
                         let sound = SKAudioNode(fileNamed: "beam.wav")
+                        sound.position = (self.view?.center)!
                         sound.name = "sound"
-                        self.addChild(sound)        
+                        self.addChild(sound)
                     }
                 }
             }
@@ -247,10 +249,12 @@ class GameScene: SKScene {
                     let random: Int = Int(randomUInt)
                     if (random == 0) {
                         let sound = SKAudioNode(fileNamed: "sfx.wav")
+                        sound.position = (self.view?.center)!
                         sound.name = "sound"
                         self.addChild(sound)
                     } else {
                         let sound = SKAudioNode(fileNamed: "beam.wav")
+                        sound.position = (self.view?.center)!
                         sound.name = "sound"
                         self.addChild(sound)        
                     }
@@ -263,9 +267,11 @@ class GameScene: SKScene {
                         if let name = node.name {
                             if let node = self.childNode(withName: "\(name)") {
                                 node.position = lpos
+                                node.zPosition = 1000
                                 (node as! SKEmitterNode).emissionAngle = self.calculatedEarsEmissionAngle(leftEar: true, y: headEulerAngleY, z: headEulerAngleZ)
                             } else {
                                 node.position = lpos
+                                node.zPosition = 1000
                                 self.addChild(node)
                             }
                         } else {
@@ -287,9 +293,11 @@ class GameScene: SKScene {
                         if let name = node.name {
                             if let node = self.childNode(withName: "\(name)") {
                                 node.position = rpos
+                                node.zPosition = 1000
                                 (node as! SKEmitterNode).emissionAngle = self.calculatedEarsEmissionAngle(leftEar: false, y: headEulerAngleY, z: headEulerAngleZ)
                             } else {
                                 node.position = rpos
+                                node.zPosition = 1000
                                 self.addChild(node)
                             }
                          } else {
@@ -389,10 +397,12 @@ class GameScene: SKScene {
                     let random: Int = Int(randomUInt)
                     if (random == 0) {
                         let sound = SKAudioNode(fileNamed: "sfx.wav")
+                        sound.position = (self.view?.center)!
                         sound.name = "sound"
                         self.addChild(sound)
                     } else {
                         let sound = SKAudioNode(fileNamed: "beam.wav")
+                        sound.position = (self.view?.center)!
                         sound.name = "sound"
                         self.addChild(sound)        
                     }
@@ -429,9 +439,11 @@ class GameScene: SKScene {
                         if let name = node.name {
                             if let node = self.childNode(withName: "\(name)") {
                                 node.position = rpos
+                                node.zPosition = 1000
                                 (node as! SKEmitterNode).emissionAngle = self.calculatedEyesEmissionAngle(leftEye: false, y: headEulerAngleY, z: headEulerAngleZ)
                             } else {
                                 node.position = rpos
+                                node.zPosition = 1000
                                 self.addChild(node)
                             }
                         } else {
@@ -794,7 +806,7 @@ class GameScene: SKScene {
             kEmitterNodeDirecion: "right" as AnyObject
         ]
         
-        SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.leftEyeEmitterNodes[trackingID], state: state, ableToChangeState: false, settings: lsettings)
+        SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.leftEyeEmitterNodes[trackingID], state: state, settings: lsettings)
         SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.rightEyeEmitterNodes[trackingID], state: state, settings: rsettings)
         
         /*
@@ -821,7 +833,7 @@ class GameScene: SKScene {
             kEmitterNodeDirecion: "right" as AnyObject
         ]
         
-        SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.leftEarEmitterNodes[trackingID], state: state, ableToChangeState: false, settings: lsettings)
+        SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.leftEarEmitterNodes[trackingID], state: state, settings: lsettings)
         SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.rightEarEmitterNodes[trackingID], state: state, settings: rsettings)
         
         /*

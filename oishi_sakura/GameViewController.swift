@@ -116,6 +116,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     // MARK: -
     var blackView: UIView?
     
+    // MARK: - 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -213,6 +215,18 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { granted in
+            if (granted) {
+                print("go")
+            } else {
+                print("fucking god")
+                let popup = PopupView(frame: self.realFrame)
+                popup.backgroundImageView.image = UIImage(named: "change_privacy")
+                popup.layer.zPosition = 10000
+                self.view.addSubview(popup)
+            }
+        })
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -581,11 +595,14 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 
                 preview.previewControllerDelegate = self
                 preview.popoverPresentationController?.sourceView = self.view
+                preview.popoverPresentationController?.delegate = self
                 
+                /*
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 if appDelegate.isiPad {
                     preview.popoverPresentationController?.delegate = self
                 }
+                 */
                 
                 DispatchQueue.main.async {
                     if let soundNode = self.scene?.childNode(withName: "sound") {
@@ -638,7 +655,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                     self.present(preview, animated: true, completion: { completed in
                     self.endSceneImageView.removeFromSuperview()
                     if let round = KeychainWrapper.standard.integer(forKey: "round") {
-                            if (round >= 4) {
+                            if (round >= 3) {
                                 KeychainWrapper.standard.set(1, forKey: "round")
                             } else {
                                 KeychainWrapper.standard.set(round + 1, forKey: "round")
@@ -692,6 +709,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             } else {
                 // no save action
                 // present alert view
+                
                 previewController.dismiss(animated: true, completion: { _ in
                     self.didCancel = false
                     self.viewDidAppear(true)

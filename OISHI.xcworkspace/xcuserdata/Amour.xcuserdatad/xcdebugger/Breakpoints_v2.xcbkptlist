@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503542278.492712"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "151"
-            endingLineNumber = "151"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
             landmarkName = "viewDidLayoutSubviews()"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503561678.111504"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "478"
-            endingLineNumber = "478"
+            startingLineNumber = "492"
+            endingLineNumber = "492"
             landmarkName = "captureOutput(_:didOutputSampleBuffer:from:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503542278.492712"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "348"
-            endingLineNumber = "348"
+            startingLineNumber = "362"
+            endingLineNumber = "362"
             landmarkName = "captureOutput(_:didOutputSampleBuffer:from:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503542278.492712"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "220"
-            endingLineNumber = "220"
+            startingLineNumber = "234"
+            endingLineNumber = "234"
             landmarkName = "viewDidAppear(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503542278.492712"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "249"
-            endingLineNumber = "249"
+            startingLineNumber = "263"
+            endingLineNumber = "263"
             landmarkName = "viewDidDisappear(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameScene.swift"
-            timestampString = "503566426.009641"
+            timestampString = "503570562.862662"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "388"
-            endingLineNumber = "388"
+            startingLineNumber = "396"
+            endingLineNumber = "396"
             landmarkName = "eyesPointDetected(face:lpos:rpos:headEulerAngleY:headEulerAngleZ:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameScene.swift"
-            timestampString = "503566426.009641"
+            timestampString = "503570562.862662"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "245"
-            endingLineNumber = "245"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
             landmarkName = "earsPointDetected(face:lpos:rpos:headEulerAngleY:headEulerAngleZ:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameScene.swift"
-            timestampString = "503558917.529399"
+            timestampString = "503570562.862662"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
             landmarkName = "pointDetected(face:atPoint:headEulerAngleY:headEulerAngleZ:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -154,91 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameScene.swift"
-            timestampString = "503558917.529399"
+            timestampString = "503570562.862662"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
-            landmarkName = "pointDetected(face:atPoint:headEulerAngleY:headEulerAngleZ:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "oishi_sakura/GameScene.swift"
-            timestampString = "503566426.009641"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "251"
-            endingLineNumber = "251"
-            landmarkName = "earsPointDetected(face:lpos:rpos:headEulerAngleY:headEulerAngleZ:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "oishi_sakura/GameScene.swift"
-            timestampString = "503566426.009641"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "255"
-            endingLineNumber = "255"
-            landmarkName = "earsPointDetected(face:lpos:rpos:headEulerAngleY:headEulerAngleZ:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "oishi_sakura/GameScene.swift"
-            timestampString = "503566426.009641"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "393"
-            endingLineNumber = "393"
-            landmarkName = "eyesPointDetected(face:lpos:rpos:headEulerAngleY:headEulerAngleZ:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "oishi_sakura/GameScene.swift"
-            timestampString = "503566426.009641"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "397"
-            endingLineNumber = "397"
-            landmarkName = "eyesPointDetected(face:lpos:rpos:headEulerAngleY:headEulerAngleZ:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "oishi_sakura/GameScene.swift"
-            timestampString = "503566426.009641"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "618"
-            endingLineNumber = "618"
+            startingLineNumber = "630"
+            endingLineNumber = "630"
             landmarkName = "removeAllNode(prefix:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -250,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503562089.163132"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "976"
-            endingLineNumber = "976"
+            startingLineNumber = "994"
+            endingLineNumber = "994"
             landmarkName = "stopAllActions()"
             landmarkType = "7">
          </BreakpointContent>
@@ -266,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503542278.492712"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "338"
-            endingLineNumber = "338"
+            startingLineNumber = "352"
+            endingLineNumber = "352"
             landmarkName = "captureOutput(_:didOutputSampleBuffer:from:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -282,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503561678.111504"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "592"
-            endingLineNumber = "592"
+            startingLineNumber = "609"
+            endingLineNumber = "609"
             landmarkName = "stopRecording()"
             landmarkType = "7">
          </BreakpointContent>
@@ -298,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503561678.111504"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "522"
-            endingLineNumber = "522"
+            startingLineNumber = "536"
+            endingLineNumber = "536"
             landmarkName = "startRecording()"
             landmarkType = "7">
          </BreakpointContent>
@@ -314,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503561678.111504"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "575"
-            endingLineNumber = "575"
+            startingLineNumber = "589"
+            endingLineNumber = "589"
             landmarkName = "stopRecording()"
             landmarkType = "7">
          </BreakpointContent>
@@ -330,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503562089.163132"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "819"
-            endingLineNumber = "819"
+            startingLineNumber = "837"
+            endingLineNumber = "837"
             landmarkName = "changeState()"
             landmarkType = "7">
          </BreakpointContent>
@@ -346,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503562089.163132"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "913"
-            endingLineNumber = "913"
+            startingLineNumber = "931"
+            endingLineNumber = "931"
             landmarkName = "toggleButton(button:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -362,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503562089.163132"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "926"
-            endingLineNumber = "926"
+            startingLineNumber = "944"
+            endingLineNumber = "944"
             landmarkName = "toggleButton(button:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -378,11 +298,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503562089.163132"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "939"
-            endingLineNumber = "939"
+            startingLineNumber = "957"
+            endingLineNumber = "957"
             landmarkName = "toggleButton(button:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -394,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503562089.163132"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "952"
-            endingLineNumber = "952"
+            startingLineNumber = "970"
+            endingLineNumber = "970"
             landmarkName = "toggleButton(button:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -410,11 +330,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameScene.swift"
-            timestampString = "503566426.009641"
+            timestampString = "503570562.862662"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "506"
-            endingLineNumber = "506"
+            startingLineNumber = "518"
+            endingLineNumber = "518"
             landmarkName = "cheeksDetected(face:state:leftCheekPoint:rightCheekPoint:)"
             landmarkType = "7">
             <Locations>
@@ -458,11 +378,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameScene.swift"
-            timestampString = "503566426.009641"
+            timestampString = "503570562.862662"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "562"
-            endingLineNumber = "562"
+            startingLineNumber = "574"
+            endingLineNumber = "574"
             landmarkName = "cheeksDetected(face:state:leftCheekPoint:rightCheekPoint:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -474,11 +394,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503542278.492712"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "441"
-            endingLineNumber = "441"
+            startingLineNumber = "455"
+            endingLineNumber = "455"
             landmarkName = "captureOutput(_:didOutputSampleBuffer:from:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -490,11 +410,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503562089.163132"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "927"
-            endingLineNumber = "927"
+            startingLineNumber = "945"
+            endingLineNumber = "945"
             landmarkName = "toggleButton(button:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -506,11 +426,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503542278.492712"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "450"
-            endingLineNumber = "450"
+            startingLineNumber = "464"
+            endingLineNumber = "464"
             landmarkName = "captureOutput(_:didOutputSampleBuffer:from:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -522,11 +442,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503561678.111504"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "500"
-            endingLineNumber = "500"
+            startingLineNumber = "514"
+            endingLineNumber = "514"
             landmarkName = "removeCheeks()"
             landmarkType = "7">
          </BreakpointContent>
@@ -538,11 +458,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503561678.111504"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "516"
-            endingLineNumber = "516"
+            startingLineNumber = "530"
+            endingLineNumber = "530"
             landmarkName = "startRecording()"
             landmarkType = "7">
          </BreakpointContent>
@@ -554,11 +474,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503561678.111504"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "534"
-            endingLineNumber = "534"
+            startingLineNumber = "548"
+            endingLineNumber = "548"
             landmarkName = "startRecording()"
             landmarkType = "7">
          </BreakpointContent>
@@ -570,11 +490,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503562089.163132"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "982"
-            endingLineNumber = "982"
+            startingLineNumber = "1000"
+            endingLineNumber = "1000"
             landmarkName = "stopAllActions()"
             landmarkType = "7">
          </BreakpointContent>
@@ -666,11 +586,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503542362.977184"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "215"
-            endingLineNumber = "215"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
             landmarkName = "viewWillAppear(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -682,11 +602,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503542365.885421"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
+            startingLineNumber = "233"
+            endingLineNumber = "233"
             landmarkName = "viewDidAppear(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -698,11 +618,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503542388.685971"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "145"
-            endingLineNumber = "145"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
             landmarkName = "viewDidLayoutSubviews()"
             landmarkType = "7">
          </BreakpointContent>
@@ -714,11 +634,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503561678.111504"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "567"
-            endingLineNumber = "567"
+            startingLineNumber = "581"
+            endingLineNumber = "581"
             landmarkName = "stopRecording()"
             landmarkType = "7">
          </BreakpointContent>
@@ -746,12 +666,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "oishi_sakura/GameViewController.swift"
-            timestampString = "503561597.80287"
+            timestampString = "503571464.32519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "486"
-            endingLineNumber = "486"
+            startingLineNumber = "500"
+            endingLineNumber = "500"
             landmarkName = "captureOutput(_:didOutputSampleBuffer:from:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "oishi_sakura/GameScene.swift"
+            timestampString = "503570562.862662"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "402"
+            endingLineNumber = "402"
+            landmarkName = "eyesPointDetected(face:lpos:rpos:headEulerAngleY:headEulerAngleZ:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "oishi_sakura/GameScene.swift"
+            timestampString = "503570562.862662"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "401"
+            endingLineNumber = "401"
+            landmarkName = "eyesPointDetected(face:lpos:rpos:headEulerAngleY:headEulerAngleZ:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -8,6 +8,7 @@
 
 import UIKit
 import SystemConfiguration
+import AVFoundation
 
 class IndexViewController: UIViewController {
     
@@ -20,6 +21,8 @@ class IndexViewController: UIViewController {
     
     // MARK: - frame
     private var realFrame: CGRect = CGRect.zero
+    
+    private var skipable: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,11 +69,26 @@ class IndexViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(IndexViewController.skipIndex), userInfo: nil, repeats: false)
+        AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { granted in
+            if (granted) {
+                print("go")
+            } else {
+                print("fucking god")
+                self.skipable = false
+                let popup = PopupView(frame: self.realFrame)
+                popup.backgroundColor = UIColor.black.withAlphaComponent(0.65)
+                popup.backgroundImageView.image = UIImage(named: "change_privacy")
+                popup.layer.zPosition = 10000
+                self.view.addSubview(popup)
+            }
+        })
     }
     
     func skipIndex() {
         // TODO: - goto tutorial or mylist
-        ControllerManager.sharedInstance.presentMainController()
+        if (self.skipable) {
+            ControllerManager.sharedInstance.presentMainController()
+        }
     }
     
 }
