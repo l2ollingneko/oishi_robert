@@ -119,7 +119,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     // MARK: - bg sound
     
     var isSoundPlaying: Bool = false
-    var backgroundMusicPlayer: AVAudioPlayer!
+    var backgroundMusicPlayer: AVAudioPlayer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -176,7 +176,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         
         // gmvdetector
         let options: Dictionary<AnyHashable, Any> = [
-            GMVDetectorFaceMinSize: 0.3,
+            GMVDetectorFaceMinSize: 0.5,
             GMVDetectorFaceTrackingEnabled: true,
             GMVDetectorFaceMode: GMVDetectorFaceModeOption.fastMode.rawValue,
             GMVDetectorFaceLandmarkType: GMVDetectorFaceLandmark.all.rawValue
@@ -266,8 +266,13 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(false)
+        self.stopBackgroundMusic()
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+        super.viewDidDisappear(false)
         self.session?.stopRunning()
     }
     
@@ -325,7 +330,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         
         let orientation = GMVUtility.imageOrientation(from: UIDevice.current.orientation, with: avCaptureDevicePosition, defaultDeviceOrientation: .portrait)
         
-        if (UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeLeft) {
+        if (UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight || UIDevice.current.orientation == .portraitUpsideDown) {
+            self.scene?.removeAllChildren()
             return
         }
         
@@ -394,7 +400,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 saveTrackingIds[face.trackingID] = true
                 // print("save trackingId: \(face.trackingID)")
                 if let saved = self.trackingIds[face.trackingID] {
-                
+                    
                     if (self.origin != .None) {
                         // TODO: - create emitter nodes
                         
@@ -403,11 +409,14 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                             if (!self.recording) {
                                 let randomNum: UInt32 = arc4random_uniform(2)
                                 let index: Int = Int(randomNum)
-                                self.overlay.addSubview(self.iceFrames[0])
-                                UIView.animate(withDuration: 0.25, animations: {
-                                    self.iceFrames[0].alpha = 0.0
-                                    self.iceFrames[0].alpha = 1.0
-                                })
+                                print("random: \(index)")
+                                if (index == 0) {
+                                    self.overlay.addSubview(self.iceFrames[0])
+                                    UIView.animate(withDuration: 0.25, animations: {
+                                        self.iceFrames[0].alpha = 0.0
+                                        self.iceFrames[0].alpha = 1.0
+                                    })
+                                }
                             }
                         }
                         
@@ -608,6 +617,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 self.origin = .None
                 
                 preview.previewControllerDelegate = self
+                preview.modalPresentationStyle = .fullScreen
                 preview.popoverPresentationController?.sourceView = self.view
                 preview.popoverPresentationController?.delegate = self
                 
@@ -1203,18 +1213,32 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         
         //A negative means it loops forever
         self.backgroundMusicPlayer?.stop()
-        self.backgroundMusicPlayer.numberOfLoops = -1
-        self.backgroundMusicPlayer.prepareToPlay()
-        self.backgroundMusicPlayer.play()
+        self.backgroundMusicPlayer?.numberOfLoops = -1
+        self.backgroundMusicPlayer?.prepareToPlay()
+        self.backgroundMusicPlayer?.play()
         
         self.isSoundPlaying = true
     }
     
     func stopBackgroundMusic() {
         self.backgroundMusicPlayer?.stop()
+        self.backgroundMusicPlayer = nil
         self.isSoundPlaying = false
     }
     
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .fullScreen
+        /*
+        if appDelegate.isiPad {
+        } else {
+         
+        }
+         */
+    }
+    
+}
+
+extension GameViewController: AVAudioSessionDelegate {
 }
 
 extension GameViewController: UIPopoverPresentationControllerDelegate {

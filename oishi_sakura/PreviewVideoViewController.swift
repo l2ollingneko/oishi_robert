@@ -17,6 +17,7 @@ import FBSDKShareKit
 import SwiftyJSON
 
 import SwiftKeychainWrapper
+import ReachabilitySwift
 
 class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
     
@@ -36,7 +37,9 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
     
     // MARK: - frame
     private var realFrame: CGRect = CGRect.zero
-
+    
+    private let reachability = Reachability()!
+    private var ableToShare: Bool = false
     
     private var _prefersStatusBarHidden: Bool = false
     
@@ -89,6 +92,13 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reachabilityChanged), name: ReachabilityChangedNotification, object: self.reachability)
+        do{
+            try self.reachability.startNotifier()
+        }catch{
+            print("could not start reachability notifier")
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -211,204 +221,24 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
         print("Video Finished")
     }
 
-    // MARK: FB
-    
-    func popupFBShareDidTap() {
-        if let _ = FBSDKAccessToken.current() {
-            if FBSDKAccessToken.current().hasGranted("publish_actions") {
-                self.shareFacebookResult()
-            } else {
-                let loginManager = FBSDKLoginManager()
-                    loginManager.logOut()
-                    
-                    loginManager.loginBehavior = FBSDKLoginBehavior.browser
-                    
-                    loginManager.logIn(withPublishPermissions: ["publish_actions"], from: self, handler: { (result, error) in
-                        if (error != nil) {
-                            
-                        } else {
-                            let result: FBSDKLoginManagerLoginResult = result!
-                            if (result.isCancelled) {
-                            } else if (result.declinedPermissions.contains("publish_actions")) {
-                            } else {
-                                self.shareFacebookResult()
-                            }
-                        }
-                    })
-            }
-        } else {
-            let loginManager = FBSDKLoginManager()
-            loginManager.logOut()
-            
-            loginManager.loginBehavior = FBSDKLoginBehavior.browser
-            
-            loginManager.logIn(withPublishPermissions: ["publish_actions"], from: self, handler: { (result, error) in
-                if (error != nil) {
-                    
-                } else {
-                    let result: FBSDKLoginManagerLoginResult = result!
-                    if (result.isCancelled) {
-                    } else if (result.declinedPermissions.contains("publish_actions")) {
-                    } else {
-                        self.shareFacebookResult()
-                    }
-                }
-            })
-        }
-        /*
-        if let _ = FBSDKAccessToken.current() {
-            let request = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "email,gender,link,first_name,last_name"], httpMethod: "GET")
-            let connection = FBSDKGraphRequestConnection()
-            connection.add(request, completionHandler: { (conn, result, error) -> Void in
-                if (error != nil) {
-                    print("\(error?.localizedDescription)")
-                } else {
-                    var json = JSON(result)
-                    
-                    if let firstname = json["first_name"].string as AnyObject? {
-                        DataManager.sharedInstance.setObjectForKey(value: firstname, key: "first_name")
-                    }
-                    
-                    if let lastname = json["last_name"].string as AnyObject? {
-                        DataManager.sharedInstance.setObjectForKey(value: lastname, key: "last_name")
-                    }
-                    
-                    if let email = json["email"].string as AnyObject? {
-                        DataManager.sharedInstance.setObjectForKey(value: email, key: "email")
-                    }
-                    
-                    if let gender = json["gender"].string as AnyObject? {
-                        DataManager.sharedInstance.setObjectForKey(value: gender, key: "gender")
-                    }
-                    
-                    if let link = json["link"].string as AnyObject? {
-                        DataManager.sharedInstance.setObjectForKey(value: link, key: "link")
-                    }
-                    
-                    self.shareFacebookResult()
-                }
-            })
-            
-            connection.start()
-        } else {
-            let loginManager = FBSDKLoginManager()
-            loginManager.logOut()
-            
-            loginManager.loginBehavior = FBSDKLoginBehavior.browser
-            
-            loginManager.logIn(withReadPermissions: ["public_profile", "user_about_me"], from: self, handler: {
-                (result, error) in
-                if (error != nil) {
-                    // fb login error
-                } else {
-                    let result: FBSDKLoginManagerLoginResult = result!
-                    if (result.isCancelled) {
-                        // fb login cancelled
-                    } else if (result.declinedPermissions.contains("public_profile") || result.declinedPermissions.contains("user_about_me")) {
-                        // declined "public_profile", "email" or "user_about_me"
-                    } else {
-                        // TODO: api to update facebookid-nontoken
-                        _ = FBSDKAccessToken.current().userID
-                        let request = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "email,gender,link,first_name,last_name"], httpMethod: "GET")
-                        let connection = FBSDKGraphRequestConnection()
-                        connection.add(request, completionHandler: { (conn, result, error) -> Void in
-                            if (error != nil) {
-                                print("\(error?.localizedDescription)")
-                            } else {
-                                var json = JSON(result)
-                                
-                                // var params = Dictionary<String, AnyObject>()
-                                
-                                if let firstname = json["first_name"].string as AnyObject? {
-                                    DataManager.sharedInstance.setObjectForKey(value: firstname, key: "first_name")
-                                }
-                                
-                                if let lastname = json["last_name"].string as AnyObject? {
-                                    DataManager.sharedInstance.setObjectForKey(value: lastname, key: "last_name")
-                                }
-                                
-                                if let email = json["email"].string as AnyObject? {
-                                    DataManager.sharedInstance.setObjectForKey(value: email, key: "email")
-                                }
-                                
-                                if let gender = json["gender"].string as AnyObject? {
-                                    DataManager.sharedInstance.setObjectForKey(value: gender, key: "gender")
-                                }
-                                
-                                if let link = json["link"].string as AnyObject? {
-                                    DataManager.sharedInstance.setObjectForKey(value: link, key: "link")
-                                }
-                                
-                                // OtificationHTTPService.sharedInstance.updateFacebookIDNonToken(KeychainWrapper.defaultKeychainWrapper().stringForKey("fbuid")!)
-                                
-                                // self.shareFacebookResult()
-                                // self.getPublishPermission()
-                            }
-                        })
-                        connection.start()
-                    }
-                }
-            })
-        }
-         */
-    }
-    
     func checkFBReadPermissions() {
         
-        AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: "share_fb")
-        
-        if let _ = FBSDKAccessToken.current() {
-            let request = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "email,gender,link,first_name,last_name"], httpMethod: "GET")
-            let connection = FBSDKGraphRequestConnection()
-            connection.add(request, completionHandler: { (conn, result, error) -> Void in
-                if (error != nil) {
-                    print("\(error?.localizedDescription)")
-                } else {
-                    var json = JSON(result)
-                    
-                    // var params = Dictionary<String, AnyObject>()
-                    if let firstname = json["first_name"].string as AnyObject? {
-                        DataManager.sharedInstance.setObjectForKey(value: firstname, key: "first_name")
-                    }
-                    
-                    if let lastname = json["last_name"].string as AnyObject? {
-                        DataManager.sharedInstance.setObjectForKey(value: lastname, key: "last_name")
-                    }
-                    
-                    if let email = json["email"].string as AnyObject? {
-                        DataManager.sharedInstance.setObjectForKey(value: email, key: "email")
-                    }
-                    
-                    if let gender = json["gender"].string as AnyObject? {
-                        DataManager.sharedInstance.setObjectForKey(value: gender, key: "gender")
-                    }
-                    
-                    if let link = json["link"].string as AnyObject? {
-                        DataManager.sharedInstance.setObjectForKey(value: link, key: "link")
-                    }
-                    
-                    self.checkFBPublishPermissions()
-                }
-            })
-            connection.start()
+        if (!self.ableToShare) {
+            let popup = PopupView(frame: self.realFrame)
+            popup.initPopup(imageNamed: "no_internet")
+            popup.layer.zPosition = 1000
+            self.view.addSubview(popup)
+            self.view.bringSubview(toFront: popup)
         } else {
-            let loginManager = FBSDKLoginManager()
-            loginManager.logOut()
+            AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: "share_fb")
             
-            loginManager.loginBehavior = FBSDKLoginBehavior.browser
-            
-            loginManager.logIn(withReadPermissions: ["public_profile", "email", "user_about_me"], from: self, handler: {
-                (result, error) in
-                if (error != nil) {
-                    // fb login error
-                } else {
-                    let result: FBSDKLoginManagerLoginResult = result!
-                    if (result.isCancelled) {
-                        // fb login cancelled
-                    } else if (result.declinedPermissions.contains("public_profile") || result.declinedPermissions.contains("user_about_me") || result.declinedPermissions.contains("email")) {
-                        // declined "public_profile", "email" or "user_about_me"
+            if let _ = FBSDKAccessToken.current() {
+                let request = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "email,gender,link,first_name,last_name"], httpMethod: "GET")
+                let connection = FBSDKGraphRequestConnection()
+                connection.add(request, completionHandler: { (conn, result, error) -> Void in
+                    if (error != nil) {
+                        print("\(error?.localizedDescription)")
                     } else {
-                        
                         var json = JSON(result)
                         
                         // var params = Dictionary<String, AnyObject>()
@@ -431,16 +261,63 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
                         if let link = json["link"].string as AnyObject? {
                             DataManager.sharedInstance.setObjectForKey(value: link, key: "link")
                         }
-                    
-                        if let fakefbuid = KeychainWrapper.standard.string(forKey: "fbuid") {
-                            AdapterHTTPService.sharedInstance.updateFacebookIDNonToken(fakefbuid: fakefbuid)
-                        }
                         
                         self.checkFBPublishPermissions()
                     }
-                }
-            })
+                })
+                connection.start()
+            } else {
+                let loginManager = FBSDKLoginManager()
+                loginManager.logOut()
+                
+                loginManager.loginBehavior = FBSDKLoginBehavior.browser
+                
+                loginManager.logIn(withReadPermissions: ["public_profile", "email", "user_about_me"], from: self, handler: {
+                    (result, error) in
+                    if (error != nil) {
+                        // fb login error
+                    } else {
+                        let result: FBSDKLoginManagerLoginResult = result!
+                        if (result.isCancelled) {
+                            // fb login cancelled
+                        } else if (result.declinedPermissions.contains("public_profile") || result.declinedPermissions.contains("user_about_me") || result.declinedPermissions.contains("email")) {
+                            // declined "public_profile", "email" or "user_about_me"
+                        } else {
+                            
+                            var json = JSON(result)
+                            
+                            // var params = Dictionary<String, AnyObject>()
+                            if let firstname = json["first_name"].string as AnyObject? {
+                                DataManager.sharedInstance.setObjectForKey(value: firstname, key: "first_name")
+                            }
+                            
+                            if let lastname = json["last_name"].string as AnyObject? {
+                                DataManager.sharedInstance.setObjectForKey(value: lastname, key: "last_name")
+                            }
+                            
+                            if let email = json["email"].string as AnyObject? {
+                                DataManager.sharedInstance.setObjectForKey(value: email, key: "email")
+                            }
+                            
+                            if let gender = json["gender"].string as AnyObject? {
+                                DataManager.sharedInstance.setObjectForKey(value: gender, key: "gender")
+                            }
+                            
+                            if let link = json["link"].string as AnyObject? {
+                                DataManager.sharedInstance.setObjectForKey(value: link, key: "link")
+                            }
+                        
+                            if let fakefbuid = KeychainWrapper.standard.string(forKey: "fbuid") {
+                                AdapterHTTPService.sharedInstance.updateFacebookIDNonToken(fakefbuid: fakefbuid)
+                            }
+                            
+                            self.checkFBPublishPermissions()
+                        }
+                    }
+                })
+            }   
         }
+        
     }
     
     func checkFBPublishPermissions() {
@@ -559,6 +436,23 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
         
         if let _ = results["video_id"] {
             AdapterHTTPService.sharedInstance.saveFBShare(postId: results["video_id"] as! String)
+        }
+    }
+    
+    func reachabilityChanged(note: NSNotification) {
+        
+        let reachability = note.object as! Reachability
+        
+        if reachability.isReachable {
+            self.ableToShare = true
+            if reachability.isReachableViaWiFi {
+                print("Reachable via WiFi")
+            } else {
+                print("Reachable via Cellular")
+            }
+        } else {
+            self.ableToShare = false
+            print("Network not reachable")
         }
     }
     

@@ -46,10 +46,10 @@ class PopupView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func initCancelSaveVideo() {
+    func initPopup(imageNamed: String) {
         var popupImageView: UIImageView = UIImageView(frame: self.frame)
         
-        popupImageView.image = UIImage(named: "no_video")
+        popupImageView.image = UIImage(named: imageNamed)
         popupImageView.layer.zPosition = 500
         
         self.addSubview(popupImageView)

@@ -25,7 +25,7 @@ class SakuraEmitterNodeFactory {
     
     private var staticTextures: [Int: [String]] = [
         0: ["", "sakura_2", "sakura_3", "", "", ""],
-        1: ["sakura_1", "", "", "sakura_4", "sakura_5", "sakura_6"],
+        1: ["", "", "", "sakura_4", "sakura_5", "sakura_6"],
         2: ["sakura_1", "", "", "sakura_4", "sakura_5", "sakura_6"],
         3: ["sakura_1", "", "", "sakura_4", "sakura_5", "sakura_6"]
     ]
@@ -60,6 +60,12 @@ class SakuraEmitterNodeFactory {
                 if nodes != nil {
                     nodes![i] = node
                 }
+                node.userData = [
+                    "initialBirthRate": node.particleBirthRate,
+                    "initialScale": node.particleScale,
+                    "initialScaleRange": node.particleScaleRange,
+                    "initialScaleSpeed": node.particleScaleSpeed
+                ]
             }
             
         } else if (state >= StateManager.sharedInstance.currentState) {
@@ -107,7 +113,11 @@ class SakuraEmitterNodeFactory {
                         }
                         let node = self.createEmitterNode(index: index - 1)
                         node.userData = [
-                            "name": name
+                            "name": name,
+                            "initialBirthRate": node.particleBirthRate,
+                            "initialScale": node.particleScale,
+                            "initialScaleRange": node.particleScaleRange,
+                            "initialScaleSpeed": node.particleScaleSpeed
                         ]
                         nodes![index-1] = node
                     }

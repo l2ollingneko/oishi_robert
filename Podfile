@@ -26,6 +26,8 @@ target 'oishi_sakura' do
   pod 'SwiftHEXColors'
   pod 'SwiftKeychainWrapper'
   pod 'SwiftyJSON'
+  pod 'SCNetworkReachability'
+  pod 'ReachabilitySwift', '~> 3'
 
 end
 
