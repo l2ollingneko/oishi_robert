@@ -55,6 +55,7 @@ class AdapterHTTPService {
     // MARK: -
     
     func saveGameNonToken() {
+        DataManager.sharedInstance.removeObjectForKey(key: "gid")
         let url: String = "http://www.oishidrink.com/sakura/api/mobile/submitGameNonToken.aspx"
         var parameters = Dictionary<String, String>()
         parameters["param1"] = "ios"
@@ -107,7 +108,23 @@ class AdapterHTTPService {
         for (key, value) in parameters.enumerated() {
             print("\(key): \(value)")
         }
+        
+        _ = Alamofire.request(url, method: .post, parameters: parameters).responseJSON { response in
+            switch response.result {
+            case .success(let json):
+                print(json)
+                let response = json as! NSDictionary
+                let result = response.object(forKey: "result") as? String
+                if("complete" == result) {
+                    let gid = response.object(forKey: "gid") as? String
+                    DataManager.sharedInstance.setObjectForKey(value: gid as AnyObject?, key: "gid")
+                }
+            case .failure(let error):
+                print("saveGameComplete error: \(error.localizedDescription)")
+            }
+        }
 
+        /*
         _ = Alamofire.request(url, method: .post, parameters: parameters).responseString { response in
             if let responseString = response.result.value {
                 var splited = responseString.components(separatedBy: "&")
@@ -118,7 +135,7 @@ class AdapterHTTPService {
                 print("saveGameComplete error: \(response.result.error?.localizedDescription)")
             }
         }
-
+        */
     }
 
 	func saveGameComplete(emitterOrigin: String) {
