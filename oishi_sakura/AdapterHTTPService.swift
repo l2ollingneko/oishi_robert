@@ -108,7 +108,7 @@ class AdapterHTTPService {
             print("\(key): \(value)")
         }
 
-        _ = Alamofire.request(url, method: .post).responseString { response in
+        _ = Alamofire.request(url, method: .post, parameters: parameters).responseString { response in
             if let responseString = response.result.value {
                 var splited = responseString.components(separatedBy: "&")
                 splited = splited[1].components(separatedBy: "=")
@@ -137,7 +137,7 @@ class AdapterHTTPService {
             print("\(key): \(value)")
         }
 
-        _ = Alamofire.request(url, method: .post).responseString { response in
+        _ = Alamofire.request(url, method: .post, parameters: parameters).responseString { response in
             if let responseString = response.result.value {
                 print("saveGameComplete: \(responseString)")
             } else {
