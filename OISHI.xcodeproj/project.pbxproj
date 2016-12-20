@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4497D7631E08AFE6001D1A0C /* SharePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4497D7621E08AFE6001D1A0C /* SharePopup.swift */; };
+		4497D7651E08B1C7001D1A0C /* ShareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4497D7641E08B1C7001D1A0C /* ShareButton.swift */; };
 		A20FEB4A1DED1344009584FD /* LightParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A20FEB491DED1344009584FD /* LightParticle.sks */; };
 		A21EA0951E04093000344261 /* AdapterGoogleAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21EA0941E04093000344261 /* AdapterGoogleAnalytics.swift */; };
 		A21EA0981E040A4700344261 /* AdapterHTTPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21EA0971E040A4700344261 /* AdapterHTTPService.swift */; };
@@ -51,6 +53,8 @@
 
 /* Begin PBXFileReference section */
 		3A3E221C62913F7B9924A621 /* Pods-oishi_sakura.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-oishi_sakura.release.xcconfig"; path = "Pods/Target Support Files/Pods-oishi_sakura/Pods-oishi_sakura.release.xcconfig"; sourceTree = "<group>"; };
+		4497D7621E08AFE6001D1A0C /* SharePopup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharePopup.swift; sourceTree = "<group>"; };
+		4497D7641E08B1C7001D1A0C /* ShareButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareButton.swift; sourceTree = "<group>"; };
 		A20FEB491DED1344009584FD /* LightParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LightParticle.sks; sourceTree = "<group>"; };
 		A21EA0941E04093000344261 /* AdapterGoogleAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdapterGoogleAnalytics.swift; sourceTree = "<group>"; };
 		A21EA0971E040A4700344261 /* AdapterHTTPService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdapterHTTPService.swift; sourceTree = "<group>"; };
@@ -149,6 +153,8 @@
 			isa = PBXGroup;
 			children = (
 				A22E04351E01814A00FF0452 /* PopupView.swift */,
+				4497D7621E08AFE6001D1A0C /* SharePopup.swift */,
+				4497D7641E08B1C7001D1A0C /* ShareButton.swift */,
 			);
 			name = components;
 			sourceTree = "<group>";
@@ -440,6 +446,7 @@
 				A21EA0981E040A4700344261 /* AdapterHTTPService.swift in Sources */,
 				A2DDF7401DDDCE4700809091 /* GameScene.swift in Sources */,
 				A2A43F901E028619007F156D /* DataManager.swift in Sources */,
+				4497D7651E08B1C7001D1A0C /* ShareButton.swift in Sources */,
 				A29D62BA1DE737EE00DA9C73 /* Adapter.swift in Sources */,
 				A2321F701E00A017003E658C /* StateManager.swift in Sources */,
 				A233BCA61E03BFDA0044B0C2 /* Callback.swift in Sources */,
@@ -457,6 +464,7 @@
 				A22E04471E01CBC100FF0452 /* M13ProgressViewBorderedBar.m in Sources */,
 				A29D62B81DE701F000DA9C73 /* SakuraEmitterNodeAttributes.swift in Sources */,
 				A2A43F811E01FC59007F156D /* IndexViewController.swift in Sources */,
+				4497D7631E08AFE6001D1A0C /* SharePopup.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
