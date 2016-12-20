@@ -40,6 +40,7 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
     var uploadingView: UIView = UIView()
     
     var sharePopup: SharePopup = SharePopup(frame: Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: 1242.0, h: 2208.0))
+    var popup: PopupView?
     
     // MARK: - frame
     private var realFrame: CGRect = CGRect.zero
@@ -446,6 +447,7 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
     func sharer(_ sharer: FBSDKSharing!, didCompleteWithResults results: [AnyHashable : Any]!) {
         print("didCompleteWithResults")
         self.uploadingView.removeFromSuperview()
+        self.showPopup()
         // ControllerManager.sharedInstance.presentMainController()
         
         for (key, value) in results {
@@ -493,6 +495,19 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
         self.view.bringSubview(toFront: self.sharePopup)
     }
     
+    // MARK: - popup
+    
+    func showPopup() {
+        self.popup = PopupView(frame: self.realFrame)
+        self.popup?.initPopup(imageNamed: "popup_complete")
+        self.view.addSubview(self.popup!)
+        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(PreviewVideoViewController.removePopup), userInfo: nil, repeats: false)
+    }
+    
+    func removePopup() {
+        self.popup?.removeFromSuperview()
+    }
+    
 }
 
 extension PreviewVideoViewController: SharePopupDelegate {
@@ -538,6 +553,7 @@ extension PreviewVideoViewController: SharePopupDelegate {
                     print("copy_url: \(url)")
                 }
                 self.sharePopup.removeFromSuperview()
+                self.showPopup()
             break
         }
     }

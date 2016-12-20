@@ -333,8 +333,6 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
         
-        return
-        
         let image = GMVUtility.sampleBufferTo32RGBA(sampleBuffer)
         let avCaptureDevicePosition: AVCaptureDevicePosition = self.frontCamera ? AVCaptureDevicePosition.front : AVCaptureDevicePosition.back
         
