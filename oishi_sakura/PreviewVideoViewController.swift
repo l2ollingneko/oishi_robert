@@ -482,6 +482,8 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
             URLQueryItem(name: "url", value: shareUrl.absoluteString)
         ]
         let url = urlComponents?.url
+        let controller = SFSafariViewController(url: url!)
+        self.present(controller, animated: true, completion: nil)
     }
     
     func showSocialSharing() {
@@ -498,18 +500,44 @@ extension PreviewVideoViewController: SharePopupDelegate {
     func buttonDidTap(buttonType: ShareButtonType) {
         switch buttonType {
             case .facebook:
+                AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: "share_campaign_fb")
+                if let vc = SLComposeViewController(forServiceType: SLServiceTypeFacebook) {
+                    if let url = self.currentAssetUrl {
+                        vc.add(url)
+                    }
+                    present(vc, animated: true)
+                }
+                // self.sharePopup.removeFromSuperview()
                 print("facebook")
             break
             case .twitter:
+                AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: "share_campaign_tw")
+                if let vc = SLComposeViewController(forServiceType: SLServiceTypeTwitter) {
+                    if let url = self.currentAssetUrl {
+                        vc.add(url)
+                    }
+                    present(vc, animated: true)
+                }
+                // self.sharePopup.removeFromSuperview()
                 print("twitter")
             break
             case .googlePlus:
+                AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: "share_campaign_gp")
+                if let url = self.currentAssetUrl {
+                    self.showGooglePlusShare(shareUrl: url)
+                }
+                // self.sharePopup.removeFromSuperview()
                 print("googlePlus")
             break
             case .copyUrl:
                 print("copyURL: \(self.currentAssetUrl)")
-                let pasteboard = UIPasteboard.general
-                pasteboard.string = self.currentAssetUrl?.absoluteString
+                AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: "share_campaign_copy")
+                if let url = DataManager.sharedInstance.getObjectForKey(key: "copy_url") as! String? {
+                    let pasteboard = UIPasteboard.general
+                    pasteboard.string = url
+                    print("copy_url: \(url)")
+                }
+                self.sharePopup.removeFromSuperview()
             break
         }
     }

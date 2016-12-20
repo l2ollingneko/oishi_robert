@@ -167,11 +167,13 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.frame.image = UIImage(named: "frame")
         self.overlay.addSubview(self.frame)
         
-        for index in 0...2 {
-            let imageView = UIImageView(frame: self.overlay.frame)
-            imageView.image = UIImage(named: "ice_\(index+1)")
-            imageView.alpha = 0.0
-            self.iceFrames.append(imageView)
+        if (self.iceFrames.count == 0) {
+            for index in 0...2 {
+                let imageView = UIImageView(frame: self.overlay.frame)
+                imageView.image = UIImage(named: "ice_\(index+1)")
+                imageView.alpha = 0.0
+                self.iceFrames.append(imageView)
+            }
         }
         
         // gmvdetector
@@ -218,6 +220,10 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        self.cleanupVideoProcessing()
+        self.setupVideoProcessing()
+        self.session?.stopRunning()
         
         let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
         

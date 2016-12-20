@@ -54,7 +54,8 @@ class IndexViewController: UIViewController {
         self.view.addSubview(self.button)
        
         AdapterHTTPService.sharedInstance.openApp()
-        
+        AdapterHTTPService.sharedInstance.getDataInfo(cb: Callback() { _, success, _, _ in
+        })
     }
     
     override func viewWillLayoutSubviews() {
