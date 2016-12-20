@@ -399,7 +399,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "421"
             endingLineNumber = "421"
-            landmarkName = "sharerDidCancel(_:)"
+            landmarkName = "shareFacebookResult()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -911,7 +911,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "225"
             endingLineNumber = "225"
-            landmarkName = "checkFBReadPermissions()"
+            landmarkName = "playVideo()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -927,7 +927,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "224"
             endingLineNumber = "224"
-            landmarkName = "checkFBReadPermissions()"
+            landmarkName = "playVideo()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -976,6 +976,22 @@
             startingLineNumber = "121"
             endingLineNumber = "121"
             landmarkName = "pointDetected(face:atPoint:headEulerAngleY:headEulerAngleZ:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "oishi_sakura/ShareButton.swift"
+            timestampString = "503895773.508147"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "init(frame:buttonType:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

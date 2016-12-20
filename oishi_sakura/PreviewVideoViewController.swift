@@ -39,7 +39,7 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
     
     var uploadingView: UIView = UIView()
     
-    var sharePopup: SharePopup = SharePopup(frame: Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: 1242.0, h: 1148.0))
+    var sharePopup: SharePopup = SharePopup(frame: Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: 1242.0, h: 2208.0))
     
     // MARK: - frame
     private var realFrame: CGRect = CGRect.zero
@@ -485,9 +485,33 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
     }
     
     func showSocialSharing() {
-        self.view.layer.zPosition = 1000
+        self.sharePopup.delegate = self
+        self.sharePopup.layer.zPosition = 1000
         self.view.addSubview(self.sharePopup)
         self.view.bringSubview(toFront: self.sharePopup)
+    }
+    
+}
+
+extension PreviewVideoViewController: SharePopupDelegate {
+    
+    func buttonDidTap(buttonType: ShareButtonType) {
+        switch buttonType {
+            case .facebook:
+                print("facebook")
+            break
+            case .twitter:
+                print("twitter")
+            break
+            case .googlePlus:
+                print("googlePlus")
+            break
+            case .copyUrl:
+                print("copyURL: \(self.currentAssetUrl)")
+                let pasteboard = UIPasteboard.general
+                pasteboard.string = self.currentAssetUrl?.absoluteString
+            break
+        }
     }
     
 }

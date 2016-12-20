@@ -9,6 +9,10 @@
 import Foundation
 import SwiftHEXColors
 
+protocol SharePopupDelegate {
+    func buttonDidTap(buttonType: ShareButtonType)
+}
+
 class SharePopup: UIView {
     
     var actionView: UIView = UIView()
@@ -19,6 +23,8 @@ class SharePopup: UIView {
     var copyButton: ShareButton = ShareButton(frame: Adapter.calculatedRectFromRatio(x: 0.0, y: 893.0, w: 1242.0, h: 252.0), buttonType: .copyUrl)
     
     var tapGesture: UITapGestureRecognizer?
+    
+    var delegate: SharePopupDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -57,9 +63,9 @@ class SharePopup: UIView {
         
         self.addSubview(self.actionView)
         
-        // self.tapGesture = UITapGestureRecognizer(target: self, action: #selector(SharePopup.didTap))
-        // self.tapGesture?.delegate = self
-        // self.addGestureRecognizer(self.tapGesture!)
+        self.tapGesture = UITapGestureRecognizer(target: self, action: #selector(SharePopup.didTap))
+        self.tapGesture?.delegate = self
+        self.addGestureRecognizer(self.tapGesture!)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -90,16 +96,16 @@ extension SharePopup: ShareButtonDelegate {
     func buttonDidTap(buttonType: ShareButtonType) {
         switch buttonType {
             case .facebook:
-                print("facebook")
+                self.delegate?.buttonDidTap(buttonType: buttonType)
             break
             case .twitter:
-                print("twitter")
+                self.delegate?.buttonDidTap(buttonType: buttonType)
             break
             case .googlePlus:
-                print("googlePlus")
+                self.delegate?.buttonDidTap(buttonType: buttonType)
             break
             case .copyUrl:
-                print("copyURL")
+                self.delegate?.buttonDidTap(buttonType: buttonType)
             break
         }
     }
