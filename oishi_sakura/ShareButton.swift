@@ -32,6 +32,8 @@ class ShareButton: UIView {
         self.frame = frame
         self.backgroundColor = UIColor.white
         
+        self.isUserInteractionEnabled = true
+        
         self.logoImageView.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 40.0, w: 251.0, h: 173.0)
         self.nameLabel.frame = CGRect.init(x: Adapter.calculatedWidthFromRatio(width: 312.0), y: 0.0, width: 300.0, height: frame.size.height)
         self.separatorLine.frame = CGRect.init(x: Adapter.calculatedWidthFromRatio(width: 60.0), y: frame.size.height - 1.0, width: frame.size.width - 60.0, height: 0.5)
@@ -73,6 +75,7 @@ class ShareButton: UIView {
         
         // button
         self.button.addTarget(self, action: #selector(ShareButton.buttonDidTap), for: .touchUpInside)
+        self.button.isUserInteractionEnabled = true
         
         self.addSubview(self.logoImageView)
         self.addSubview(self.nameLabel)

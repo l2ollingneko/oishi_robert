@@ -25,6 +25,9 @@ class SharePopup: UIView {
         self.frame = frame
         self.backgroundColor = UIColor.black.withAlphaComponent(0.85)
         
+        self.isUserInteractionEnabled = true
+        self.actionView.isUserInteractionEnabled = true
+        
         // top 137.0, buttons 252.0
         
         self.actionView.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 1060.0, w: 1242.0, h: 1148.0)
