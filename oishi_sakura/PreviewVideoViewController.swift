@@ -446,7 +446,7 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
     func sharer(_ sharer: FBSDKSharing!, didCompleteWithResults results: [AnyHashable : Any]!) {
         print("didCompleteWithResults")
         self.uploadingView.removeFromSuperview()
-        ControllerManager.sharedInstance.presentMainController()
+        // ControllerManager.sharedInstance.presentMainController()
         
         for (key, value) in results {
             print("\(key): \(value)")

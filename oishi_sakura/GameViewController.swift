@@ -243,7 +243,6 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.session?.startRunning()
         
         AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Page, action: .Opened, label: "home")
         
@@ -270,10 +269,12 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         button.tag = random
         self.toggleButton(button: button)
         
+        self.session?.startRunning()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(false)
+        self.session?.stopRunning()
         self.stopBackgroundMusic()
     }
     
@@ -299,6 +300,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Release any cached data, images, etc that aren't in use.
+        print("didReceiveMemoryWarning")
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -330,6 +332,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
+        
+        return
         
         let image = GMVUtility.sampleBufferTo32RGBA(sampleBuffer)
         let avCaptureDevicePosition: AVCaptureDevicePosition = self.frontCamera ? AVCaptureDevicePosition.front : AVCaptureDevicePosition.back
