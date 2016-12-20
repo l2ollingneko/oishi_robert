@@ -19,6 +19,9 @@ import SwiftyJSON
 import SwiftKeychainWrapper
 import ReachabilitySwift
 
+import SafariServices
+import Social
+
 class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
     
     var backgroundImageView: UIImageView = UIImageView()
@@ -29,11 +32,14 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
     var homeButton: UIButton = UIButton()
     var shareButton: UIButton = UIButton()
     var playButton: UIButton = UIButton()
+    var socialButton: UIButton = UIButton()
     
     var currentAsset: PHAsset?
     var currentAssetUrl: URL?
     
     var uploadingView: UIView = UIView()
+    
+    var sharePopup: SharePopup = SharePopup(frame: Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: 1242.0, h: 1148.0))
     
     // MARK: - frame
     private var realFrame: CGRect = CGRect.zero
@@ -139,19 +145,22 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
         
         self.backgroundImageView.frame = self.realFrame
         self.backgroundImageView.image = UIImage(named: "preview_bg")
-        
-        self.view.addSubview(self.backgroundImageView)
+//        self.backgroundImageView.layer.zPosition = 0
         
         self.homeButton.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 0.0, w: 256.0, h: 249.0)
         self.homeButton.setImage(UIImage(named: "home_button"), for: .normal)
         self.homeButton.addTarget(self, action: #selector(PreviewVideoViewController.dismissController), for: .touchUpInside)
+//        self.homeButton.layer.zPosition = 10
         
         self.shareButton.frame = Adapter.calculatedRectFromRatio(x: 394.0, y: 1886.0, w: 371.0 * 1.2, h: 158.0 * 1.2)
         self.shareButton.setImage(UIImage(named: "share_button"), for: .normal)
         self.shareButton.addTarget(self, action: #selector(PreviewVideoViewController.checkFBReadPermissions), for: .touchUpInside)
+//        self.shareButton.layer.zPosition = 10
         
-        self.view.addSubview(self.homeButton)
-        self.view.addSubview(self.shareButton)
+        self.socialButton.frame = Adapter.calculatedRectFromRatio(x: 1008.0, y: 0.0, w: 234.0, h: 249.0)
+        self.socialButton.setImage(UIImage(named: "share"), for: .normal)
+        self.socialButton.addTarget(self, action: #selector(PreviewVideoViewController.showSocialSharing), for: .touchUpInside)
+//        self.socialButton.layer.zPosition = 10
         
         self.previewImageView.frame = Adapter.calculatedRectFromRatio(x: 67.0, y: 620.0, w: 1108.0, h: 1108.0)
         self.previewImageView.layer.cornerRadius = 4.0
@@ -159,12 +168,21 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
         self.previewImageView.layer.borderWidth = CGFloat(4.0)
         self.previewImageView.clipsToBounds = true
         self.previewImageView.contentMode = .scaleAspectFill
-        self.view.addSubview(self.previewImageView)
+//        self.previewImageView.layer.zPosition = 9
         
         self.playButton.frame = Adapter.calculatedRectFromRatio(x: 429.0, y: 990.0, w: 384.0, h: 384.0)
         self.playButton.setImage(UIImage(named: "play_button"), for: .normal)
         self.playButton.addTarget(self, action: #selector(PreviewVideoViewController.playVideo), for: .touchUpInside)
-        self.view.addSubview(self.playButton)
+//        self.playButton.layer.zPosition = 10
+        
+        if (!self.backgroundImageView.isDescendant(of: self.view)) {
+            self.view.addSubview(self.backgroundImageView)
+            self.view.addSubview(self.homeButton)
+            self.view.addSubview(self.shareButton)
+            self.view.addSubview(self.socialButton)
+            self.view.addSubview(self.previewImageView)
+            self.view.addSubview(self.playButton)
+        }
         
         let status = PHPhotoLibrary.authorizationStatus()
         
@@ -355,7 +373,7 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
         FBSDKShareAPI.share(with: videoContent, delegate: self)
         
         self.uploadingView = UIView(frame: self.realFrame)
-        self.uploadingView.layer.zPosition = 10000
+        self.uploadingView.layer.zPosition = 500
         self.uploadingView.backgroundColor = UIColor.black
         
         let activity = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
@@ -454,6 +472,22 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
             self.ableToShare = false
             print("Network not reachable")
         }
+    }
+    
+    // MARK: - social sharing
+    
+    func showGooglePlusShare(shareUrl: URL) {
+        var urlComponents = URLComponents(string: "https://plus.google.com/share")
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "url", value: shareUrl.absoluteString)
+        ]
+        let url = urlComponents?.url
+    }
+    
+    func showSocialSharing() {
+        self.view.layer.zPosition = 1000
+        self.view.addSubview(self.sharePopup)
+        self.view.bringSubview(toFront: self.sharePopup)
     }
     
 }

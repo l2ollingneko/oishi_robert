@@ -125,8 +125,8 @@ class GameScene: SKScene {
                                     } else if (heightRatio < 0.5) {
                                         // node.particleBirthRate = b * (0.85 + heightRatio)
                                         node.particleScale = s * (heightRatio + 0.25)
-                                        node.particleScaleRange = ss * (heightRatio + 0.25)
-                                        node.particleScaleSpeed = sss
+                                        node.particleScaleRange = ss * (heightRatio)
+                                        node.particleScaleSpeed = sss * (heightRatio)
                                     } else {
                                         // node.particleBirthRate = b
                                         node.particleScale = s
@@ -211,8 +211,8 @@ class GameScene: SKScene {
                                         node.particleScale = s * (heightRatio + 0.5)
                                     } else if (heightRatio < 0.5) {
                                         node.particleScale = s * (heightRatio + 0.25)
-                                        node.particleScaleRange = ss * (heightRatio + 0.25)
-                                        node.particleScaleSpeed = sss * (heightRatio + 0.25)
+                                        node.particleScaleRange = ss * (heightRatio)
+                                        node.particleScaleSpeed = sss * (heightRatio)
                                     } else {
                                         node.particleScale = s
                                         node.particleScaleRange = ss
@@ -257,8 +257,8 @@ class GameScene: SKScene {
                                         node.particleScale = s * (heightRatio + 0.5)
                                     } else if (heightRatio < 0.5) {
                                         node.particleScale = s * (heightRatio + 0.25)
-                                        node.particleScaleRange = ss * (heightRatio + 0.25)
-                                        node.particleScaleSpeed = sss * (heightRatio + 0.25)
+                                        node.particleScaleRange = ss * (heightRatio)
+                                        node.particleScaleSpeed = sss * (heightRatio)
                                     } else {
                                         node.particleScale = s
                                         node.particleScaleRange = ss
@@ -336,8 +336,8 @@ class GameScene: SKScene {
                                         node.particleScale = s * (heightRatio + 0.5)
                                     } else if (heightRatio < 0.5) {
                                         node.particleScale = s * (heightRatio + 0.25)
-                                        node.particleScaleRange = ss * (heightRatio + 0.25)
-                                        node.particleScaleSpeed = sss * (heightRatio + 0.25)
+                                        node.particleScaleRange = ss * (heightRatio)
+                                        node.particleScaleSpeed = sss * (heightRatio)
                                     } else {
                                         node.particleScale = s
                                         node.particleScaleRange = ss
@@ -380,8 +380,8 @@ class GameScene: SKScene {
                                         node.particleScale = s * (heightRatio + 0.5)
                                     } else if (heightRatio < 0.5) {
                                         node.particleScale = s * (heightRatio + 0.25)
-                                        node.particleScaleRange = ss * (heightRatio + 0.25)
-                                        node.particleScaleSpeed = sss * (heightRatio + 0.25)
+                                        node.particleScaleRange = ss * (heightRatio)
+                                        node.particleScaleSpeed = sss * (heightRatio)
                                     } else {
                                         node.particleScale = s
                                         node.particleScaleRange = ss
