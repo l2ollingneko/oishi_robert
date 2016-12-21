@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		44048C2A1E0AFD9900B7B02A /* face_sakura.png in Resources */ = {isa = PBXBuildFile; fileRef = 44048C291E0AFD9900B7B02A /* face_sakura.png */; };
+		44571C071E09E7FA00E6CA95 /* sfx_sakura.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 44571C061E09E7FA00E6CA95 /* sfx_sakura.mp3 */; };
 		4497D7631E08AFE6001D1A0C /* SharePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4497D7621E08AFE6001D1A0C /* SharePopup.swift */; };
 		4497D7651E08B1C7001D1A0C /* ShareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4497D7641E08B1C7001D1A0C /* ShareButton.swift */; };
 		A20FEB4A1DED1344009584FD /* LightParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A20FEB491DED1344009584FD /* LightParticle.sks */; };
@@ -53,6 +55,8 @@
 
 /* Begin PBXFileReference section */
 		3A3E221C62913F7B9924A621 /* Pods-oishi_sakura.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-oishi_sakura.release.xcconfig"; path = "Pods/Target Support Files/Pods-oishi_sakura/Pods-oishi_sakura.release.xcconfig"; sourceTree = "<group>"; };
+		44048C291E0AFD9900B7B02A /* face_sakura.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = face_sakura.png; path = Assets.xcassets/face_sakura.imageset/face_sakura.png; sourceTree = "<group>"; };
+		44571C061E09E7FA00E6CA95 /* sfx_sakura.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sfx_sakura.mp3; sourceTree = "<group>"; };
 		4497D7621E08AFE6001D1A0C /* SharePopup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharePopup.swift; sourceTree = "<group>"; };
 		4497D7641E08B1C7001D1A0C /* ShareButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareButton.swift; sourceTree = "<group>"; };
 		A20FEB491DED1344009584FD /* LightParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LightParticle.sks; sourceTree = "<group>"; };
@@ -143,6 +147,8 @@
 		A20FEB4B1DED1971009584FD /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				44048C291E0AFD9900B7B02A /* face_sakura.png */,
+				44571C061E09E7FA00E6CA95 /* sfx_sakura.mp3 */,
 				A23279F41E02DD19006DB3D0 /* sfx.wav */,
 				A23279F21E02D498006DB3D0 /* beam.wav */,
 			);
@@ -378,7 +384,9 @@
 				A23279F31E02D499006DB3D0 /* beam.wav in Resources */,
 				A233BCA41E02E7B20044B0C2 /* GoogleService-Info.plist in Resources */,
 				A2DDF73C1DDDCE4700809091 /* GameScene.sks in Resources */,
+				44048C2A1E0AFD9900B7B02A /* face_sakura.png in Resources */,
 				A226D9331DF9F33B00F0D921 /* PreviewVideoViewController.xib in Resources */,
+				44571C071E09E7FA00E6CA95 /* sfx_sakura.mp3 in Resources */,
 				A2DDF7471DDDCE4700809091 /* Assets.xcassets in Resources */,
 				A2A43F821E01FC59007F156D /* IndexViewController.xib in Resources */,
 				A2DDF74A1DDDCE4700809091 /* LaunchScreen.storyboard in Resources */,

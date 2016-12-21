@@ -16,7 +16,7 @@ import SwiftKeychainWrapper
 import Photos
 
 enum SakuraOrigin {
-    case Mouth, Eyes, Ears, None
+    case Mouth, Eyes, Ears, Face, None
 }
 
 enum RecordingState {
@@ -40,6 +40,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     var eyesToggleButton: UIButton = UIButton()
     var mouthToggleButton: UIButton = UIButton()
     var earsToggleButton: UIButton = UIButton()
+    var sakuraToggleButton: UIButton = UIButton()
     var recordButton: UIButton = UIButton()
     
     var frame: UIImageView = UIImageView()
@@ -263,7 +264,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         
         // random initial selected sakura emitter position
         
-        let randomUInt: UInt32 = arc4random_uniform(3)
+        let randomUInt: UInt32 = arc4random_uniform(4)
         let random: Int = Int(randomUInt)
         let button: UIButton = UIButton()
         button.tag = random
@@ -407,7 +408,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 // TODO: - save face tracking id
                 saveTrackingIds[face.trackingID] = true
                 // print("save trackingId: \(face.trackingID)")
-                if let saved = self.trackingIds[face.trackingID] {
+                if self.trackingIds[face.trackingID] != nil {
                     
                     if (self.origin != .None) {
                         // TODO: - create emitter nodes
@@ -418,7 +419,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                                 let randomNum: UInt32 = arc4random_uniform(2)
                                 let index: Int = Int(randomNum)
                                 print("random: \(index)")
-                                if (index == 0) {
+                                if (index == 0 && self.origin != .Face) {
                                     self.overlay.addSubview(self.iceFrames[0])
                                     UIView.animate(withDuration: 0.25, animations: {
                                         self.iceFrames[0].alpha = 0.0
@@ -477,10 +478,15 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                                     self.scene?.eyesPointDetected(face: face, lpos: lpoint, rpos: rpoint, headEulerAngleY: face.headEulerAngleY, headEulerAngleZ: face.headEulerAngleZ)
                                 }
                             }
+                        } else if (self.origin == .Face) {
+                            // TODO: sakura
+                            let faceCenter = CGPoint.init(x: face.bounds.origin.x + ((face.bounds.size.width - 28.0) / 2.0),y: face.bounds.origin.y + ((face.bounds.size.height - 60.0) / 2))
+                            let point = self.scaledPointForScene(point: faceCenter, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
+                            self.scene?.faceDetected(face: face, center: point)
                         }
                     
                         // Cheeks
-                        if (face.hasLeftCheekPosition && face.hasRightCheekPosition) {
+                        if (face.hasLeftCheekPosition && face.hasRightCheekPosition && self.origin != .Face) {
                             // TODO: - move cheek image view to skspritenode in game scene
                             var editedLeftCheekPosition = face.leftCheekPosition
                             editedLeftCheekPosition.y -= (0.065 * face.bounds.size.height)
@@ -575,6 +581,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 self.swapCameraButton.isHidden = true
                 self.eyesToggleButton.isHidden = true
                 self.mouthToggleButton.isHidden = true
+                self.sakuraToggleButton.isHidden = true
                 self.earsToggleButton.isHidden = true
                 
                 self.scene?.changeLightEmitterNode(pink: true)
@@ -603,12 +610,14 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 self.eyesToggleButton.removeFromSuperview()
                 self.mouthToggleButton.removeFromSuperview()
                 self.earsToggleButton.removeFromSuperview()
+                self.sakuraToggleButton.removeFromSuperview()
                 self.recordButton.removeFromSuperview()
                 
                 self.swapCameraButton.isHidden = false
                 self.eyesToggleButton.isHidden = false
                 self.mouthToggleButton.isHidden = false
                 self.earsToggleButton.isHidden = false
+                self.sakuraToggleButton.isHidden = false
                 self.recordButton.isHidden = false
                 
                 self.currentState = 0
@@ -625,16 +634,13 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 self.origin = .None
                 
                 preview.previewControllerDelegate = self
-                preview.modalPresentationStyle = .fullScreen
                 preview.popoverPresentationController?.sourceView = self.view
                 preview.popoverPresentationController?.delegate = self
                 
-                /*
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 if appDelegate.isiPad {
-                    preview.popoverPresentationController?.delegate = self
+                    preview.modalPresentationStyle = .fullScreen
                 }
-                 */
                 
                 DispatchQueue.main.async {
                     if let soundNode = self.scene?.childNode(withName: "sound") {
@@ -684,7 +690,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                                 self.viewDidAppear(true)
                             }
                             
-                            let randomUInt: UInt32 = arc4random_uniform(3)
+                            let randomUInt: UInt32 = arc4random_uniform(4)
                             let random: Int = Int(randomUInt)
                             let button: UIButton = UIButton()
                             button.tag = random
@@ -731,6 +737,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 self.eyesToggleButton.isHidden = false
                 self.mouthToggleButton.isHidden = false
                 self.earsToggleButton.isHidden = false
+                self.sakuraToggleButton.isHidden = false
                 self.recordButton.isHidden = false
                 
                 self.addDownloadingView()
@@ -821,7 +828,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     func changeState() {
         self.timerCounter += 0.5
         // print("time @ \(self.timerCounter)")
-        if (self.timerCounter == 0.0) {
+        if (self.timerCounter == 0.0 && self.origin != .Face) {
             if (self.timerCounter == 0.0) {
                 self.lockStateChange = true
                 for index in 0...2 {
@@ -832,7 +839,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             // start recording -> 2.0 s
             // white sakura, pink light ray, cheek 1, no ice frame
             // print("start recording")
-        } else if (self.timerCounter >= 4.5 && self.timerCounter < 5.5) {
+        } else if (self.timerCounter >= 4.5 && self.timerCounter < 5.5 && self.origin != .Face) {
             // 1.5s
             // pink sakura, blue light ray, cheek 2, ice frame level 1
             // print("change to state 1")
@@ -846,7 +853,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                     self.iceFrames[0].alpha = 1.0
                 })
             }
-        } else if (self.timerCounter == 5.5 && self.timerCounter < 6.5) {
+        } else if (self.timerCounter == 5.5 && self.timerCounter < 6.5 && self.origin != .Face) {
            // 1.5s
             // pink sakura, blue light ray, cheek 2, ice frame level 2
             // print("change to state 2")
@@ -859,7 +866,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                     self.iceFrames[1].alpha = 1.0
                 })
             }
-        } else if (self.timerCounter == 6.5 && self.timerCounter < 8.0) {
+        } else if (self.timerCounter == 6.5 && self.timerCounter < 8.0 && self.origin != .Face) {
            // 1.5s
             // pink sakura, blue light ray, cheek 2, ice frame level 3
             // print("change to state 3")
@@ -926,41 +933,48 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.eyesToggleButton.removeFromSuperview()
         self.mouthToggleButton.removeFromSuperview()
         self.earsToggleButton.removeFromSuperview()
+        self.sakuraToggleButton.removeFromSuperview()
         
         self.swapCameraButton.frame = Adapter.calculatedRectFromRatio(x: 1015.0, y: 48.0, w: 211.0, h: 201.0)
         self.eyesToggleButton.frame = Adapter.calculatedRectFromRatio(x: 1014.0, y: 362.0, w: buttonSize.width, h: buttonSize.height)
         self.mouthToggleButton.frame = Adapter.calculatedRectFromRatio(x: 1014.0, y: 586.0, w: buttonSize.width, h: buttonSize.height)
         self.earsToggleButton.frame = Adapter.calculatedRectFromRatio(x: 1014.0, y: 814.0, w: buttonSize.width, h: buttonSize.height)
+        self.sakuraToggleButton.frame = Adapter.calculatedRectFromRatio(x: 1014.0, y: 1042.0, w: buttonSize.width, h: buttonSize.height)
         self.recordButton.frame = Adapter.calculatedRectFromRatio(x: 456.0, y: 1872.0, w: 328.0, h: 318.0)
         
         self.swapCameraButton.layer.zPosition = 10000
         self.eyesToggleButton.layer.zPosition = 10000
         self.mouthToggleButton.layer.zPosition = 10000
         self.earsToggleButton.layer.zPosition = 10000
+        self.sakuraToggleButton.layer.zPosition = 10000
         self.recordButton.layer.zPosition = 10000
         
         self.swapCameraButton.tag = 99
         self.eyesToggleButton.tag = 0
         self.mouthToggleButton.tag = 1
         self.earsToggleButton.tag = 2
-        self.recordButton.tag = 3
+        self.sakuraToggleButton.tag = 3
+        self.recordButton.tag = 4
         
         self.swapCameraButton.setImage(UIImage(named: "swap_camera_button"), for: .normal)
         self.eyesToggleButton.setImage(UIImage(named: "eye_button"), for: .normal)
         self.mouthToggleButton.setImage(UIImage(named: "mouth_button"), for: .normal)
         self.earsToggleButton.setImage(UIImage(named: "ear_button"), for: .normal)
+        self.sakuraToggleButton.setImage(UIImage(named: "sakura_button"), for: .normal)
         self.recordButton.setImage(UIImage(named: "start_record_button"), for: .normal)
         
         self.swapCameraButton.addTarget(self, action: #selector(GameViewController.toggleButton(button:)), for: .touchUpInside)
         self.eyesToggleButton.addTarget(self, action: #selector(GameViewController.toggleButton(button:)), for: .touchUpInside)
         self.mouthToggleButton.addTarget(self, action: #selector(GameViewController.toggleButton(button:)), for: .touchUpInside)
         self.earsToggleButton.addTarget(self, action: #selector(GameViewController.toggleButton(button:)), for: .touchUpInside)
+        self.sakuraToggleButton.addTarget(self, action: #selector(GameViewController.toggleButton(button:)), for: .touchUpInside)
         self.recordButton.addTarget(self, action: #selector(GameViewController.toggleButton(button:)), for: .touchUpInside)
         
         self.overlayWindow?.addSubview(self.swapCameraButton)
         self.overlayWindow?.addSubview(self.eyesToggleButton)
         self.overlayWindow?.addSubview(self.mouthToggleButton)
         self.overlayWindow?.addSubview(self.earsToggleButton)
+        self.overlayWindow?.addSubview(self.sakuraToggleButton)
         self.overlayWindow?.addSubview(self.recordButton)
         
         self.versionLabel.frame.origin = CGPoint(x: 10.0, y: 0.0)
@@ -976,51 +990,41 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         var buttonName: String?
         let tag = button.tag
         if (tag == 0) {
-            DataManager.sharedInstance.setObjectForKey(value: "eyes" as AnyObject?, key: "emitter_origin")
+            _ = DataManager.sharedInstance.setObjectForKey(value: "eyes" as AnyObject?, key: "emitter_origin")
             self.stopAllActions()
             buttonName = "eyes"
-            /*
-            if (self.origin == .Eyes) {
-                self.origin = .None
-                self.eyesToggleButton.setImage(UIImage(named: "eye_button"), for: .normal)
-                return
-            }
-             */
             self.origin = .Eyes
             self.eyesToggleButton.setImage(UIImage(named: "eye_on_button"), for: .normal)
             self.mouthToggleButton.setImage(UIImage(named: "mouth_button"), for: .normal)
             self.earsToggleButton.setImage(UIImage(named: "ear_button"), for: .normal)
+            self.sakuraToggleButton.setImage(UIImage(named: "sakura_button"), for: .normal)
         } else if (tag == 1) {
-            DataManager.sharedInstance.setObjectForKey(value: "mouth" as AnyObject?, key: "emitter_origin")
+            _ = DataManager.sharedInstance.setObjectForKey(value: "mouth" as AnyObject?, key: "emitter_origin")
             self.stopAllActions()
             buttonName = "mouth"
-            /*
-            if (self.origin == .Mouth) {
-                self.origin = .None
-                self.mouthToggleButton.setImage(UIImage(named: "mouth_button"), for: .normal)
-                return
-            }
-             */
             self.origin = .Mouth
             self.eyesToggleButton.setImage(UIImage(named: "eye_button"), for: .normal)
             self.mouthToggleButton.setImage(UIImage(named: "mouth_on_button"), for: .normal)
             self.earsToggleButton.setImage(UIImage(named: "ear_button"), for: .normal)
+            self.sakuraToggleButton.setImage(UIImage(named: "sakura_button"), for: .normal)
         } else if (tag == 2) {
-            DataManager.sharedInstance.setObjectForKey(value: "ears" as AnyObject?, key: "emitter_origin")
+            _ = DataManager.sharedInstance.setObjectForKey(value: "ears" as AnyObject?, key: "emitter_origin")
             self.stopAllActions()
             buttonName = "ears"
-            /*
-            if (self.origin == .Ears) {
-                self.origin = .None
-                self.earsToggleButton.setImage(UIImage(named: "ear_button"), for: .normal)
-                return
-            }
-             */
             self.origin = .Ears
             self.eyesToggleButton.setImage(UIImage(named: "eye_button"), for: .normal)
             self.mouthToggleButton.setImage(UIImage(named: "mouth_button"), for: .normal)
             self.earsToggleButton.setImage(UIImage(named: "ear_on_button"), for: .normal)
+            self.sakuraToggleButton.setImage(UIImage(named: "sakura_button"), for: .normal)
         } else if (tag == 3) {
+            print("sakura button didTap")
+            self.stopAllActions()
+            self.origin = .Face
+            self.eyesToggleButton.setImage(UIImage(named: "eye_button"), for: .normal)
+            self.mouthToggleButton.setImage(UIImage(named: "mouth_button"), for: .normal)
+            self.earsToggleButton.setImage(UIImage(named: "ear_button"), for: .normal)
+            self.sakuraToggleButton.setImage(UIImage(named: "sakura_on_button"), for: .normal)
+        } else if (tag == 4) {
             self.stopAllActions()
             if (!self.prepare) {
                 if (self.recording) {
@@ -1138,26 +1142,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         for (_, device) in AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo).enumerated() {
             if ((device as! AVCaptureDevice).position == desiredPosition) {
                 var finalFormat = AVCaptureDeviceFormat()
-                var maxFps: Double = 0
                 var minFps: Double = 99
-                /*
-                let ranges = (device as! AVCaptureDevice).activeFormat.videoSupportedFrameRateRanges as! [AVFrameRateRange]
-                for range in ranges {
-                    if (range.maxFrameRate >= maxFps) {
-                        maxFps = range.maxFrameRate
-                    }
-                }
-                if maxFps != 0 {
-                    print("maxFps: \(maxFps)")
-                    let timeValue = Int64(1200.0 / maxFps)
-                    let timeScale: Int32 = 1200
-                    try! (device as! AVCaptureDevice).lockForConfiguration()
-                    (device as! AVCaptureDevice).activeFormat = (device as! AVCaptureDevice).activeFormat
-                    (device as! AVCaptureDevice).activeVideoMinFrameDuration = CMTimeMake(timeValue, timeScale)
-                    (device as! AVCaptureDevice).activeVideoMaxFrameDuration = CMTimeMake(timeValue, timeScale)
-                    (device as! AVCaptureDevice).unlockForConfiguration()
-                }
-                 */
                 for format in (device as! AVCaptureDevice).formats {
                     let ranges = (format as! AVCaptureDeviceFormat).videoSupportedFrameRateRanges as! [AVFrameRateRange]
                     let frameRates = ranges[0]
@@ -1202,14 +1187,16 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         }
         
         //The location of the file and its type
-        let url = Bundle.main.url(forResource: resourceName, withExtension: "wav")
+        var url = Bundle.main.url(forResource: resourceName, withExtension: "wav")
+        
+        if (self.origin == .Face) {
+            url = Bundle.main.url(forResource: "sfx_sakura", withExtension: "mp3")
+        }
         
         //Returns an error if it can't find the file name
         if (url == nil) {
             return
         }
-        
-        var error: NSError? = nil
         
         //Assigns the actual music to the music player
         self.backgroundMusicPlayer = try! AVAudioPlayer(contentsOf: url!)
@@ -1236,12 +1223,6 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .fullScreen
-        /*
-        if appDelegate.isiPad {
-        } else {
-         
-        }
-         */
     }
     
 }

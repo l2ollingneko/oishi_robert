@@ -30,6 +30,9 @@ class GameScene: SKScene {
     
     private var lightEmitterNode : SKEmitterNode?
     
+    private var sakuraNode: Dictionary<UInt, [SKSpriteNode]> = Dictionary<UInt, [SKSpriteNode]>()
+    private var sakura3DNode: Dictionary<UInt, [SK3DNode]> = Dictionary<UInt, [SK3DNode]>()
+    
     private var radiusNods: Dictionary<UInt, [SKSpriteNode]> = Dictionary<UInt, [SKSpriteNode]>()
     private var mouthEmitterNodes : Dictionary<UInt, [SKEmitterNode]> = Dictionary<UInt, [SKEmitterNode]>()
     
@@ -536,6 +539,34 @@ class GameScene: SKScene {
         }
     }
     
+    func faceDetected(face: GMVFaceFeature, center: CGPoint) {
+        // sakura face image size, face : 400x520, fullsize: 1163x1086
+        // face ratio: 1.3
+        let faceSize = CGSize.init(width: face.bounds.size.height * (400.0 / 520.0), height: face.bounds.size.height)
+        let imageSize = CGSize.init(width: faceSize.width * (1163.0 / 400.0) * 0.45, height: faceSize.height * (1086.0 / 520.0) * 0.45)
+        
+        if let node = self.childNode(withName: "tid\(face.trackingID)_sakura_face") as! SKSpriteNode? {
+            node.size = CGSize.init(width: imageSize.width, height: imageSize.height)
+            let faceRotation = self.calculatedFaceRotation(angleY: face.headEulerAngleY, angleZ: face.headEulerAngleZ)
+            node.zRotation = faceRotation.zRotation
+            // node.xScale = 0.25
+            node.position = CGPoint.init(x: center.x + (face.headEulerAngleY / 1.2),y: center.y)
+        } else {
+            let node = SKSpriteNode(imageNamed: "face_sakura")
+            node.name = "tid\(face.trackingID)_sakura_face"
+            node.position = center
+            node.size = CGSize.init(width: imageSize.width, height: imageSize.height)
+            self.addChild(node)
+        }
+    }
+    
+    func calculatedFaceRotation(angleY: CGFloat, angleZ: CGFloat) -> (xScale: CGFloat, yScale: CGFloat, zRotation: CGFloat) {
+        // print("angleY: \(angleY), angleZ: \(angleZ), \((angleZ * .pi) * 180.0)")
+        // zrotation -> z * .pi / 180.0
+        let xScale = angleY > 0.0 ? -1.0 * (angleY / 20.0) : angleY / 20.0
+        return (xScale + 1.8, 0.0, (angleZ * .pi) / 180.0)
+    }
+    
     func removeSakuraNode(prefix: UInt) {
         if (self.children.count == 0 || self.mouthEmitterNodes[prefix]?.count == 0) {
             return
@@ -792,6 +823,9 @@ class GameScene: SKScene {
         self.rightEarEmitterNodes.removeAll()
         self.rightEarEmitterNodes = SakuraEmitterNodeFactory.sharedInstance.createRightEarEmitterNodes()
          */
+    }
+    
+    func createSakuraFace(trackingID: UInt) {
     }
     
     func createLightEmitterNode() {

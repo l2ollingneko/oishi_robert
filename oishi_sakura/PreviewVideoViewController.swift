@@ -43,10 +43,10 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
     var popup: PopupView?
     
     // MARK: - frame
-    private var realFrame: CGRect = CGRect.zero
+    var realFrame: CGRect = CGRect.zero
     
     private let reachability = Reachability()!
-    private var ableToShare: Bool = false
+    var ableToShare: Bool = false
     
     private var _prefersStatusBarHidden: Bool = false
     
@@ -155,7 +155,7 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
         
         self.shareButton.frame = Adapter.calculatedRectFromRatio(x: 394.0, y: 1886.0, w: 371.0 * 1.2, h: 158.0 * 1.2)
         self.shareButton.setImage(UIImage(named: "share_button"), for: .normal)
-        self.shareButton.addTarget(self, action: #selector(PreviewVideoViewController.checkFBReadPermissions), for: .touchUpInside)
+        self.shareButton.addTarget(self, action: #selector(PreviewVideoViewController.checkFBReadPermissionsNoDialog), for: .touchUpInside)
 //        self.shareButton.layer.zPosition = 10
         
         self.socialButton.frame = Adapter.calculatedRectFromRatio(x: 1008.0, y: 0.0, w: 234.0, h: 249.0)
@@ -239,8 +239,8 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
         })
         print("Video Finished")
     }
-
-    func checkFBReadPermissions() {
+    
+    func checkFBReadPermissionsNoDialog() {
         
         if (!self.ableToShare) {
             let popup = PopupView(frame: self.realFrame)
@@ -281,7 +281,7 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
                             DataManager.sharedInstance.setObjectForKey(value: link, key: "link")
                         }
                         
-                        self.checkFBPublishPermissions()
+                        self.checkFBPublishPermissions(dialog: false)
                     }
                 })
                 connection.start()
@@ -330,7 +330,106 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
                                 AdapterHTTPService.sharedInstance.updateFacebookIDNonToken(fakefbuid: fakefbuid)
                             }
                             
-                            self.checkFBPublishPermissions()
+                            self.checkFBPublishPermissions(dialog: false)
+                        }
+                    }
+                })
+            }   
+        }
+        
+    }
+
+    func checkFBReadPermissions(dialog: Bool) {
+        
+        if (!self.ableToShare) {
+            let popup = PopupView(frame: self.realFrame)
+            popup.initPopup(imageNamed: "no_internet")
+            popup.layer.zPosition = 1000
+            self.view.addSubview(popup)
+            self.view.bringSubview(toFront: popup)
+        } else {
+            AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: "share_fb")
+            
+            if let _ = FBSDKAccessToken.current() {
+                let request = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "email,gender,link,first_name,last_name"], httpMethod: "GET")
+                let connection = FBSDKGraphRequestConnection()
+                connection.add(request, completionHandler: { (conn, result, error) -> Void in
+                    if (error != nil) {
+                        print("\(error?.localizedDescription)")
+                    } else {
+                        var json = JSON(result)
+                        
+                        // var params = Dictionary<String, AnyObject>()
+                        if let firstname = json["first_name"].string as AnyObject? {
+                            DataManager.sharedInstance.setObjectForKey(value: firstname, key: "first_name")
+                        }
+                        
+                        if let lastname = json["last_name"].string as AnyObject? {
+                            DataManager.sharedInstance.setObjectForKey(value: lastname, key: "last_name")
+                        }
+                        
+                        if let email = json["email"].string as AnyObject? {
+                            DataManager.sharedInstance.setObjectForKey(value: email, key: "email")
+                        }
+                        
+                        if let gender = json["gender"].string as AnyObject? {
+                            DataManager.sharedInstance.setObjectForKey(value: gender, key: "gender")
+                        }
+                        
+                        if let link = json["link"].string as AnyObject? {
+                            DataManager.sharedInstance.setObjectForKey(value: link, key: "link")
+                        }
+                        
+                        self.checkFBPublishPermissions(dialog: dialog)
+                    }
+                })
+                connection.start()
+            } else {
+                let loginManager = FBSDKLoginManager()
+                loginManager.logOut()
+                
+                loginManager.loginBehavior = FBSDKLoginBehavior.browser
+                
+                loginManager.logIn(withReadPermissions: ["public_profile", "email", "user_about_me"], from: self, handler: {
+                    (result, error) in
+                    if (error != nil) {
+                        // fb login error
+                    } else {
+                        let result: FBSDKLoginManagerLoginResult = result!
+                        if (result.isCancelled) {
+                            // fb login cancelled
+                        } else if (result.declinedPermissions.contains("public_profile") || result.declinedPermissions.contains("user_about_me") || result.declinedPermissions.contains("email")) {
+                            // declined "public_profile", "email" or "user_about_me"
+                        } else {
+                            
+                            var json = JSON(result)
+                            
+                            // var params = Dictionary<String, AnyObject>()
+                            if let firstname = json["first_name"].string as AnyObject? {
+                                DataManager.sharedInstance.setObjectForKey(value: firstname, key: "first_name")
+                            }
+                            
+                            if let lastname = json["last_name"].string as AnyObject? {
+                                DataManager.sharedInstance.setObjectForKey(value: lastname, key: "last_name")
+                            }
+                            
+                            if let email = json["email"].string as AnyObject? {
+                                DataManager.sharedInstance.setObjectForKey(value: email, key: "email")
+                            }
+                            
+                            if let gender = json["gender"].string as AnyObject? {
+                                DataManager.sharedInstance.setObjectForKey(value: gender, key: "gender")
+                            }
+                            
+                            if let link = json["link"].string as AnyObject? {
+                                DataManager.sharedInstance.setObjectForKey(value: link, key: "link")
+                            }
+                        
+                            if let fakefbuid = KeychainWrapper.standard.string(forKey: "fbuid") {
+                                AdapterHTTPService.sharedInstance.updateFacebookIDNonToken(fakefbuid: fakefbuid)
+                            }
+                            
+                            self.checkFBPublishPermissions(dialog: dialog)
                         }
                     }
                 })
@@ -339,9 +438,9 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
         
     }
     
-    func checkFBPublishPermissions() {
+    func checkFBPublishPermissions(dialog: Bool) {
         if FBSDKAccessToken.current().hasGranted("publish_actions") {
-            self.shareFacebookResult()
+            self.shareFacebookResult(dialog: dialog)
         } else {
             let loginManager = FBSDKLoginManager()
             
@@ -355,14 +454,14 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
                         if (result.isCancelled) {
                         } else if (result.declinedPermissions.contains("publish_actions")) {
                         } else {
-                            self.shareFacebookResult()
+                            self.shareFacebookResult(dialog: dialog)
                         }
                     }
                 })
         }
     }
     
-    func shareFacebookResult() {
+    func shareFacebookResult(dialog: Bool) {
         
         // AdapterHTTPService.sharedInstance.shareResult()
         
@@ -371,44 +470,47 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
         let videoContent = FBSDKShareVideoContent()
         videoContent.video = video
         
-        FBSDKShareAPI.share(with: videoContent, delegate: self)
-        
-        self.uploadingView = UIView(frame: self.realFrame)
-        self.uploadingView.layer.zPosition = 500
-        self.uploadingView.backgroundColor = UIColor.black
-        
-        let activity = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-        activity.center = self.uploadingView.center
-        activity.startAnimating()
-        
-        let label = UILabel(frame: CGRect.init(x: 0.0, y: self.uploadingView.center.y + 40.0, width: self.uploadingView.frame.size.width, height: 50.0))
-        label.textAlignment = .center
-        label.textColor = UIColor.white
-        label.font = UIFont.systemFont(ofSize: 16.0, weight: 0.85)
-        label.text = "Uploading Video ..."
-        
-        let description = UILabel(frame: CGRect.init(x: 0.0, y: self.uploadingView.center.y + 65.0, width: self.uploadingView.frame.size.width, height: 50.0))
-        description.textAlignment = .center
-        description.textColor = UIColor.white
-        description.numberOfLines = 2
-        description.font = UIFont.systemFont(ofSize: 12.0)
-        description.text = "It may take a few minute to uploading your video."
-        
-        self.uploadingView.addSubview(activity)
-        self.uploadingView.addSubview(label)
-        self.uploadingView.addSubview(description)
-        
-        self.view.addSubview(self.uploadingView)
-        self.view.bringSubview(toFront: self.uploadingView)
+        if (!dialog) {
+            FBSDKShareAPI.share(with: videoContent, delegate: self)
+            
+            self.uploadingView = UIView(frame: self.realFrame)
+            self.uploadingView.layer.zPosition = 500
+            self.uploadingView.backgroundColor = UIColor.black
+            
+            let activity = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+            activity.center = self.uploadingView.center
+            activity.startAnimating()
+            
+            let label = UILabel(frame: CGRect.init(x: 0.0, y: self.uploadingView.center.y + 40.0, width: self.uploadingView.frame.size.width, height: 50.0))
+            label.textAlignment = .center
+            label.textColor = UIColor.white
+            label.font = UIFont.systemFont(ofSize: 16.0, weight: 0.85)
+            label.text = "Uploading Video ..."
+            
+            let description = UILabel(frame: CGRect.init(x: 0.0, y: self.uploadingView.center.y + 65.0, width: self.uploadingView.frame.size.width, height: 50.0))
+            description.textAlignment = .center
+            description.textColor = UIColor.white
+            description.numberOfLines = 2
+            description.font = UIFont.systemFont(ofSize: 12.0)
+            description.text = "It may take a few minute to uploading your video."
+            
+            self.uploadingView.addSubview(activity)
+            self.uploadingView.addSubview(label)
+            self.uploadingView.addSubview(description)
+            
+            self.view.addSubview(self.uploadingView)
+            self.view.bringSubview(toFront: self.uploadingView)
+        } else {
+            let dialog = FBSDKShareDialog()
+            dialog.mode = FBSDKShareDialogMode.browser
+            dialog.shareContent = videoContent
+            dialog.delegate = self
+            dialog.fromViewController = self
+            dialog.show()
+        }
         
         /*
-        let dialog = FBSDKShareDialog()
-        dialog.mode = FBSDKShareDialogMode.native
-        dialog.shareContent = videoContent
-        dialog.delegate = self
-        dialog.fromViewController = self
         
-        dialog.show()
          */
         
         /*
@@ -516,30 +618,49 @@ extension PreviewVideoViewController: SharePopupDelegate {
         switch buttonType {
             case .facebook:
                 AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: "share_campaign_fb")
+                self.checkFBReadPermissions(dialog: true)
+                /*
                 if let vc = SLComposeViewController(forServiceType: SLServiceTypeFacebook) {
                     if let url = self.currentAssetUrl {
                         vc.add(url)
                     }
                     present(vc, animated: true)
                 }
+                */
                 // self.sharePopup.removeFromSuperview()
                 print("facebook")
             break
             case .twitter:
                 AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: "share_campaign_tw")
-                if let vc = SLComposeViewController(forServiceType: SLServiceTypeTwitter) {
-                    if let url = self.currentAssetUrl {
-                        vc.add(url)
+                if (!self.ableToShare) {
+                    let popup = PopupView(frame: self.realFrame)
+                    popup.initPopup(imageNamed: "no_internet")
+                    popup.layer.zPosition = 1000
+                    self.view.addSubview(popup)
+                    self.view.bringSubview(toFront: popup)
+                } else {
+                    if let vc = SLComposeViewController(forServiceType: SLServiceTypeTwitter) {
+                        if let url = self.currentAssetUrl {
+                            vc.add(url)
+                        }
+                        present(vc, animated: true)
                     }
-                    present(vc, animated: true)
                 }
                 // self.sharePopup.removeFromSuperview()
                 print("twitter")
             break
             case .googlePlus:
                 AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: "share_campaign_gp")
-                if let url = self.currentAssetUrl {
-                    self.showGooglePlusShare(shareUrl: url)
+                if (!self.ableToShare) {
+                    let popup = PopupView(frame: self.realFrame)
+                    popup.initPopup(imageNamed: "no_internet")
+                    popup.layer.zPosition = 1000
+                    self.view.addSubview(popup)
+                    self.view.bringSubview(toFront: popup)
+                } else {
+                    if let url = self.currentAssetUrl {
+                        self.showGooglePlusShare(shareUrl: url)
+                    }
                 }
                 // self.sharePopup.removeFromSuperview()
                 print("googlePlus")
