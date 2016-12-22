@@ -262,23 +262,23 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
                         
                         // var params = Dictionary<String, AnyObject>()
                         if let firstname = json["first_name"].string as AnyObject? {
-                            DataManager.sharedInstance.setObjectForKey(value: firstname, key: "first_name")
+                            _ = DataManager.sharedInstance.setObjectForKey(value: firstname, key: "first_name")
                         }
                         
                         if let lastname = json["last_name"].string as AnyObject? {
-                            DataManager.sharedInstance.setObjectForKey(value: lastname, key: "last_name")
+                            _ = DataManager.sharedInstance.setObjectForKey(value: lastname, key: "last_name")
                         }
                         
                         if let email = json["email"].string as AnyObject? {
-                            DataManager.sharedInstance.setObjectForKey(value: email, key: "email")
+                            _ = DataManager.sharedInstance.setObjectForKey(value: email, key: "email")
                         }
                         
                         if let gender = json["gender"].string as AnyObject? {
-                            DataManager.sharedInstance.setObjectForKey(value: gender, key: "gender")
+                            _ = DataManager.sharedInstance.setObjectForKey(value: gender, key: "gender")
                         }
                         
                         if let link = json["link"].string as AnyObject? {
-                            DataManager.sharedInstance.setObjectForKey(value: link, key: "link")
+                            _ = DataManager.sharedInstance.setObjectForKey(value: link, key: "link")
                         }
                         
                         self.checkFBPublishPermissions(dialog: false)
@@ -307,23 +307,23 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
                             
                             // var params = Dictionary<String, AnyObject>()
                             if let firstname = json["first_name"].string as AnyObject? {
-                                DataManager.sharedInstance.setObjectForKey(value: firstname, key: "first_name")
+                                _ = DataManager.sharedInstance.setObjectForKey(value: firstname, key: "first_name")
                             }
                             
                             if let lastname = json["last_name"].string as AnyObject? {
-                                DataManager.sharedInstance.setObjectForKey(value: lastname, key: "last_name")
+                                _ = DataManager.sharedInstance.setObjectForKey(value: lastname, key: "last_name")
                             }
                             
                             if let email = json["email"].string as AnyObject? {
-                                DataManager.sharedInstance.setObjectForKey(value: email, key: "email")
+                                _ = DataManager.sharedInstance.setObjectForKey(value: email, key: "email")
                             }
                             
                             if let gender = json["gender"].string as AnyObject? {
-                                DataManager.sharedInstance.setObjectForKey(value: gender, key: "gender")
+                                _ = DataManager.sharedInstance.setObjectForKey(value: gender, key: "gender")
                             }
                             
                             if let link = json["link"].string as AnyObject? {
-                                DataManager.sharedInstance.setObjectForKey(value: link, key: "link")
+                                _ = DataManager.sharedInstance.setObjectForKey(value: link, key: "link")
                             }
                         
                             if let fakefbuid = KeychainWrapper.standard.string(forKey: "fbuid") {
@@ -361,23 +361,23 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
                         
                         // var params = Dictionary<String, AnyObject>()
                         if let firstname = json["first_name"].string as AnyObject? {
-                            DataManager.sharedInstance.setObjectForKey(value: firstname, key: "first_name")
+                            _ = DataManager.sharedInstance.setObjectForKey(value: firstname, key: "first_name")
                         }
                         
                         if let lastname = json["last_name"].string as AnyObject? {
-                            DataManager.sharedInstance.setObjectForKey(value: lastname, key: "last_name")
+                            _ = DataManager.sharedInstance.setObjectForKey(value: lastname, key: "last_name")
                         }
                         
                         if let email = json["email"].string as AnyObject? {
-                            DataManager.sharedInstance.setObjectForKey(value: email, key: "email")
+                            _ = DataManager.sharedInstance.setObjectForKey(value: email, key: "email")
                         }
                         
                         if let gender = json["gender"].string as AnyObject? {
-                            DataManager.sharedInstance.setObjectForKey(value: gender, key: "gender")
+                            _ = DataManager.sharedInstance.setObjectForKey(value: gender, key: "gender")
                         }
                         
                         if let link = json["link"].string as AnyObject? {
-                            DataManager.sharedInstance.setObjectForKey(value: link, key: "link")
+                            _ = DataManager.sharedInstance.setObjectForKey(value: link, key: "link")
                         }
                         
                         self.checkFBPublishPermissions(dialog: dialog)
@@ -406,23 +406,23 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
                             
                             // var params = Dictionary<String, AnyObject>()
                             if let firstname = json["first_name"].string as AnyObject? {
-                                DataManager.sharedInstance.setObjectForKey(value: firstname, key: "first_name")
+                                _ = DataManager.sharedInstance.setObjectForKey(value: firstname, key: "first_name")
                             }
                             
                             if let lastname = json["last_name"].string as AnyObject? {
-                                DataManager.sharedInstance.setObjectForKey(value: lastname, key: "last_name")
+                                _ = DataManager.sharedInstance.setObjectForKey(value: lastname, key: "last_name")
                             }
                             
                             if let email = json["email"].string as AnyObject? {
-                                DataManager.sharedInstance.setObjectForKey(value: email, key: "email")
+                                _ = DataManager.sharedInstance.setObjectForKey(value: email, key: "email")
                             }
                             
                             if let gender = json["gender"].string as AnyObject? {
-                                DataManager.sharedInstance.setObjectForKey(value: gender, key: "gender")
+                                _ = DataManager.sharedInstance.setObjectForKey(value: gender, key: "gender")
                             }
                             
                             if let link = json["link"].string as AnyObject? {
-                                DataManager.sharedInstance.setObjectForKey(value: link, key: "link")
+                                _ = DataManager.sharedInstance.setObjectForKey(value: link, key: "link")
                             }
                         
                             if let fakefbuid = KeychainWrapper.standard.string(forKey: "fbuid") {
@@ -620,8 +620,8 @@ extension PreviewVideoViewController: SharePopupDelegate {
             case .facebook:
                 AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: "share_campaign_fb")
                 if let vc = SLComposeViewController(forServiceType: SLServiceTypeFacebook) {
-                    if let url = self.currentAssetUrl {
-                        vc.add(url)
+                    if let url = DataManager.sharedInstance.getObjectForKey(key: "share_url") as! String? {
+                        vc.add(URL(string: url)!)
                     }
                     present(vc, animated: true)
                 }
@@ -638,8 +638,8 @@ extension PreviewVideoViewController: SharePopupDelegate {
                     self.view.bringSubview(toFront: popup)
                 } else {
                     if let vc = SLComposeViewController(forServiceType: SLServiceTypeTwitter) {
-                        if let url = self.currentAssetUrl {
-                            vc.add(url)
+                        if let url = DataManager.sharedInstance.getObjectForKey(key: "share_twitter_url") as! String? {
+                            vc.add(URL(string: url)!)
                         }
                         present(vc, animated: true)
                     }
@@ -656,8 +656,8 @@ extension PreviewVideoViewController: SharePopupDelegate {
                     self.view.addSubview(popup)
                     self.view.bringSubview(toFront: popup)
                 } else {
-                    if let url = self.currentAssetUrl {
-                        self.showGooglePlusShare(shareUrl: url)
+                    if let url = DataManager.sharedInstance.getObjectForKey(key: "share_gplus_url") as! String? {
+                        self.showGooglePlusShare(shareUrl: URL(string: url)!)
                     }
                 }
                 // self.sharePopup.removeFromSuperview()
