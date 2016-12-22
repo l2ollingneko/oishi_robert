@@ -620,8 +620,9 @@ extension PreviewVideoViewController: SharePopupDelegate {
             case .facebook:
                 AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: "share_campaign_fb")
                 if let vc = SLComposeViewController(forServiceType: SLServiceTypeFacebook) {
-                    if let url = DataManager.sharedInstance.getObjectForKey(key: "share_url") as! String? {
+                    if let url = DataManager.sharedInstance.getObjectForKey(key: "share_url") as! String?, let title = DataManager.sharedInstance.getObjectForKey(key: "share_title") as! String? {
                         vc.add(URL(string: url)!)
+                        vc.setInitialText(title)
                     }
                     present(vc, animated: true)
                 }
