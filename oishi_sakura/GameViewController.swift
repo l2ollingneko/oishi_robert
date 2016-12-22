@@ -231,6 +231,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.endSceneImageView.image = UIImage(named: "end_scene")
         self.endSceneImageView.contentMode = .scaleAspectFit
         self.endSceneImageView.alpha = 0.0
+        self.endSceneImageView.layer.zPosition = 50000
         
         self.updateCameraSelection()
         self.setupCameraPreview()
@@ -828,6 +829,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         
         view.addSubview(activity)
         view.addSubview(label)
+        
+        view.layer.zPosition = 50000
         
         self.overlay.addSubview(view)
     }

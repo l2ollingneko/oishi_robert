@@ -624,6 +624,16 @@ extension PreviewVideoViewController: SharePopupDelegate {
                         vc.add(URL(string: url)!)
                         vc.setInitialText(title)
                     }
+                    vc.completionHandler = { (result: SLComposeViewControllerResult) -> Void in
+                        switch (result) {
+                            case .done:
+                                self.sharePopup.removeFromSuperview()
+                                self.showPopup()
+                            break
+                            default:
+                            break
+                        }
+                    }
                     present(vc, animated: true)
                 }
                 // self.sharePopup.removeFromSuperview()
@@ -642,6 +652,16 @@ extension PreviewVideoViewController: SharePopupDelegate {
                         if let url = DataManager.sharedInstance.getObjectForKey(key: "share_twitter_url") as! String?, let description = DataManager.sharedInstance.getObjectForKey(key: "share_twitter_description") as! String? {
                             vc.add(URL(string: url)!)
                             vc.setInitialText(description)
+                        }
+                        vc.completionHandler = { (result: SLComposeViewControllerResult) -> Void in
+                            switch (result) {
+                                case .done:
+                                    self.sharePopup.removeFromSuperview()
+                                    self.showPopup()
+                                break
+                                default:
+                                break
+                            }
                         }
                         present(vc, animated: true)
                     }
@@ -677,6 +697,14 @@ extension PreviewVideoViewController: SharePopupDelegate {
                 self.showPopup()
             break
         }
+    }
+    
+}
+
+extension PreviewVideoViewController: SFSafariViewControllerDelegate {
+    
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        self.showPopup()
     }
     
 }
