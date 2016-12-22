@@ -611,6 +611,18 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
         self.popup?.removeFromSuperview()
     }
     
+    func presentAlertController(title: String, message: String) {
+        // "เกิดข้อผิดพลาด"
+        // "ค้นหาข้อมูลไม่พบ กรุณาลองใหม่อีกครั้ง"
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default) { (result : UIAlertAction) -> Void in
+        }
+        
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
 }
 
 extension PreviewVideoViewController: SharePopupDelegate {
@@ -638,6 +650,7 @@ extension PreviewVideoViewController: SharePopupDelegate {
                         present(vc, animated: true)    
                     } else {
                         // TODO: - show alertview
+                        self.presentAlertController(title: "กรุณาดาวน์โหลด Facebook", message: "")
                     }
                 }
                 // self.sharePopup.removeFromSuperview()
@@ -671,6 +684,7 @@ extension PreviewVideoViewController: SharePopupDelegate {
                             present(vc, animated: true)
                         } else {
                             // TODO: - show alertview
+                            self.presentAlertController(title: "กรุณาดาวน์โหลด Twitter", message: "")
                         }
                     }
                 }

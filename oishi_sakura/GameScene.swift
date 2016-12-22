@@ -91,9 +91,9 @@ class GameScene: SKScene {
         } else if (UIScreen.main.bounds.size.width < 400.0) {
             self.faceMultiplier = 0.45
         } else if (UIScreen.main.bounds.size.width < 500) {
-            self.faceMultiplier = 0.60
+            self.faceMultiplier = 0.525
         } else {
-            self.faceMultiplier = 0.735
+            self.faceMultiplier = 0.71
         }
     }
     
