@@ -1069,7 +1069,9 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             self.sakuraToggleButton.setImage(UIImage(named: "sakura_button"), for: .normal)
         } else if (tag == 3) {
             print("sakura button didTap")
+            _ = DataManager.sharedInstance.setObjectForKey(value: "mask" as AnyObject?, key: "emitter_origin")
             self.stopAllActions()
+            buttonName = "mask"
             self.origin = .Face
             self.eyesToggleButton.setImage(UIImage(named: "eye_button"), for: .normal)
             self.mouthToggleButton.setImage(UIImage(named: "mouth_button"), for: .normal)
