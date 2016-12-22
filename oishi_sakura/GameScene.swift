@@ -87,13 +87,13 @@ class GameScene: SKScene {
         // self.lightNode = SKSpriteNode(texture: SKTexture(imageNamed: "light_radius"), size: CGSize.init(width: w, height: w))
         
         if (UIScreen.main.bounds.size.width < 375.0) {
-            self.faceMultiplier = 0.45
+            self.faceMultiplier = 0.375
         } else if (UIScreen.main.bounds.size.width < 400.0) {
-            self.faceMultiplier = 0.48
+            self.faceMultiplier = 0.45
         } else if (UIScreen.main.bounds.size.width < 500) {
-            self.faceMultiplier = 0.61
+            self.faceMultiplier = 0.60
         } else {
-            self.faceMultiplier = 0.77
+            self.faceMultiplier = 0.735
         }
     }
     
@@ -585,7 +585,7 @@ class GameScene: SKScene {
             let faceRotation = self.calculatedFaceRotation(angleY: face.headEulerAngleY, angleZ: face.headEulerAngleZ)
             node.zRotation = faceRotation.zRotation
             // node.xScale = 0.25
-            node.position = CGPoint.init(x: center.x + (face.headEulerAngleY / 1.2),y: center.y)
+            node.position = CGPoint.init(x: center.x + (face.headEulerAngleY / 1.2) - (face.headEulerAngleZ / 2.0),y: center.y)
         } else {
             let node = SKSpriteNode(imageNamed: "face_sakura")
             node.name = "tid\(face.trackingID)_sakura_face"
@@ -595,11 +595,11 @@ class GameScene: SKScene {
         }
     }
     
-    func calculatedFaceRotation(angleY: CGFloat, angleZ: CGFloat) -> (xScale: CGFloat, yScale: CGFloat, zRotation: CGFloat) {
+    func calculatedFaceRotation(angleY: CGFloat, angleZ: CGFloat) -> (xShift: CGFloat, yScale: CGFloat, zRotation: CGFloat) {
         // print("angleY: \(angleY), angleZ: \(angleZ), \((angleZ * .pi) * 180.0)")
         // zrotation -> z * .pi / 180.0
         let xScale = angleY > 0.0 ? -1.0 * (angleY / 20.0) : angleY / 20.0
-        return (xScale + 1.8, 0.0, (angleZ * .pi) / 180.0)
+        return (xScale + 1.8, 0.0, ((angleZ - (0.15 * angleZ)) * .pi) / 180.0)
     }
     
     func removeSakuraNode(prefix: UInt) {

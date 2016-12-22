@@ -620,21 +620,25 @@ extension PreviewVideoViewController: SharePopupDelegate {
             case .facebook:
                 AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: "share_campaign_fb")
                 if let vc = SLComposeViewController(forServiceType: SLServiceTypeFacebook) {
-                    if let url = DataManager.sharedInstance.getObjectForKey(key: "share_url") as! String?, let title = DataManager.sharedInstance.getObjectForKey(key: "share_title") as! String? {
-                        vc.add(URL(string: url)!)
-                        vc.setInitialText(title)
-                    }
-                    vc.completionHandler = { (result: SLComposeViewControllerResult) -> Void in
-                        switch (result) {
-                            case .done:
-                                self.sharePopup.removeFromSuperview()
-                                self.showPopup()
-                            break
-                            default:
-                            break
+                    if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeFacebook) {
+                        if let url = DataManager.sharedInstance.getObjectForKey(key: "share_url") as! String?, let title = DataManager.sharedInstance.getObjectForKey(key: "share_title") as! String? {
+                            vc.add(URL(string: url)!)
+                            vc.setInitialText(title)
                         }
+                        vc.completionHandler = { (result: SLComposeViewControllerResult) -> Void in
+                            switch (result) {
+                                case .done:
+                                    self.sharePopup.removeFromSuperview()
+                                    self.showPopup()
+                                break
+                                default:
+                                break
+                            }
+                        }
+                        present(vc, animated: true)    
+                    } else {
+                        // TODO: - show alertview
                     }
-                    present(vc, animated: true)
                 }
                 // self.sharePopup.removeFromSuperview()
                 print("facebook")
@@ -649,21 +653,25 @@ extension PreviewVideoViewController: SharePopupDelegate {
                     self.view.bringSubview(toFront: popup)
                 } else {
                     if let vc = SLComposeViewController(forServiceType: SLServiceTypeTwitter) {
-                        if let url = DataManager.sharedInstance.getObjectForKey(key: "share_twitter_url") as! String?, let description = DataManager.sharedInstance.getObjectForKey(key: "share_twitter_description") as! String? {
-                            vc.add(URL(string: url)!)
-                            vc.setInitialText(description)
-                        }
-                        vc.completionHandler = { (result: SLComposeViewControllerResult) -> Void in
-                            switch (result) {
-                                case .done:
-                                    self.sharePopup.removeFromSuperview()
-                                    self.showPopup()
-                                break
-                                default:
-                                break
+                        if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeFacebook) {
+                            if let url = DataManager.sharedInstance.getObjectForKey(key: "share_twitter_url") as! String?, let description = DataManager.sharedInstance.getObjectForKey(key: "share_twitter_description") as! String? {
+                                vc.add(URL(string: url)!)
+                                vc.setInitialText(description)
                             }
+                            vc.completionHandler = { (result: SLComposeViewControllerResult) -> Void in
+                                switch (result) {
+                                    case .done:
+                                        self.sharePopup.removeFromSuperview()
+                                        self.showPopup()
+                                    break
+                                    default:
+                                    break
+                                }
+                            }
+                            present(vc, animated: true)
+                        } else {
+                            // TODO: - show alertview
                         }
-                        present(vc, animated: true)
                     }
                 }
                 // self.sharePopup.removeFromSuperview()

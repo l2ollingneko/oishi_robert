@@ -143,9 +143,9 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         }
         
         if (UIScreen.main.bounds.size.width < 375.0) {
-            self.faceCorrection = CGPoint.init(x: 28.0,y: 60.0)
+            self.faceCorrection = CGPoint.init(x: 20.0,y: 20.0)
         } else if (UIScreen.main.bounds.size.width < 400.0) {
-            self.faceCorrection = CGPoint.init(x: 0.0,y: 35.0)
+            self.faceCorrection = CGPoint.init(x: 20.0,y: 35.0)
         } else if (UIScreen.main.bounds.size.width < 500.0) {
             self.faceCorrection = CGPoint.init(x: 10.0,y: 20.0)
         } else {
@@ -243,6 +243,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.cleanupVideoProcessing()
         self.setupVideoProcessing()
         self.session?.stopRunning()
+        
+        self.stopBackgroundMusic()
         
         let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
         
@@ -507,7 +509,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                         }
                     
                         // Cheeks
-                        if (face.hasLeftCheekPosition && face.hasRightCheekPosition && self.origin != .Face) {
+                        if (face.hasLeftCheekPosition && face.hasRightCheekPosition) {
                             // TODO: - move cheek image view to skspritenode in game scene
                             var editedLeftCheekPosition = face.leftCheekPosition
                             editedLeftCheekPosition.y -= (0.065 * face.bounds.size.height)
@@ -1014,7 +1016,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         // top logo
         if (self.logo.image == nil) {
             self.logo.image = UIImage(named: "bottom_logo")
-            self.logo.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 1898.0, w: 1242.0, h: 310.0)
+            self.logo.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 1810.0, w: 1242.0, h: 398.0)
             self.logo.layer.zPosition = 2000
         }
         
