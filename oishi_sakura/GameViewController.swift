@@ -1224,19 +1224,19 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     func playBackgroundMusic(filename: String) {
         
         var resourceName = "beam"
+        var fileExtesnsion = "wav"
         
-        let randomUInt: UInt32 = arc4random_uniform(2)
+        let randomUInt: UInt32 = arc4random_uniform(3)
         let random: Int = Int(randomUInt)
         if (random == 0) {
             resourceName = "sfx"
+        } else if (random == 1) {
+            resourceName = "sfx_sakura"
+            fileExtension = "mp3"
         }
         
         //The location of the file and its type
-        var url = Bundle.main.url(forResource: resourceName, withExtension: "wav")
-        
-        if (self.origin == .Face) {
-            url = Bundle.main.url(forResource: "sfx_sakura", withExtension: "mp3")
-        }
+        var url = Bundle.main.url(forResource: resourceName, withExtension: fileExtension)
         
         //Returns an error if it can't find the file name
         if (url == nil) {
