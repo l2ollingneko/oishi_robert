@@ -666,7 +666,7 @@ extension PreviewVideoViewController: SharePopupDelegate {
                     self.view.bringSubview(toFront: popup)
                 } else {
                     if let vc = SLComposeViewController(forServiceType: SLServiceTypeTwitter) {
-                        if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeFacebook) {
+                        if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeTwitter) {
                             if let url = DataManager.sharedInstance.getObjectForKey(key: "share_twitter_url") as! String?, let description = DataManager.sharedInstance.getObjectForKey(key: "share_twitter_description") as! String? {
                                 vc.add(URL(string: url)!)
                                 vc.setInitialText(description)
