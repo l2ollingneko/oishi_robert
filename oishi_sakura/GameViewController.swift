@@ -146,8 +146,11 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             self.faceCorrection = CGPoint.init(x: 28.0,y: 60.0)
         } else if (UIScreen.main.bounds.size.width < 400.0) {
             self.faceCorrection = CGPoint.init(x: 0.0,y: 35.0)
+        } else if (UIScreen.main.bounds.size.width < 500.0) {
+            self.faceCorrection = CGPoint.init(x: 10.0,y: 20.0)
         } else {
-            self.faceCorrection = CGPoint.init(x: 0.0,y: 15.0)
+            // ipad
+            self.faceCorrection = CGPoint.init(x: 15.0,y: 60.0)
         }
         
         // video
