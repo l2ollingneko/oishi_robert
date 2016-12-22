@@ -124,6 +124,10 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     var isSoundPlaying: Bool = false
     var backgroundMusicPlayer: AVAudioPlayer?
     
+    // MARK: - face correction factor
+    
+    var faceCorrection: CGPoint = CGPoint.zero
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -136,6 +140,14 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             self.realFrame = CGRect.init(x: 0.0, y: 0.0, width: 540.0, height: 960.0)
         } else {
             self.realFrame = self.view.frame
+        }
+        
+        if (UIScreen.main.bounds.size.width < 375.0) {
+            self.faceCorrection = CGPoint.init(x: 28.0,y: 60.0)
+        } else if (UIScreen.main.bounds.size.width < 400.0) {
+            self.faceCorrection = CGPoint.init(x: 0.0,y: 35.0)
+        } else {
+            self.faceCorrection = CGPoint.init(x: 0.0,y: 15.0)
         }
         
         // video
@@ -482,7 +494,10 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                             }
                         } else if (self.origin == .Face) {
                             // TODO: sakura
-                            let faceCenter = CGPoint.init(x: face.bounds.origin.x + ((face.bounds.size.width - 28.0) / 2.0),y: face.bounds.origin.y + ((face.bounds.size.height - 60.0) / 2))
+                            // 4.0" -> -28.0, -60.0
+                            // 4.7" ->
+                            // 5.5" ->
+                            let faceCenter = CGPoint.init(x: face.bounds.origin.x + ((face.bounds.size.width - faceCorrection.x) / 2.0),y: face.bounds.origin.y + ((face.bounds.size.height - self.faceCorrection.y) / 2))
                             let point = self.scaledPointForScene(point: faceCenter, xScale: self.xScale, yScale: self.yScale, offset: self.videoBox.origin)
                             self.scene?.faceDetected(face: face, center: point)
                         }

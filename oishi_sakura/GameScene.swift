@@ -61,6 +61,8 @@ class GameScene: SKScene {
     var recording: Bool = false
     var currentState: Int = 0
     
+    var faceMultiplier: CGFloat = 0.0
+    
     override init(size: CGSize) {
         super.init(size: size)
         
@@ -83,6 +85,14 @@ class GameScene: SKScene {
         // init light node
         self.lightNode = SKSpriteNode(imageNamed: "light_radius")
         // self.lightNode = SKSpriteNode(texture: SKTexture(imageNamed: "light_radius"), size: CGSize.init(width: w, height: w))
+        
+        if (UIScreen.main.bounds.size.width < 375.0) {
+            self.faceMultiplier = 0.45
+        } else if (UIScreen.main.bounds.size.width < 400.0) {
+            self.faceMultiplier = 0.48
+        } else {
+            self.faceMultiplier = 0.51
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -562,8 +572,11 @@ class GameScene: SKScene {
     func faceDetected(face: GMVFaceFeature, center: CGPoint) {
         // sakura face image size, face : 400x520, fullsize: 1163x1086
         // face ratio: 1.3
+        // 4.0" -> 0.45, 0.45
+        // 4.7" -> 0.48, 0.48
+        
         let faceSize = CGSize.init(width: face.bounds.size.height * (400.0 / 520.0), height: face.bounds.size.height)
-        let imageSize = CGSize.init(width: faceSize.width * (1163.0 / 400.0) * 0.45, height: faceSize.height * (1086.0 / 520.0) * 0.45)
+        let imageSize = CGSize.init(width: faceSize.width * (1163.0 / 400.0) * self.faceMultiplier, height: faceSize.height * (1086.0 / 520.0) * self.faceMultiplier)
         
         if let node = self.childNode(withName: "tid\(face.trackingID)_sakura_face") as! SKSpriteNode? {
             node.size = CGSize.init(width: imageSize.width, height: imageSize.height)

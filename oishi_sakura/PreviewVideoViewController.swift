@@ -75,8 +75,8 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
             self.currentAsset = phAsset
             let identifier = phAsset.localIdentifier
             let id = identifier.substring(to: identifier.index(identifier.startIndex, offsetBy: 36))
-            print(identifier)
             self.currentAssetUrl = URL(string: "assets-library://asset/asset.MP4?id=\(id)&ext=MP4")
+            print("assets-library://asset/asset.MP4?id=\(id)&ext=MP4")
             PHImageManager.default().requestImage(for: phAsset, targetSize: CGSize.init(width: 320.0, height: 320.0), contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
                 self.previewImageView.image = image
             })
@@ -502,6 +502,7 @@ class PreviewVideoViewController: UIViewController, FBSDKSharingDelegate {
             self.view.bringSubview(toFront: self.uploadingView)
         } else {
             let dialog = FBSDKShareDialog()
+            
             dialog.mode = FBSDKShareDialogMode.browser
             dialog.shareContent = videoContent
             dialog.delegate = self
