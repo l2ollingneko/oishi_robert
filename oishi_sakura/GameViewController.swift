@@ -1224,7 +1224,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     func playBackgroundMusic(filename: String) {
         
         var resourceName = "beam"
-        var fileExtesnsion = "wav"
+        var fileExtension = "wav"
         
         let randomUInt: UInt32 = arc4random_uniform(3)
         let random: Int = Int(randomUInt)
