@@ -619,15 +619,12 @@ extension PreviewVideoViewController: SharePopupDelegate {
         switch buttonType {
             case .facebook:
                 AdapterGoogleAnalytics.sharedInstance.sendGoogleAnalyticsEventTracking(category: .Button, action: .Clicked, label: "share_campaign_fb")
-                self.checkFBReadPermissions(dialog: true)
-                /*
                 if let vc = SLComposeViewController(forServiceType: SLServiceTypeFacebook) {
                     if let url = self.currentAssetUrl {
                         vc.add(url)
                     }
                     present(vc, animated: true)
                 }
-                */
                 // self.sharePopup.removeFromSuperview()
                 print("facebook")
             break
