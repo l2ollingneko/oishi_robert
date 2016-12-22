@@ -582,6 +582,7 @@ class GameScene: SKScene {
         
         if let node = self.childNode(withName: "tid\(face.trackingID)_sakura_face") as! SKSpriteNode? {
             node.size = CGSize.init(width: imageSize.width, height: imageSize.height)
+            node.zPosition = CGFloat(ceil(Double(node.size.height * 100.0)))
             let faceRotation = self.calculatedFaceRotation(angleY: face.headEulerAngleY, angleZ: face.headEulerAngleZ)
             node.zRotation = faceRotation.zRotation
             // node.xScale = 0.25

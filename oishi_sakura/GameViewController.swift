@@ -46,6 +46,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     var recordButton: UIButton = UIButton()
     
     var frame: UIImageView = UIImageView()
+    var topFrame: UIImageView = UIImageView()
     var iceFrames: [UIImageView] = [UIImageView]()
     var endSceneImageView: UIImageView = UIImageView()
     
@@ -184,6 +185,9 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.frame.frame = self.overlay.frame
         self.frame.image = UIImage(named: "frame")
         self.overlay.addSubview(self.frame)
+        
+        self.topFrame.frame = self.overlay.frame
+        self.topFrame.image = UIImage(named: "frame")
         
         if (self.iceFrames.count == 0) {
             for index in 0...2 {
