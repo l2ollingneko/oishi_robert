@@ -34,6 +34,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     var placeHolder: UIView = UIView()
     var overlay: UIView = UIView()
     
+    var logo: UIImageView = UIImageView()
+    
     var overlayWindow: UIWindow?
     
     var swapCameraButton: UIButton = UIButton()
@@ -584,7 +586,9 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 self.sakuraToggleButton.isHidden = true
                 self.earsToggleButton.isHidden = true
                 
+                self.scene?.recording = true
                 self.scene?.changeLightEmitterNode(pink: true)
+                
                 self.startTimer()
                 self.recording = true
                 self.prepare = false
@@ -604,6 +608,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 // self.placeHolder.removeFromSuperview()
                 // self.overlayView.removeFromSuperview()
                 
+                self.scene?.recording = false
+                
                 self.overlayWindow?.isHidden = true
                 
                 self.swapCameraButton.removeFromSuperview()
@@ -621,6 +627,8 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 self.recordButton.isHidden = false
                 
                 self.currentState = 0
+                self.scene?.currentState = self.currentState
+                
                 StateManager.sharedInstance.resetState()
                 
                 self.prepare = true
@@ -830,6 +838,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         // print("time @ \(self.timerCounter)")
         if (self.timerCounter == 0.0 && self.origin != .Face) {
             if (self.timerCounter == 0.0) {
+                self.scene?.currentState = 0
                 self.lockStateChange = true
                 for index in 0...2 {
                     self.iceFrames[index].removeFromSuperview()
@@ -846,6 +855,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             if (self.timerCounter == 4.5) {
                 self.lockStateChange = true
                 self.currentState += 1
+                self.scene?.currentState = self.currentState
                 self.scene?.changeLightEmitterNode(pink: false)
                 self.overlay.addSubview(self.iceFrames[0])
                 UIView.animate(withDuration: 0.25, animations: {
@@ -860,6 +870,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             if (self.timerCounter == 5.5) {
                 self.lockStateChange = true
                 self.currentState += 1
+                self.scene?.currentState = self.currentState
                 self.overlay.addSubview(self.iceFrames[1])
                 UIView.animate(withDuration: 0.25, animations: {
                     self.iceFrames[1].alpha = 0.0
@@ -873,6 +884,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             if (self.timerCounter == 6.5) {
                 self.lockStateChange = true
                 self.currentState += 1
+                self.scene?.currentState = self.currentState
                 self.overlay.addSubview(self.iceFrames[2])
                 UIView.animate(withDuration: 0.25, animations: {
                     self.iceFrames[2].alpha = 0.0
@@ -888,6 +900,7 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
                 self.overlay.addSubview(self.endSceneImageView)
                 self.origin = .None
                 self.recordButton.removeFromSuperview()
+                self.logo.removeFromSuperview()
                 self.scene?.removeAllChildren()
                 UIView.animate(withDuration: 0.25, animations: {
                     self.endSceneImageView.alpha = 0.0
@@ -976,6 +989,17 @@ class GameViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         self.overlayWindow?.addSubview(self.earsToggleButton)
         self.overlayWindow?.addSubview(self.sakuraToggleButton)
         self.overlayWindow?.addSubview(self.recordButton)
+        
+        // top logo
+        if (self.logo.image == nil) {
+            self.logo.image = UIImage(named: "bottom_logo")
+            self.logo.frame = Adapter.calculatedRectFromRatio(x: 0.0, y: 1898.0, w: 1242.0, h: 310.0)
+            self.logo.layer.zPosition = 2000
+        }
+        
+        if (!self.logo.isDescendant(of: self.overlay)) {
+            self.overlay.addSubview(self.logo)
+        }
         
         self.versionLabel.frame.origin = CGPoint(x: 10.0, y: 0.0)
         self.versionLabel.font = UIFont.systemFont(ofSize: 30.0)

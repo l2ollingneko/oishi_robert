@@ -58,6 +58,9 @@ class GameScene: SKScene {
     
     private var willRemoveNodes: [SKNode] = [SKNode]()
     
+    var recording: Bool = false
+    var currentState: Int = 0
+    
     override init(size: CGSize) {
         super.init(size: size)
         
@@ -138,11 +141,9 @@ class GameScene: SKScene {
                                     }
                                 }
                                 
-                                print("node.birthRate: \(node.particleBirthRate)")
-                                
                                 node.position = pos
                                 node.zPosition = 1000
-                                (node as! SKEmitterNode).emissionAngle = self.calculatedEmissionAngle(y: headEulerAngleY, z: headEulerAngleZ)
+                                node.emissionAngle = self.calculatedEmissionAngle(y: headEulerAngleY, z: headEulerAngleZ)
                             } else {
                                 node.position = pos
                                 node.zPosition = 1000
@@ -164,6 +165,14 @@ class GameScene: SKScene {
                 }
             } else {
                 // TODO: - do nothing, wait for controller to tell gamescene to create nodes
+                if (self.recording) {
+                    self.createMouthEmitterNodesWithException(trackingID: face.trackingID, state: self.currentState)
+                    if let nodes = self.mouthEmitterNodes[face.trackingID] {
+                        for node in nodes {
+                            print("\(node.name)")
+                        }
+                    }
+                }
             }
             
         } else {
@@ -224,7 +233,7 @@ class GameScene: SKScene {
                                 }
                                 node.position = lpos
                                 node.zPosition = 1000
-                                (node as! SKEmitterNode).emissionAngle = self.calculatedEarsEmissionAngle(leftEar: true, y: headEulerAngleY, z: headEulerAngleZ)
+                                node.emissionAngle = self.calculatedEarsEmissionAngle(leftEar: true, y: headEulerAngleY, z: headEulerAngleZ)
                             } else {
                                 node.position = lpos
                                 node.zPosition = 1000
@@ -243,6 +252,9 @@ class GameScene: SKScene {
                 }
             } else {
                 // TODO: - do nothing, wait for controller to tell gamescene to create nodes
+                if (self.recording) {
+                    self.createEarsEmitterNodesWithException(trackingID: face.trackingID, state: self.currentState)
+                }
             }
             
             if let nodes = self.rightEarEmitterNodes[face.trackingID] {
@@ -270,7 +282,7 @@ class GameScene: SKScene {
                                 }
                                 node.position = rpos
                                 node.zPosition = 1000
-                                (node as! SKEmitterNode).emissionAngle = self.calculatedEarsEmissionAngle(leftEar: false, y: headEulerAngleY, z: headEulerAngleZ)
+                                node.emissionAngle = self.calculatedEarsEmissionAngle(leftEar: false, y: headEulerAngleY, z: headEulerAngleZ)
                             } else {
                                 node.position = rpos
                                 node.zPosition = 1000
@@ -287,6 +299,9 @@ class GameScene: SKScene {
                 }
             } else {
                 // TODO: - do nothing, wait for controller to tell gamescene to create nodes
+                if (self.recording) {
+                    self.createEarsEmitterNodesWithException(trackingID: face.trackingID, state: self.currentState)
+                }
             }
             
         }
@@ -348,7 +363,7 @@ class GameScene: SKScene {
                                     }
                                 }
                                 node.position = lpos
-                                (node as! SKEmitterNode).emissionAngle = self.calculatedEyesEmissionAngle(leftEye: true, y: headEulerAngleY, z: headEulerAngleZ)
+                                node.emissionAngle = self.calculatedEyesEmissionAngle(leftEye: true, y: headEulerAngleY, z: headEulerAngleZ)
                             } else {
                                 node.position = lpos
                                 self.addChild(node)
@@ -366,6 +381,9 @@ class GameScene: SKScene {
                 }
             } else {
                 // TODO: - do nothing, wait for controller to tell gamescene to create nodes
+                if (self.recording) {
+                    self.createEyesEmitterNodesWithException(trackingID: face.trackingID, state: self.currentState)
+                }
             }
             
             if let nodes = self.rightEyeEmitterNodes[face.trackingID] {
@@ -393,7 +411,7 @@ class GameScene: SKScene {
                                 }
                                 node.position = rpos
                                 node.zPosition = 1000
-                                (node as! SKEmitterNode).emissionAngle = self.calculatedEyesEmissionAngle(leftEye: false, y: headEulerAngleY, z: headEulerAngleZ)
+                                node.emissionAngle = self.calculatedEyesEmissionAngle(leftEye: false, y: headEulerAngleY, z: headEulerAngleZ)
                             } else {
                                 node.position = rpos
                                 node.zPosition = 1000
@@ -410,6 +428,9 @@ class GameScene: SKScene {
                 }
             } else {
                 // TODO: - do nothing, wait for controller to tell gamescene to create nodes
+                if (self.recording) {
+                    self.createEyesEmitterNodesWithException(trackingID: face.trackingID, state: self.currentState)
+                }
             }
         }
         
@@ -469,7 +490,6 @@ class GameScene: SKScene {
             }
         } else {
             if let imageNo = KeychainWrapper.standard.integer(forKey: "round") {
-                print("round: \(imageNo)")
                 if let node = self.childNode(withName: "tid\(face.trackingID)_cheek_left") as! SKSpriteNode? {
                     if let oldIndex = node.userData?["oldIndex"] as! Int?, oldIndex != imageNo {
                         var imageNamed = "cheek_"
@@ -757,18 +777,19 @@ class GameScene: SKScene {
         
         SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.mouthEmitterNodes[trackingID], state: state, settings: settings)
 
-        /*
-        if (state != -99) {
-            SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.mouthEmitterNodes[trackingID], state: state, settings: settings, cb: Callback() { _, success, _, _ in
-                self.removeSakuraNode(prefix: trackingID)
-            })
-        } else {
-            SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.mouthEmitterNodes[trackingID], state: state, settings: settings)
-        }
-         */
+    }
+    
+    func createMouthEmitterNodesWithException(trackingID: UInt, state: Int) {
         
-        // self.mouthEmitterNodes.removeAll()
-        // self.mouthEmitterNodes = SakuraEmitterNodeFactory.sharedInstance.createMouthEmitterNodes()
+        let settings: Dictionary<String, AnyObject> = [
+            kEmitterNodeState: state as AnyObject,
+            kEmitterNodeNamePrefix: trackingID as AnyObject,
+            kEmitterNodeEmissionAngle: CGFloat(270.0) as AnyObject,
+            kEmitterNodeException: true as AnyObject
+        ]
+        
+        SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.mouthEmitterNodes[trackingID], state: state, settings: settings)
+        
     }
     
     func createEyesEmitterNodes(trackingID: UInt, state: Int) {
@@ -790,12 +811,30 @@ class GameScene: SKScene {
         SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.leftEyeEmitterNodes[trackingID], state: state, settings: lsettings)
         SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.rightEyeEmitterNodes[trackingID], state: state, settings: rsettings)
         
-        /*
-        self.leftEyeEmitterNodes.removeAll()
-        self.leftEyeEmitterNodes = SakuraEmitterNodeFactory.sharedInstance.createLeftEyeEmitterNodes()
-        self.rightEyeEmitterNodes.removeAll()
-        self.rightEyeEmitterNodes = SakuraEmitterNodeFactory.sharedInstance.createRightEyeEmitterNodes()
-         */
+    }
+    
+    
+    func createEyesEmitterNodesWithException(trackingID: UInt, state: Int) {
+        
+        let lsettings: Dictionary<String, AnyObject> = [
+            kEmitterNodeState: state as AnyObject,
+            kEmitterNodeNamePrefix: trackingID as AnyObject,
+            kEmitterNodeEmissionAngle: CGFloat(270.0) as AnyObject,
+            kEmitterNodeDirecion: "left" as AnyObject,
+            kEmitterNodeException: true as AnyObject
+        ]
+        
+        let rsettings: Dictionary<String, AnyObject> = [
+            kEmitterNodeState: state as AnyObject,
+            kEmitterNodeNamePrefix: trackingID as AnyObject,
+            kEmitterNodeEmissionAngle: CGFloat(270.0) as AnyObject,
+            kEmitterNodeDirecion: "right" as AnyObject,
+            kEmitterNodeException: true as AnyObject
+        ]
+        
+        SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.leftEyeEmitterNodes[trackingID], state: state, settings: lsettings)
+        SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.rightEyeEmitterNodes[trackingID], state: state, settings: rsettings)
+        
     }
     
     func createEarsEmitterNodes(trackingID: UInt, state: Int) {
@@ -817,12 +856,29 @@ class GameScene: SKScene {
         SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.leftEarEmitterNodes[trackingID], state: state, settings: lsettings)
         SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.rightEarEmitterNodes[trackingID], state: state, settings: rsettings)
         
-        /*
-        self.leftEarEmitterNodes.removeAll()
-        self.leftEarEmitterNodes = SakuraEmitterNodeFactory.sharedInstance.createLeftEarEmitterNodes()
-        self.rightEarEmitterNodes.removeAll()
-        self.rightEarEmitterNodes = SakuraEmitterNodeFactory.sharedInstance.createRightEarEmitterNodes()
-         */
+    }
+    
+    func createEarsEmitterNodesWithException(trackingID: UInt, state: Int) {
+        
+        let lsettings: Dictionary<String, AnyObject> = [
+            kEmitterNodeState: state as AnyObject,
+            kEmitterNodeNamePrefix: trackingID as AnyObject,
+            kEmitterNodeEmissionAngle: CGFloat(180.0) as AnyObject,
+            kEmitterNodeDirecion: "left" as AnyObject,
+            kEmitterNodeException: true as AnyObject
+        ]
+        
+        let rsettings: Dictionary<String, AnyObject> = [
+            kEmitterNodeState: state as AnyObject,
+            kEmitterNodeNamePrefix: trackingID as AnyObject,
+            kEmitterNodeEmissionAngle: CGFloat(0.0) as AnyObject,
+            kEmitterNodeDirecion: "right" as AnyObject,
+            kEmitterNodeException: true as AnyObject
+        ]
+        
+        SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.leftEarEmitterNodes[trackingID], state: state, settings: lsettings)
+        SakuraEmitterNodeFactory.sharedInstance.createEmitterNodes(nodes: &self.rightEarEmitterNodes[trackingID], state: state, settings: rsettings)
+        
     }
     
     func createSakuraFace(trackingID: UInt) {
